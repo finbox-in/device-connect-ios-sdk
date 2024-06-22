@@ -60,14 +60,22 @@ let SYSTEM_INFO_IS_MULTITASKING = "is_multitasking"
 let SYSTEM_INFO_ELAPSED_TIME_IN_MILLIS = "elapsed_time_millis"
 
 // Network Keys
-let NETWORK_TYPE = "network_type"
-let ACTIVE_NETWORK_TYPE_NAME = "active_network_type_name"
+let NETWORK_TYPE = "networkType"
+let ACTIVE_NETWORK_TYPE_NAME = "activeNetworkTypeName"
 
 // Misc Keys
 let BACKGROUND_REFRESH_STATUS = "background_refresh_status"
 let AD_ID = "adverisement-id"
 let DISPLAY_LANGUAGE = "display_language"
 let VENDOR_ID = "vendor_id"
+let SDK_VERSION_NAME = "sdkVersionName"
+let IS_REAL_TIME = "isRealTime"
+let SYNC_MECHANISM = "syncMechanism"
+let SYNC_ID = "syncId"
+let BATCH_ID = "batchId"
+let USER_HASH = "userHash"
+let USER_NAME = "userName"
+
 
 // Display Keys
 struct Display {

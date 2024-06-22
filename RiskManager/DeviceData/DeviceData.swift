@@ -90,6 +90,8 @@ class DeviceData {
         // Misc Data
         let deviceInfoExt = DeviceInfoExt()
         
+        var isRealTime = false
+        
         // Device Info
         let deviceInfo: [String: Any] = [
             HW_TARGET: deviceIdentifier,
@@ -107,7 +109,16 @@ class DeviceData {
             LOCALIZED_MODEL: device.localizedModel,
             SYSTEM_NAME: systemName,
             DISPLAY_LANGUAGE: deviceInfoExt.getISO3LanguageCode(),
-            VENDOR_ID: deviceInfoExt.getVendorIdentifier()
+            VENDOR_ID: deviceInfoExt.getVendorIdentifier(),
+            SDK_VERSION_NAME: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
+            IS_REAL_TIME: isRealTime,
+            NETWORK_TYPE: deviceInfoExt.getNetworkType(),
+            ACTIVE_NETWORK_TYPE_NAME: deviceInfoExt.getActiveNetworkTypeName(),
+            SYNC_MECHANISM: 1,
+            SYNC_ID: UUID().uuidString,
+            BATCH_ID: UUID().uuidString,
+            USER_HASH: UUID().uuidString,
+            USER_NAME: UserDefaults.standard.string(forKey: "DC_CUSTOMER_ID") ?? ""
         ]
         
         return deviceInfo
@@ -323,4 +334,27 @@ class DeviceData {
         
         return addresses
     }
+    
+    private func getMiscData() -> [String: Any] {
+        var miscData: [String: Any] = [:]
+        
+        var isRealTime = false
+        
+        let deviceInfo = DeviceInfoExt()
+        
+        miscData[SDK_VERSION_NAME] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        miscData[IS_REAL_TIME] = isRealTime
+        miscData[DISPLAY_LANGUAGE] = deviceInfo.getISO3LanguageCode()
+        miscData[NETWORK_TYPE] = deviceInfo.getNetworkType()
+        miscData[ACTIVE_NETWORK_TYPE_NAME] = deviceInfo.getActiveNetworkTypeName()
+        miscData[SYNC_MECHANISM] = 1
+        miscData[SYNC_ID] = UUID().uuidString
+        miscData[BATCH_ID] = UUID().uuidString
+        // TODO: Update this once user is created and hash is recevied.
+        miscData[USER_HASH] = UUID().uuidString
+        miscData[USER_NAME] = UserDefaults.standard.string(forKey: "DC_CUSTOMER_ID") ?? ""
+        
+        return miscData
+    }
 }
+// Line 193
