@@ -168,7 +168,7 @@ class DeviceData {
         let keyboards = UITextInputMode.activeInputModes.compactMap { $0.primaryLanguage }
         let timezone = TimeZone.current.identifier
         let language = Locale.current.identifier
-        let calendar = Calendar.current.identifier
+        let calendar = Calendar.current.identifier.debugDescription
         let currency = Locale.current.currencyCode ?? "Unknown"
         
         return [
