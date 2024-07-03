@@ -7,9 +7,9 @@
 
 import Foundation
 
-// *****************
+// ****************************************************************************************************
 // Device Data Start
-// *****************
+// ****************************************************************************************************
 
 // Generic Keys
 let OS_BUILD = "osBuild"
@@ -116,13 +116,13 @@ struct Network {
     }
 }
 
-// ***************
+// ****************************************************************************************************
 // Device Data End
-// ***************
+// ****************************************************************************************************
 
-// *******************
+// ****************************************************************************************************
 // Location Data Start
-// *******************
+// ****************************************************************************************************
 
 let ALLOW_BACKGROUND_LOCATION_UPDATES_KEY = "allowsBackgroundLocationUpdates"
 let SHOWS_BACKGROUND_LOCATION_INDICATOR_KEY = "showsBackgroundLocationIndicator"
@@ -143,3 +143,16 @@ let SPEED_KEY = "speed"
 let SPEED_ACCURACY_KEY = "speedAccuracy"
 let COURSE_KEY = "course"
 let COURSE_ACCURACY_KEY = "courseAccuracy"
+
+// ****************************************************************************************************
+// Location Data End
+// ****************************************************************************************************
+
+// ****************************************************************************************************
+// Misc Keys Start
+// ****************************************************************************************************
+
+// BG Task Identifier - Sync
+let BACKGROUND_TASK_IDENTIFIER = "in.finbox.riskmanager.SyncTask"
+let PREF_KEY_SYNC_FREQUENCY = "finbox_risk_manager_key_sync_frequency"
+let DEFAULTSYNC_FREQUENCY: TimeInterval = 28800                             // Default Sync Frequency - 8 hours
