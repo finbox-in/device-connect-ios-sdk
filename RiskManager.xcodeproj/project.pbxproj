@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D6E99AB2C1321D000B88226 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E99AA2C1321D000B88226 /* DeviceInfo.swift */; };
+		6D4BB6702C35974F000FFB54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */; };
+		6D6E99AB2C1321D000B88226 /* DeviceInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E99AA2C1321D000B88226 /* DeviceInfoExt.swift */; };
+		6D77F5BD2C3436F0009539F6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D77F5BC2C3436F0009539F6 /* BackgroundTask.swift */; };
+		6D77F5C12C345CCA009539F6 /* SyncPref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D77F5C02C345CCA009539F6 /* SyncPref.swift */; };
 		6D980F562C11912F007525CD /* RiskManager.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6D980F552C11912F007525CD /* RiskManager.docc */; };
 		6D980F5C2C11912F007525CD /* RiskManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D980F512C11912F007525CD /* RiskManager.framework */; };
 		6D980F612C11912F007525CD /* RiskManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D980F602C11912F007525CD /* RiskManagerTests.swift */; };
@@ -57,7 +60,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6D6E99AA2C1321D000B88226 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		6D4BB66E2C359048000FFB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6D6E99AA2C1321D000B88226 /* DeviceInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoExt.swift; sourceTree = "<group>"; };
+		6D77F5BC2C3436F0009539F6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
+		6D77F5C02C345CCA009539F6 /* SyncPref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPref.swift; sourceTree = "<group>"; };
 		6D980F512C11912F007525CD /* RiskManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RiskManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D980F542C11912F007525CD /* RiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RiskManager.h; sourceTree = "<group>"; };
 		6D980F552C11912F007525CD /* RiskManager.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = RiskManager.docc; sourceTree = "<group>"; };
@@ -102,6 +109,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D77F5BE2C34371E009539F6 /* BackgroundTask */ = {
+			isa = PBXGroup;
+			children = (
+				6D77F5BC2C3436F0009539F6 /* BackgroundTask.swift */,
+			);
+			path = BackgroundTask;
+			sourceTree = "<group>";
+		};
+		6D77F5BF2C345BFA009539F6 /* Prefs */ = {
+			isa = PBXGroup;
+			children = (
+				6D77F5C02C345CCA009539F6 /* SyncPref.swift */,
+			);
+			path = Prefs;
+			sourceTree = "<group>";
+		};
 		6D980F472C11912F007525CD = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +149,8 @@
 		6D980F532C11912F007525CD /* RiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				6D77F5BF2C345BFA009539F6 /* Prefs */,
+				6D77F5BE2C34371E009539F6 /* BackgroundTask */,
 				6D9B22E22C132C2F00B5F679 /* Constants */,
 				6D980F6C2C11942A007525CD /* LocationData */,
 				6D980F6B2C1193B2007525CD /* DeviceData */,
@@ -148,7 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				6D980F6D2C1194A6007525CD /* DeviceData.swift */,
-				6D6E99AA2C1321D000B88226 /* DeviceInfo.swift */,
+				6D6E99AA2C1321D000B88226 /* DeviceInfoExt.swift */,
 			);
 			path = DeviceData;
 			sourceTree = "<group>";
@@ -173,10 +198,12 @@
 		6D9B22E82C132C5B00B5F679 /* FinBoxRiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				6D4BB66E2C359048000FFB54 /* Info.plist */,
 				6D9B22E92C132C5B00B5F679 /* FinBoxRiskManagerApp.swift */,
 				6D9B22EB2C132C5B00B5F679 /* ContentView.swift */,
 				6D9B22ED2C132C5C00B5F679 /* Assets.xcassets */,
 				6D9B22EF2C132C5C00B5F679 /* Preview Content */,
+				6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */,
 			);
 			path = FinBoxRiskManager;
 			sourceTree = "<group>";
@@ -342,8 +369,10 @@
 				6D980F6E2C1194A6007525CD /* DeviceData.swift in Sources */,
 				6D9B23002C17017C00B5F679 /* LocationManager.swift in Sources */,
 				6D9B22E12C132C2700B5F679 /* FinBox.swift in Sources */,
+				6D77F5BD2C3436F0009539F6 /* BackgroundTask.swift in Sources */,
 				6D980F702C119503007525CD /* Constants.swift in Sources */,
-				6D6E99AB2C1321D000B88226 /* DeviceInfo.swift in Sources */,
+				6D77F5C12C345CCA009539F6 /* SyncPref.swift in Sources */,
+				6D6E99AB2C1321D000B88226 /* DeviceInfoExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D4BB6702C35974F000FFB54 /* AppDelegate.swift in Sources */,
 				6D9B22EC2C132C5B00B5F679 /* ContentView.swift in Sources */,
 				6D9B22EA2C132C5B00B5F679 /* FinBoxRiskManagerApp.swift in Sources */,
 			);
@@ -612,6 +642,7 @@
 				DEVELOPMENT_TEAM = 46F33UJL5U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FinBoxRiskManager/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Application requires Location for Assessing Creditworthiness";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Application requires Location for Assessing Creditworthiness";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Application requires Advertising ID for Risk assessment";
@@ -644,6 +675,7 @@
 				DEVELOPMENT_TEAM = 46F33UJL5U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FinBoxRiskManager/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Application requires Location for Assessing Creditworthiness";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Application requires Location for Assessing Creditworthiness";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Application requires Advertising ID for Risk assessment";
