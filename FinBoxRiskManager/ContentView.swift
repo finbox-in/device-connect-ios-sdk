@@ -8,6 +8,15 @@
 import SwiftUI
 import RiskManager
 
+private var INSTANCE: FinBox? = nil
+
+func getFinBoxInstance() -> FinBox {
+    if (INSTANCE == nil) {
+        INSTANCE = FinBox()
+    }
+    return INSTANCE!
+}
+
 struct ContentView: View {
     var body: some View {
         VStack {
@@ -26,11 +35,19 @@ struct ContentView: View {
 }
 
 func startDC() {
-    let finBox = FinBox()
+    let finBox = getFinBoxInstance()
     finBox.createUser()
+    finBox.setSyncFrequency(value: 10, unit: Calendar.Component.second)
     finBox.startPeriodicSync()
 }
 
 #Preview {
     ContentView()
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        getFinBoxInstance().scheduleBackgroundRefreshTask()
+        return true
+    }
 }
