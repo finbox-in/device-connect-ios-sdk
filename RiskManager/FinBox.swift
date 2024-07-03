@@ -18,11 +18,15 @@ public class FinBox {
     
     public func startPeriodicSync() {
         if userCreated {
-            startPeriodicDataSync()
+            // Start Instant Sync
+            startInstantSync()
+            
+            // Create and start a Periodic Sync Task
+            startPeriodicTask()
         }
     }
     
-    private func startPeriodicDataSync() {
+    private func startInstantSync() {
         // Fetch Device Data
         let deviceData = DeviceData().getDeviceData()
         print("Device Data", deviceData)
@@ -31,5 +35,9 @@ public class FinBox {
         LocationData().getLocationData { location in
             print("Location Data: \(location)")
         }
+    }
+    
+    private func startPeriodicTask() {
+        self.scheduleSyncData()
     }
 }
