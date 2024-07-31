@@ -31,9 +31,12 @@ public class FinBox {
         let deviceData = DeviceData().getDeviceData()
         print("Device Data", deviceData)
         
+        APIService.instance.syncData(data: deviceData, syncItem: SyncType.DEVICE)
+        
         // Fetch Location Data
         LocationData().getLocationData { location in
             print("Location Data: \(location)")
+            APIService.instance.syncData(data: location, syncItem: SyncType.LOCATION)
         }
     }
     
