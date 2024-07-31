@@ -156,3 +156,22 @@ let COURSE_ACCURACY_KEY = "courseAccuracy"
 let BACKGROUND_TASK_IDENTIFIER = "in.finbox.riskmanager.SyncTask"
 let PREF_KEY_SYNC_FREQUENCY = "finbox_risk_manager_key_sync_frequency"
 let DEFAULTSYNC_FREQUENCY: TimeInterval = 28800                             // Default Sync Frequency - 8 hours
+
+
+// Pref Keys
+let FINBOX_DEVICE_CONNECT_API_KEY = "random_api_key"
+
+// Sync Type Keys
+enum SyncType {
+    case CREATE_USER
+    case FCM
+    case DEVICE
+    case LOCATION
+}
+
+let AUTH_BASE_URL = "https://auth.apis.finbox.in/dev/"
+let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v3/datasource/individual/"
+let FCM_ENDPOINT = "fcmtoken"
+let CREATE_USER_ENDPOINT = "token_generator"
+let DEVICE_ENDPOINT = "device/details"
+let LOCATION_ENDPOINT = "location"
