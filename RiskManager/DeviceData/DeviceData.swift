@@ -163,16 +163,14 @@ class DeviceData {
      - Returns: A dictionary containing personalization-related information.
      */
     private func getPersonaizationData() -> [String: Any] {
-        let fontFamilies = UIFont.familyNames
-        let country = Locale.current.regionCode ?? "Unknown"
+        let country = Locale.current.region?.identifier ?? "Unknown"
         let keyboards = UITextInputMode.activeInputModes.compactMap { $0.primaryLanguage }
         let timezone = TimeZone.current.identifier
         let language = Locale.current.identifier
         let calendar = Calendar.current.identifier.debugDescription
-        let currency = Locale.current.currencyCode ?? "Unknown"
+        let currency = Locale.current.currency?.identifier ?? "Unknown"
         
         return [
-            Personalization.FONTS: fontFamilies,
             Personalization.CURRENCY: currency,
             Personalization.TIMEZONE: timezone,
             Personalization.CALENDAR: calendar,
@@ -293,11 +291,9 @@ class DeviceData {
         
         // System Info
         let totalRam = ProcessInfo.processInfo.physicalMemory
-        let uptime = ProcessInfo.processInfo.systemUptime
         let isMultitasking = UIDevice.current.isMultitaskingSupported
         
         systemInfo[SYSTEM_INFO_TOTAL_RAM] = totalRam
-        systemInfo[SYSTEM_INFO_UPTIME] = uptime
         systemInfo[SYSTEM_INFO_IS_MULTITASKING] = isMultitasking
         systemInfo[SYSTEM_INFO_ELAPSED_TIME_IN_MILLIS] = DeviceInfoExt().getElapsedTimeSinceBoot()
         
