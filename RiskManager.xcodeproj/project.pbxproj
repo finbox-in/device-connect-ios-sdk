@@ -7,10 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D4BB6702C35974F000FFB54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */; };
+		6D064F4D2C59F0D200ED466C /* NetworkUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D064F4C2C59F0D200ED466C /* NetworkUtils.swift */; };
+		6D064F4F2C59F13200ED466C /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D064F4E2C59F13200ED466C /* UserPreference.swift */; };
+		6D064F512C59F19C00ED466C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D064F502C59F19C00ED466C /* APIService.swift */; };
+		6D064F532C5B861400ED466C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D064F522C5B861400ED466C /* AppDelegate.swift */; };
 		6D6E99AB2C1321D000B88226 /* DeviceInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E99AA2C1321D000B88226 /* DeviceInfoExt.swift */; };
 		6D77F5BD2C3436F0009539F6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D77F5BC2C3436F0009539F6 /* BackgroundTask.swift */; };
 		6D77F5C12C345CCA009539F6 /* SyncPref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D77F5C02C345CCA009539F6 /* SyncPref.swift */; };
+		6D970E352C6A016C0021A35E /* ErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E342C6A016C0021A35E /* ErrorCodes.swift */; };
+		6D970E382C6B8C720021A35E /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E372C6B8C720021A35E /* AuthClient.swift */; };
+		6D970E3B2C6B8CBE0021A35E /* CommonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E3A2C6B8CBE0021A35E /* CommonUtil.swift */; };
+		6D970E3E2C6B8CFC0021A35E /* RiskManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E3D2C6B8CFC0021A35E /* RiskManagerError.swift */; };
+		6D970E402C6B8D3C0021A35E /* PayloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E3F2C6B8D3C0021A35E /* PayloadHelper.swift */; };
+		6D970E432C6B8DA60021A35E /* EncryptPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E422C6B8DA60021A35E /* EncryptPayload.swift */; };
+		6D970E492C6B8E020021A35E /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E482C6B8E020021A35E /* CreateUserRequest.swift */; };
+		6D970E4C2C6B8E380021A35E /* CreateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E4B2C6B8E380021A35E /* CreateUserResponse.swift */; };
+		6D970E4E2C6B8F9D0021A35E /* FlowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E4D2C6B8F9D0021A35E /* FlowData.swift */; };
+		6D970E502C6B95B50021A35E /* FlowDataPref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D970E4F2C6B95B50021A35E /* FlowDataPref.swift */; };
 		6D980F562C11912F007525CD /* RiskManager.docc in Sources */ = {isa = PBXBuildFile; fileRef = 6D980F552C11912F007525CD /* RiskManager.docc */; };
 		6D980F5C2C11912F007525CD /* RiskManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D980F512C11912F007525CD /* RiskManager.framework */; };
 		6D980F612C11912F007525CD /* RiskManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D980F602C11912F007525CD /* RiskManagerTests.swift */; };
@@ -60,11 +73,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D064F4C2C59F0D200ED466C /* NetworkUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtils.swift; sourceTree = "<group>"; };
+		6D064F4E2C59F13200ED466C /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		6D064F502C59F19C00ED466C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		6D064F522C5B861400ED466C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D4BB66E2C359048000FFB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D6E99AA2C1321D000B88226 /* DeviceInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoExt.swift; sourceTree = "<group>"; };
 		6D77F5BC2C3436F0009539F6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 		6D77F5C02C345CCA009539F6 /* SyncPref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPref.swift; sourceTree = "<group>"; };
+		6D970E342C6A016C0021A35E /* ErrorCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCodes.swift; sourceTree = "<group>"; };
+		6D970E372C6B8C720021A35E /* AuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
+		6D970E3A2C6B8CBE0021A35E /* CommonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUtil.swift; sourceTree = "<group>"; };
+		6D970E3D2C6B8CFC0021A35E /* RiskManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskManagerError.swift; sourceTree = "<group>"; };
+		6D970E3F2C6B8D3C0021A35E /* PayloadHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadHelper.swift; sourceTree = "<group>"; };
+		6D970E422C6B8DA60021A35E /* EncryptPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptPayload.swift; sourceTree = "<group>"; };
+		6D970E482C6B8E020021A35E /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
+		6D970E4B2C6B8E380021A35E /* CreateUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserResponse.swift; sourceTree = "<group>"; };
+		6D970E4D2C6B8F9D0021A35E /* FlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowData.swift; sourceTree = "<group>"; };
+		6D970E4F2C6B95B50021A35E /* FlowDataPref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataPref.swift; sourceTree = "<group>"; };
 		6D980F512C11912F007525CD /* RiskManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RiskManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D980F542C11912F007525CD /* RiskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RiskManager.h; sourceTree = "<group>"; };
 		6D980F552C11912F007525CD /* RiskManager.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = RiskManager.docc; sourceTree = "<group>"; };
@@ -109,6 +135,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D064F4B2C59F0C200ED466C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E412C6B8D8E0021A35E /* Models */,
+				6D064F502C59F19C00ED466C /* APIService.swift */,
+				6D064F4C2C59F0D200ED466C /* NetworkUtils.swift */,
+				6D970E3F2C6B8D3C0021A35E /* PayloadHelper.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6D064F672C5BB39000ED466C /* SyncPipeline */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SyncPipeline;
+			sourceTree = "<group>";
+		};
 		6D77F5BE2C34371E009539F6 /* BackgroundTask */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,8 +165,84 @@
 			isa = PBXGroup;
 			children = (
 				6D77F5C02C345CCA009539F6 /* SyncPref.swift */,
+				6D064F4E2C59F13200ED466C /* UserPreference.swift */,
+				6D970E4F2C6B95B50021A35E /* FlowDataPref.swift */,
 			);
 			path = Prefs;
+			sourceTree = "<group>";
+		};
+		6D970E332C6A015F0021A35E /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E342C6A016C0021A35E /* ErrorCodes.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		6D970E362C6B8C5A0021A35E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E372C6B8C720021A35E /* AuthClient.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6D970E392C6B8CAF0021A35E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E3A2C6B8CBE0021A35E /* CommonUtil.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		6D970E3C2C6B8CE70021A35E /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E3D2C6B8CFC0021A35E /* RiskManagerError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		6D970E412C6B8D8E0021A35E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E422C6B8DA60021A35E /* EncryptPayload.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6D970E442C6B8DCE0021A35E /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E452C6B8DD30021A35E /* Models */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		6D970E452C6B8DD30021A35E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E462C6B8DDD0021A35E /* Request */,
+				6D970E4A2C6B8E180021A35E /* Response */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6D970E462C6B8DDD0021A35E /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E482C6B8E020021A35E /* CreateUserRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		6D970E4A2C6B8E180021A35E /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				6D970E4B2C6B8E380021A35E /* CreateUserResponse.swift */,
+				6D970E4D2C6B8F9D0021A35E /* FlowData.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		6D980F472C11912F007525CD = {
@@ -149,6 +269,13 @@
 		6D980F532C11912F007525CD /* RiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				6D970E442C6B8DCE0021A35E /* Create */,
+				6D970E3C2C6B8CE70021A35E /* Errors */,
+				6D970E392C6B8CAF0021A35E /* Utils */,
+				6D970E362C6B8C5A0021A35E /* Auth */,
+				6D970E332C6A015F0021A35E /* Enums */,
+				6D064F672C5BB39000ED466C /* SyncPipeline */,
+				6D064F4B2C59F0C200ED466C /* Network */,
 				6D77F5BF2C345BFA009539F6 /* Prefs */,
 				6D77F5BE2C34371E009539F6 /* BackgroundTask */,
 				6D9B22E22C132C2F00B5F679 /* Constants */,
@@ -203,7 +330,7 @@
 				6D9B22EB2C132C5B00B5F679 /* ContentView.swift */,
 				6D9B22ED2C132C5C00B5F679 /* Assets.xcassets */,
 				6D9B22EF2C132C5C00B5F679 /* Preview Content */,
-				6D4BB66F2C35974F000FFB54 /* AppDelegate.swift */,
+				6D064F522C5B861400ED466C /* AppDelegate.swift */,
 			);
 			path = FinBoxRiskManager;
 			sourceTree = "<group>";
@@ -364,15 +491,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D970E382C6B8C720021A35E /* AuthClient.swift in Sources */,
 				6D980F722C12D322007525CD /* LocationData.swift in Sources */,
 				6D980F562C11912F007525CD /* RiskManager.docc in Sources */,
+				6D064F4D2C59F0D200ED466C /* NetworkUtils.swift in Sources */,
+				6D970E4E2C6B8F9D0021A35E /* FlowData.swift in Sources */,
 				6D980F6E2C1194A6007525CD /* DeviceData.swift in Sources */,
+				6D970E502C6B95B50021A35E /* FlowDataPref.swift in Sources */,
 				6D9B23002C17017C00B5F679 /* LocationManager.swift in Sources */,
 				6D9B22E12C132C2700B5F679 /* FinBox.swift in Sources */,
 				6D77F5BD2C3436F0009539F6 /* BackgroundTask.swift in Sources */,
+				6D970E492C6B8E020021A35E /* CreateUserRequest.swift in Sources */,
+				6D970E432C6B8DA60021A35E /* EncryptPayload.swift in Sources */,
+				6D970E3B2C6B8CBE0021A35E /* CommonUtil.swift in Sources */,
+				6D970E352C6A016C0021A35E /* ErrorCodes.swift in Sources */,
 				6D980F702C119503007525CD /* Constants.swift in Sources */,
+				6D970E4C2C6B8E380021A35E /* CreateUserResponse.swift in Sources */,
+				6D064F4F2C59F13200ED466C /* UserPreference.swift in Sources */,
 				6D77F5C12C345CCA009539F6 /* SyncPref.swift in Sources */,
+				6D064F512C59F19C00ED466C /* APIService.swift in Sources */,
 				6D6E99AB2C1321D000B88226 /* DeviceInfoExt.swift in Sources */,
+				6D970E3E2C6B8CFC0021A35E /* RiskManagerError.swift in Sources */,
+				6D970E402C6B8D3C0021A35E /* PayloadHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D4BB6702C35974F000FFB54 /* AppDelegate.swift in Sources */,
+				6D064F532C5B861400ED466C /* AppDelegate.swift in Sources */,
 				6D9B22EC2C132C5B00B5F679 /* ContentView.swift in Sources */,
 				6D9B22EA2C132C5B00B5F679 /* FinBoxRiskManagerApp.swift in Sources */,
 			);
@@ -636,8 +776,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"FinBoxRiskManager/Preview Content\"";
 				DEVELOPMENT_TEAM = 46F33UJL5U;
 				ENABLE_PREVIEWS = YES;
@@ -649,13 +790,14 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = in.finbox.FinBoxRiskManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -669,8 +811,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"FinBoxRiskManager/Preview Content\"";
 				DEVELOPMENT_TEAM = 46F33UJL5U;
 				ENABLE_PREVIEWS = YES;
@@ -682,13 +825,14 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = in.finbox.FinBoxRiskManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
