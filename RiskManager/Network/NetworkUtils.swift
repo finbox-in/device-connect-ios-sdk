@@ -35,20 +35,24 @@ struct NetworkUtils {
         var urlRequest = URLRequest(url: url)
         
         let userPref = UserPreference()
+        let accessToken = userPref.accessToken
+        
         guard let apiKey = userPref.apiKey else {
             return nil
         }
         
         urlRequest.addValue(apiKey, forHTTPHeaderField: "x-api-key")
-        urlRequest.addValue("Bearer " + (userPref.accessToken ?? ""), forHTTPHeaderField: "Authorization")
-        
-        let hash = CommonUtil.getHash(token: userPref.accessToken!) ?? nil
-        if let hash = hash {
-            urlRequest.addValue(hash, forHTTPHeaderField: "hash")
-        }
-
+        urlRequest.setValue(PACKAGE_VERSION_NAME, forHTTPHeaderField: "sdkVersionName")
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = body
+        
+        if let accessToken = accessToken {
+            urlRequest.addValue("Bearer " + (userPref.accessToken!), forHTTPHeaderField: "Authorization")
+            let hash = CommonUtil.getHash(token: userPref.accessToken!) ?? nil
+            if let hash = hash {
+                urlRequest.addValue(hash, forHTTPHeaderField: "hash")
+            }
+        }
         
         return urlRequest
     }
