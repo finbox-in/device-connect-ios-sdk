@@ -161,6 +161,24 @@ let DEFAULTSYNC_FREQUENCY: TimeInterval = 28800                             // D
 // Pref Keys
 let FINBOX_DEVICE_CONNECT_API_KEY = "random_api_key"
 
+// User Default Suite Name
+public let USER_DEFAULT_SUITE_ACCOUNT_DETAILS = "user-default-suite-account-details"
+// User Defaults - API Key
+public let USER_DEFAULT_API_KEY = "user-default-api-key"
+// User Defaults - Access Token
+public let USER_DEFAULT_ACCESS_TOKEN = "user-default-access-token"
+// User Defaults - Username
+public let USER_DEFAULT_USER_NAME = "user-default-username"
+// User Defaults - User Hash
+public let USER_DEFAULT_USER_HASH = "user-default-user-hash"
+
+// User Default Suite Name
+public let USER_DEFAULT_SUITE_FLOW_DATA = "user-default-suite-flow-data"
+// User Defaults - Location
+public let USER_DEFAULT_FLOW_LOCATION = "user-default-flow-location"
+// User Defaults - Device
+public let USER_DEFAULT_FLOW_DEVICE = "user-default-flow-device"
+
 // Sync Type Keys
 enum SyncType {
     case CREATE_USER
@@ -169,9 +187,20 @@ enum SyncType {
     case LOCATION
 }
 
-let AUTH_BASE_URL = "https://auth.apis.finbox.in/dev/"
-let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v3/datasource/individual/"
+let AUTH_BASE_URL = "https://authdev.apis.finbox.in/v6/"
+let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v6/datasource/individual/"
 let FCM_ENDPOINT = "fcmtoken"
 let CREATE_USER_ENDPOINT = "token_generator"
 let DEVICE_ENDPOINT = "device/details"
 let LOCATION_ENDPOINT = "location"
+
+// App Version number
+public let APP_VERSION_NAME = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
+// App Version code
+public let APP_VERSION_CODE = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
+
+// Package Version number
+public let PACKAGE_VERSION_NAME = "0.1"
+// Package Version code
+public let PACKAGE_VERSION_CODE = "1"
+
