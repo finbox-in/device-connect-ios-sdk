@@ -6,6 +6,8 @@
 	<array>
 		<string>in.finbox.riskmanager.SyncTask</string>
 	</array>
+	<key>CFBundleIconName</key>
+	<string>App Icon</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
