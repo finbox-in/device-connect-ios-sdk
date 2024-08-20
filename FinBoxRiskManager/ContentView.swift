@@ -43,16 +43,14 @@ func startDC() {
         customerId: customerId,
         success: { success in
             debugPrint("Success: \(success)")
+            let finBox = FinBox()
+            finBox.setSyncFrequency(value: 10, unit: Calendar.Component.second)
+            finBox.startPeriodicSync()
         },
         error: { error in
             debugPrint("Error in createUser: \(error)")
         }
     )
-    
-    let finBox = getFinBoxInstance()
-    
-    finBox.setSyncFrequency(value: 10, unit: Calendar.Component.second)
-    finBox.startPeriodicSync()
     
     // Call printT after a delay of 15 seconds
     DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
