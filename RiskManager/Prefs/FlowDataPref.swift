@@ -14,7 +14,7 @@ class FlowDataPref {
     
     var flowDevice: Bool {
         get {
-            return ((userDefaults?.bool(forKey: USER_DEFAULT_FLOW_DEVICE)) != nil)
+            return userDefaults?.bool(forKey: USER_DEFAULT_FLOW_DEVICE) ?? false
         }
         set {
             userDefaults?.set(newValue, forKey: USER_DEFAULT_FLOW_DEVICE)
@@ -23,7 +23,7 @@ class FlowDataPref {
     
     var flowLocation: Bool {
         get {
-            return ((userDefaults?.bool(forKey: USER_DEFAULT_FLOW_LOCATION)) != nil)
+            return userDefaults?.bool(forKey: USER_DEFAULT_FLOW_LOCATION) ?? false
         }
         set {
             userDefaults?.set(newValue, forKey: USER_DEFAULT_FLOW_LOCATION)
