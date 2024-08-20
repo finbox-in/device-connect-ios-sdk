@@ -11,14 +11,6 @@ import UIKit
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    // Flag to control visibility of Alert
-    // Used to avoid calling show alert when it's already visible
-    var alertPresented = false
-    
-    // Flag to track access grant status
-    // Used to control visibility of alert
-    var accessGranted = true
-    
     // Singleton instance for easy access
     static let shared = LocationManager()
     
@@ -40,9 +32,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         // Configure location manager properties
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
-        
-        // Request location permissions
-        requestLocationAuthorization()
     }
     
     // Start updating location
@@ -53,11 +42,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // Stop updating location
     private func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
-    }
-    
-    // Request authorization
-    private func requestLocationAuthorization() {
-        locationManager.requestWhenInUseAuthorization()
     }
     
     // MARK: CLLocationManagerDelegate methods
@@ -78,15 +62,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             debugPrint("Access granted.")
-            accessGranted = true
             startUpdatingLocation()
         case .denied:
             debugPrint("Location access denied by the user.")
-            showLocationAccessDeniedAlert()
         case .restricted:
             debugPrint("Location access is restricted.")
         case .notDetermined:
-            requestLocationAuthorization()
             debugPrint("Requesting location access.")
         @unknown default:
             fatalError("Unknown authorization status")
@@ -104,7 +85,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 self.startUpdatingLocation()
             case .denied:
                 debugPrint("Access to location services denied.")
-                showLocationAccessDeniedAlert()
             case .network:
                 debugPrint("Network error. Check your connection.")
                 // Handle network error, suggest the user to check network connectivity
@@ -116,48 +96,38 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    // Show alert to request location access
-    private func showLocationAccessDeniedAlert() {
-        if accessGranted { return }                 // If access is granted, don't show the alert
-        if alertPresented { return }                // If alert is already displayed, don't show again
-        alertPresented = true                       // Toggle flag when alert is displayed
-        
-        // The purpose of this code snippet is to obtain a reference to the topmost view controller in your application's view controller hierarchy.
-        // This is often necessary when you want to present a new view controller modally (such as an alert, action sheet, or another screen), because UIKit requires a reference to a view controller to manage the presentation.
-        guard let topController = UIApplication.shared.windows.first?.rootViewController else { return }
-        
-        // Create alert
-        let alert = UIAlertController(
-            title: "Location Permission Needed",
-            message: "Please enable location permissions in Settings to continue using the app.",
-            preferredStyle: .alert
-        )
-        
-        // Create "Go To Settings" action
-        let settingsAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
-            self.alertPresented = false
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-        
-        // Add action to alert
-        alert.addAction(settingsAction)
-        
-        // Show alert
-        topController.present(alert, animated: true, completion: nil)
-    }
-    
     // Get current location with a completion handler
+    // If the location data is null, stores the callback and fetches the data again. When found, returns location in the callback.
     func getLocationData(completion: @escaping (CLLocation?) -> Void) {
         // If currentLocation is already available, immediately call the completion handler with it
         if let currentLocation = currentLocation {
+            stopUpdatingLocation()
+            locationCompletionHandler = nil
             completion(currentLocation)
         } else {
-            // If currentLocation is nil, store the completion handler for future use
+            // If currentLocation is nil, store the completion handler for future (// Push data to callback)
             locationCompletionHandler = completion
             startUpdatingLocation()
         }
+    }
+    
+    // Get Location Authorization Status
+    // Returns true if granted, false otherwise
+    func getLocationAuthStatus() -> Bool {
+        let status = locationManager.authorizationStatus
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        case .denied, .restricted, .notDetermined:
+            return false
+        @unknown default:
+            return false
+        }
+    }
+    
+    // Check if location services are enabled
+    func areLocationServicesEnabled() -> Bool {
+        return CLLocationManager.locationServicesEnabled()
     }
 }
 
