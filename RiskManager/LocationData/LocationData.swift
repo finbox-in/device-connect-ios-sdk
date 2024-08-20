@@ -19,6 +19,7 @@ class LocationData {
     
     let accountSuite = UserPreference()
     let syncSuite = SyncPref()
+    let flowSuite = FlowDataPref()
     
     init() {
         
@@ -34,7 +35,7 @@ class LocationData {
         }
         
         if location.coordinate.longitude.isFinite {
-            locationEntity.latitude = location.coordinate.longitude
+            locationEntity.longitude = location.coordinate.longitude
         } else {
             
         }
@@ -80,18 +81,25 @@ class LocationData {
      Fetches location data asynchronously and provides it via a completion handler
      */
     func syncLocationData() {
-        // Call LocationManager to retrieve current location
-        locationManager.getLocationData { location in
-            if let location = location {
-                
-                // Create the location variable
-                let locationEntity = self.getLocationEntity(location: location)
-                
-                let locationModel = self.getLocationModel(locationEntity: locationEntity)
-                
-                // Send the data to the server
-                APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
+        if (flowSuite.flowLocation && locationManager.getLocationAuthStatus()) {
+            // Call LocationManager to retrieve current location
+            locationManager.getLocationData { location in
+                if let location = location {
+                    
+                    // Create the location variable
+                    let locationEntity = self.getLocationEntity(location: location)
+                    
+                    let locationModel = self.getLocationModel(locationEntity: locationEntity)
+                    
+                    // Send the data to the server
+                    APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
+                } else {
+                    debugPrint("No location data")
+                }
             }
+        } else {
+            debugPrint("Location Access Denied?", locationManager.getLocationAuthStatus())
+            debugPrint("Location Denied from Server?", flowSuite.flowLocation)
         }
     }
     
