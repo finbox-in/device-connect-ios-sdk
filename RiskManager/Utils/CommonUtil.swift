@@ -43,7 +43,7 @@ struct CommonUtil {
     }
     
     /// Convert String to md5 Hash
-    private static func getMd5Hash(salt: String) -> String? {
+    static func getMd5Hash(_ salt: String) -> String? {
         if let data = salt.data(using: .utf8) {
             let digest = Insecure.MD5.hash(data: data)
             return digest.map { String(format: "%02hhx", $0) }.joined()
@@ -55,7 +55,7 @@ struct CommonUtil {
     /// Generate Hash to be used in API Headers
     static func getHash(token: String) -> String? {
         // Compute the md5 hash
-        if let md5Hash = getMd5Hash(salt: token + saltString) {
+        if let md5Hash = getMd5Hash(token + saltString) {
             // Return the computed hash
             return get256Encoded(message: md5Hash + saltString)
         } else {
