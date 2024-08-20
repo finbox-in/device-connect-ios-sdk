@@ -1,8 +1,15 @@
 //
-//  LocationResponse.swift
-//  RiskManager
-//
-//  Created by Srikar on 15/08/24.
+//  Response of Location API
 //
 
-import Foundation
+
+struct LocationResponse: Decodable {
+    
+    let location: String
+    
+    enum CodingKeys: String, CodingKey {
+        case location = "location"
+    }
+    
+}
+
