@@ -8,6 +8,7 @@
 import SwiftUI
 import RiskManager
 import BackgroundTasks
+import CoreLocation
 
 private var INSTANCE: FinBox? = nil
 
@@ -19,6 +20,18 @@ func getFinBoxInstance() -> FinBox {
 }
 
 struct ContentView: View {
+    
+    @StateObject private var locationManager = LocationManager()
+    
+    
+    // Flag to track access grant status
+    // Used to control visibility of alert
+    var accessGranted = true
+
+    // Flag to control visibility of Alert
+    // Used to avoid calling show alert when it's already visible
+    @State private var alertPresented = false
+    
     var body: some View {
         VStack {
             Button(action: {
@@ -30,6 +43,17 @@ struct ContentView: View {
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(8)
+            }
+        }.onAppear {
+            locationManager.checkLocationPermission()
+        }.alert(isPresented: $alertPresented) {
+            Alert(title: Text("Location Permission Denied"),
+                  message: Text("Please enable location permissions in settings to use this feature."),
+                  dismissButton: .default(Text("OK")))
+        }
+        .onChange(of: locationManager.authorizationStatus) { status in
+            if status == .denied || status == .restricted {
+                alertPresented = true
             }
         }
     }
@@ -73,6 +97,40 @@ func startDC() {
         return String(day) + String(month) + String(hour) + String(minute)
     }
 }
+
+/*
+// Show alert to request location access
+func showLocationAccessDeniedAlert() {
+    if accessGranted { return }                 // If access is granted, don't show the alert
+    if alertPresented { return }                // If alert is already displayed, don't show again
+    alertPresented = true                       // Toggle flag when alert is displayed
+    
+    // The purpose of this code snippet is to obtain a reference to the topmost view controller in your application's view controller hierarchy.
+    // This is often necessary when you want to present a new view controller modally (such as an alert, action sheet, or another screen), because UIKit requires a reference to a view controller to manage the presentation.
+    guard let topController = UIApplication.shared.windows.first?.rootViewController else { return }
+    
+    // Create alert
+    let alert = UIAlertController(
+        title: "Location Permission Needed",
+        message: "Please enable location permissions in Settings to continue using the app.",
+        preferredStyle: .alert
+    )
+    
+    // Create "Go To Settings" action
+    let settingsAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
+        alertPresented = false
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    // Add action to alert
+    alert.addAction(settingsAction)
+    
+    // Show alert
+    topController.present(alert, animated: true, completion: nil)
+}
+ */
 
 func printTasks() {
     BGTaskScheduler.shared.getPendingTaskRequests { taskRequests in
