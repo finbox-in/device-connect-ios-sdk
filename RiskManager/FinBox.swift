@@ -77,7 +77,7 @@ public class FinBox {
             return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: PACKAGE_VERSION_NAME)
         }
     
-    private static func getUniqueId() -> String {
+    public static func getUniqueId() -> String {
         // Create a secret account details
         let server = "in.finbox.mobileriskmanager" + "_" + ""
         
@@ -167,35 +167,35 @@ public class FinBox {
     }
     
     public func startPeriodicSync() {
+        saveSyncId()
+        
         // Start Instant Sync
         startInstantSync()
+        startLocationSync()
         
         // Create and start a Periodic Sync Task
         startPeriodicTask()
     }
     
+    private func saveSyncId() {
+        let syncSuite = SyncPref()
+        // Update Sync Id
+        syncSuite.syncId = syncSuite.syncId + 1
+        // Update Sync Mechanism
+        syncSuite.syncMechanism = 8
+    }
+    
     private func startInstantSync() {
-        let userPref = UserPreference()
-        let userName = userPref.userName
-        let userHash = userPref.userHash
-        
         // Fetch Device Data
-        var deviceData = DeviceData().getDeviceData()
-        print("Device Data", deviceData)
-        deviceData["userName"] = userName
-        deviceData["userHash"] = userHash
-        
-        
-        // Call this in startSyncPipeline
-        APIService.instance.syncData(data: deviceData, syncItem: SyncType.DEVICE)
-        
+        let deviceData = DeviceData()
+        deviceData.syncDeviceData()
+    }
+    
+    private func startLocationSync() {
         // Fetch Location Data
-        LocationData().getLocationData { location in
-            print("Location Data: \(location)")
-            var locationData = location
-            locationData["userName"] = userName
-            locationData["userHash"] = userHash
-            APIService.instance.syncData(data: locationData, syncItem: SyncType.LOCATION)
+        DispatchQueue.main.async {
+            let locationData = LocationData()
+            locationData.syncLocationData()
         }
     }
     

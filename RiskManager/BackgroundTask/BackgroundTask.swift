@@ -128,12 +128,13 @@ extension FinBox {
     
     private func startPeriodicDataSync() {
         // Fetch Device Data
-        let deviceData = DeviceData().getDeviceData()
-        print("Syncing Device Data Periodically", deviceData)
+        let deviceData = DeviceData()
+        deviceData.syncDeviceData()
         
         // Fetch Location Data
-        LocationData().getLocationData { location in
-            print("Syncing Location Data Periodically: \(location)")
+        DispatchQueue.main.async {
+            let locationData = LocationData()
+            locationData.syncLocationData()
         }
     }
 }
