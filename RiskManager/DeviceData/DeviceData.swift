@@ -12,57 +12,259 @@ import AVFoundation
 import CoreLocation
 import CoreTelephony
 import CryptoKit
+import NetworkExtension
+import Network
 
+
+/// Helper class to sync Device information
 class DeviceData {
     
+    private let userSuite = UserPreference()
+    private let syncSuite = SyncPref()
+    
+    private let ONE_MEBI_BYTE_IN_BYTES: Int64 = 1048576;
+    
     /**
-     Collects and returns device data.
-     - Returns: A dictionary containing categorized device information.
+     * Collects the device data
      */
-    func getDeviceData() -> [String: Any] {
+    func syncDeviceData() {
         
         // Device
-        let deviceInfo = getDeviceInfo()
+        let deviceInfo = DeviceInfo()
         
-        // Sound
-        let soundData = getSoundData()
+        // Get the device
+        let device = UIDevice.current
+        // Get the system os version
+        let version = device.systemVersion
         
-        // Battery
-        let batteryData = getBatteryData()
+        // Mobile Model
+        let mobileModel = UIDevice.current.model
+        // Brand of the device
+        let brand = if mobileModel.contains("iPhone") || mobileModel.contains("iPad") || mobileModel.contains("iPod") {
+            "Apple"
+        } else {
+            "Unknown"
+        }
         
-        // Personalization
-        let personalizationData = getPersonaizationData()
+        deviceInfo.brand = brand
+        deviceInfo.manufacturer = brand
+        deviceInfo.model = mobileModel
         
-        // Display
-        let displayData = getDisplayData()
+        // Get the fingerprint
+        let fingerprint = getFingerprint(device: device, systemVersion: version)
         
-        // Network
-        let networkInfo = getNetworkInfo()
+        // Get the available RAM
+        let ramAvailableMB = getAvailableRAM()
+        // Get the total RAM
         
-        // System Info
-        let systemInfo = getSystemInfo()
+        // Set User details
+        deviceInfo.username = userSuite.userName
+        deviceInfo.userHash = userSuite.userHash
+        // Set Sync details
+        deviceInfo.syncId = syncSuite.syncId
+        deviceInfo.syncMechanism = syncSuite.syncMechanism
+        deviceInfo.isRealTime = syncSuite.isRealTime
+        deviceInfo.sdkVersionName = VERSION_NAME
         
-        // Background Refresh Status
-        let backgroundRefreshStatus = UIApplication.shared.backgroundRefreshStatus.rawValue
+        // Get the current time in millis
+        let currentTimeMillis = Int64(Date().timeIntervalSince1970 * 1000)
+        
+        let batchId = String(describing: userSuite.userName) + String(describing: ramAvailableMB) +
+                                            String(describing: fingerprint) + version +
+                                            String(describing: currentTimeMillis)
+        
+        deviceInfo.batchId = CommonUtil.getMd5Hash(batchId)
+        deviceInfo.hash = CommonUtil.getMd5Hash(batchId)
+        
+        if let ramAvailableMB = ramAvailableMB {
+            deviceInfo.ramAvailable = Int64(ramAvailableMB)
+        }
+        
+        // Total RAM on the device
+        let totalRam = ProcessInfo.processInfo.physicalMemory / UInt64(ONE_MEBI_BYTE_IN_BYTES)
+        deviceInfo.totalRam = Int64(totalRam)
+        
+        // Get the storage space
+        let storageSpace = getStorageSpace()
+        deviceInfo.availableInternalSize = storageSpace.0
+        deviceInfo.totalInternalSize = storageSpace.1
+        
+        let deviceInfoExt = DeviceInfoExt()
+        // Get the display language
+        deviceInfo.displayLanguage = deviceInfoExt.getISO3LanguageCode()
+        deviceInfo.networkType = deviceInfoExt.getNetworkType()
+        
+        // System OS Version
+        deviceInfo.osVersion = version
+        deviceInfo.iosId = FinBox.getUniqueId()
+        deviceInfo.fingerprint = fingerprint
+        deviceInfo.device = getDeviceIdentifier()
+        // TODO: Read WIFI information after enabling the capabilities
+//        deviceInfo.ssid = getSsid()
+        
+        // Time since last time system was rebooted
+        deviceInfo.elapsedTimeMillis = deviceInfoExt.getElapsedTimeSinceBoot()
+        
+        // Network information
+//        let networkDetails = getNetworkTypeName()
+//        deviceInfo.typeName = networkDetails.0
+//        deviceInfo.reason = networkDetails.1
+
+        // Get the SIM details
+        let subscriptionInfo = CTTelephonyNetworkInfo()
+        if let carrier = subscriptionInfo.serviceSubscriberCellularProviders?.values.first {
+            deviceInfo.sCarrierName = carrier.carrierName
+            deviceInfo.sCountryIso = carrier.isoCountryCode
+            deviceInfo.sIndex = 0
+        }
+        
+        // Screen width heirgh and pixels
+        deviceInfo.widthPixels = deviceInfoExt.getDisplayWidthPixels()
+        deviceInfo.heightPixels = deviceInfoExt.getDisplayHeightPixels()
+        
+//        // Sound
+//        let soundData = getSoundData()
+//        
+//        // Battery
+//        let batteryData = getBatteryData()
+//        
+//        // Personalization
+//        let personalizationData = getPersonaizationData()
+//        
+//        // Display
+//        let displayData = getDisplayData()
+//        
+//        // Network
+//        let networkInfo = getNetworkInfo()
+//        
+//        // System Info
+//        let systemInfo = getSystemInfo()
+//        
+        DispatchQueue.main.async {
+            // Background Refresh Status
+            let backgroundRefreshStatus = UIApplication.shared.backgroundRefreshStatus.rawValue
+            debugPrint("Background Refresh Status", backgroundRefreshStatus)
+        }
         
         // AD ID
-        let adID = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        let adID = device.identifierForVendor?.uuidString
+        deviceInfo.advertisingId = adID
         
         // Bundle Device Data
-        let deviceData: [String: Any]
-        deviceData = [
-            DEVICE_INFO: deviceInfo,
-            SOUND: soundData,
-            BATTERY: batteryData,
-            PERSONALIZATION: personalizationData,
-            NETWORK: networkInfo,
-            DISPLAY: displayData,
-            SYSTEM_INFO: systemInfo,
-            AD_ID: adID,
-            BACKGROUND_REFRESH_STATUS: backgroundRefreshStatus
-        ]
+//        let deviceData: [String: Any]
+//        deviceData = [
+//            DEVICE_INFO: deviceInfo,
+//            SOUND: soundData,
+//            BATTERY: batteryData,
+//            PERSONALIZATION: personalizationData,
+//            NETWORK: networkInfo,
+//            DISPLAY: displayData,
+//            SYSTEM_INFO: systemInfo,
+//            AD_ID: adID
+//        ]
+//        
+        debugPrint("Device Data", deviceInfo)
         
-        return deviceData
+        // Sync Device Data
+        APIService.instance.syncDeviceData(data: deviceInfo, syncItem: SyncType.DEVICE)
+    }
+    
+    private func getFingerprint(device: UIDevice, systemVersion: String) -> String {
+        let model = device.model
+        let name = device.name
+        let identifierForVendor = device.identifierForVendor?.uuidString ?? "unknown"
+        
+        let fingerprint = "\(model)_\(name)_\(systemVersion)_\(identifierForVendor)"
+        return fingerprint
+    }
+    
+    func getAvailableRAM() -> UInt64? {
+        var taskInfo = mach_task_basic_info()
+        var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
+        let kerr: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+                task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+            }
+        }
+
+        if kerr == KERN_SUCCESS {
+            return taskInfo.resident_size / UInt64(ONE_MEBI_BYTE_IN_BYTES)
+        }
+        else {
+            return nil
+        }
+    }
+    
+    private func getNetworkTypeName() -> (String?, String?) {
+        // TODO: Check and validate the delay from getting the Network details.
+        // TODO: If delay is too much, move the values to the next sync.
+        
+        // Semaphore can be used to convert async func to sync func
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        var typeName: String? = nil
+        var reason: String? = nil
+
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.usesInterfaceType(.wifi) {
+                typeName = "WIFI"
+            } else if path.usesInterfaceType(.cellular) {
+                typeName = "MOBILE"
+            } else if path.usesInterfaceType(.wiredEthernet) {
+                typeName = "ETHERNET"
+            } else if path.usesInterfaceType(.loopback) {
+                typeName = "LOOPBACK"
+            } else if path.usesInterfaceType(.other) {
+                typeName = "Other"
+            } else {
+                typeName = "No Network"
+            }
+            
+            if path.status == .satisfied {
+                if path.isExpensive {
+                    reason = "expensive"
+                } else {
+                    reason = "non-expensive"
+                }
+            } else if path.status == .unsatisfied {
+                reason = "No network"
+            } else if path.status == .requiresConnection {
+                reason = "Require connection"
+            }
+            
+            // Stop monitoring after getting the information
+            monitor.cancel()
+            
+            semaphore.signal()
+        }
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.start(queue: queue)
+        
+        return (typeName, reason)
+    }
+    
+    
+    
+    private func getStorageSpace() -> (Int64?, Int64?) {
+        if let attributes = try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()) {
+            if let totalSpace = attributes[.systemSize] as? NSNumber,
+               let freeSpace = attributes[.systemFreeSize] as? NSNumber {
+
+                let totalSpaceInBytes = totalSpace.int64Value
+                let freeSpaceInBytes = freeSpace.int64Value
+
+                let totalSpaceInMB = totalSpaceInBytes / ONE_MEBI_BYTE_IN_BYTES
+                let freeSpaceInMB = freeSpaceInBytes / ONE_MEBI_BYTE_IN_BYTES
+                
+                return (freeSpaceInMB, totalSpaceInMB)
+            }
+        }
+        return (nil, nil)
     }
     
     /**
@@ -108,7 +310,7 @@ class DeviceData {
             HW_PRODUCT: deviceModel,
             LOCALIZED_MODEL: device.localizedModel,
             SYSTEM_NAME: systemName,
-            DISPLAY_LANGUAGE: deviceInfoExt.getISO3LanguageCode(),
+            DISPLAY_LANGUAGE: deviceInfoExt.getISO3LanguageCode() ?? "",
             VENDOR_ID: deviceInfoExt.getVendorIdentifier(),
             SDK_VERSION_NAME: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             IS_REAL_TIME: isRealTime,
@@ -141,6 +343,17 @@ class DeviceData {
         ]
     }
     
+    private func getSsid() -> String? {
+        let semaphore = DispatchSemaphore(value: 0)
+        var currentSSID: String?
+        NEHotspotNetwork.fetchCurrent { network in
+            currentSSID = network?.ssid
+            semaphore.signal()
+        }
+        _ = semaphore.wait(timeout: .distantFuture)
+        return currentSSID
+    }
+    
     /**
      Collects battery information.
      
@@ -162,13 +375,19 @@ class DeviceData {
      
      - Returns: A dictionary containing personalization-related information.
      */
-    private func getPersonaizationData() -> [String: Any] {
-        let country = Locale.current.region?.identifier ?? "Unknown"
+    private func getPersonaizationData() -> [String: Any?] {
+        var country: String? = nil
+        var currency: String? = nil
+        if #available(iOS 16, *) {
+            country = Locale.current.region?.identifier ?? "Unknown"
+        }
         let keyboards = UITextInputMode.activeInputModes.compactMap { $0.primaryLanguage }
         let timezone = TimeZone.current.identifier
         let language = Locale.current.identifier
         let calendar = Calendar.current.identifier.debugDescription
-        let currency = Locale.current.currency?.identifier ?? "Unknown"
+        if #available(iOS 16, *) {
+            currency = Locale.current.currency?.identifier ?? "Unknown"
+        }
         
         return [
             Personalization.CURRENCY: currency,
