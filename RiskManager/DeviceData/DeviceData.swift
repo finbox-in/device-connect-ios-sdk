@@ -21,6 +21,7 @@ class DeviceData {
     
     private let userSuite = UserPreference()
     private let syncSuite = SyncPref()
+    private let flowSuite = FlowDataPref()
     
     private let ONE_MEBI_BYTE_IN_BYTES: Int64 = 1048576;
     
@@ -28,6 +29,10 @@ class DeviceData {
      * Collects the device data
      */
     func syncDeviceData() {
+        
+        if !flowSuite.flowDevice {
+            return
+        }
         
         // Device
         let deviceInfo = DeviceInfo()
