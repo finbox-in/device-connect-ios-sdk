@@ -127,8 +127,6 @@ struct Network {
 let ALLOW_BACKGROUND_LOCATION_UPDATES_KEY = "allowsBackgroundLocationUpdates"
 let SHOWS_BACKGROUND_LOCATION_INDICATOR_KEY = "showsBackgroundLocationIndicator"
 let HEADING_ORIENTATION_KEY = "headingOrientation"
-let LONGITUDE_KEY = "longitude"
-let LATITUDE_KEY = "latitude"
 let MAGNETIC_HEADER_KEY = "magneticHeading"
 let TRUE_HEADING_KEY = "trueHeading"
 let TIMESTAMP_KEY = "timestamp"
@@ -154,8 +152,7 @@ let COURSE_ACCURACY_KEY = "courseAccuracy"
 
 // BG Task Identifier - Sync
 let BACKGROUND_TASK_IDENTIFIER = "in.finbox.riskmanager.SyncTask"
-let PREF_KEY_SYNC_FREQUENCY = "finbox_risk_manager_key_sync_frequency"
-let DEFAULTSYNC_FREQUENCY: TimeInterval = 28800                             // Default Sync Frequency - 8 hours
+let DEFAULT_SYNC_FREQUENCY: TimeInterval = 28800                             // Default Sync Frequency - 8 hours
 
 
 // Pref Keys
@@ -179,6 +176,14 @@ public let USER_DEFAULT_FLOW_LOCATION = "user-default-flow-location"
 // User Defaults - Device
 public let USER_DEFAULT_FLOW_DEVICE = "user-default-flow-device"
 
+
+// User Defaults Suite name
+public let USER_DEFAULT_SUITE_SYNC_PREF = "user-default-suite-sync-pref"
+public let PREF_KEY_SYNC_FREQUENCY = "finbox_risk_manager_key_sync_frequency"
+public let PREF_KEY_SYNC_MECHANISM = "finbox_risk_manager_key_sync_mechanism"
+public let PREF_KEY_SYNC_ID = "finbox_risk_manager_key_sync_id"
+public let PREF_KEY_IS_REAL_TIME = "finbox_risk_manager_key_is_real_time"
+
 // Sync Type Keys
 enum SyncType {
     case CREATE_USER
@@ -198,6 +203,12 @@ let LOCATION_ENDPOINT = "location"
 public let APP_VERSION_NAME = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
 // App Version code
 public let APP_VERSION_CODE = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
+
+
+// SDK Version Name
+let VERSION_NAME = "0.1.1"
+// SDK VErsion Number
+let VERSION_NUMBER = 2
 
 // Package Version number
 public let PACKAGE_VERSION_NAME = "0.1"
