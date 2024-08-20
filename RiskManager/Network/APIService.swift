@@ -86,9 +86,9 @@ struct APIService {
         success(accessToken, createUserResponse)
     }
     
-    func syncData(data: [String: Any], syncItem: SyncType) {
+    func syncDeviceData(data: DeviceInfo, syncItem: SyncType) {
         // Get the request body
-        let requestBody = self.getRequestBody(syncData: data)
+        let requestBody = self.getDeviceRequestBody(deviceInfo: data)
         
         guard let syncDataBody = requestBody else {
             debugPrint("Request body is null")
@@ -119,7 +119,71 @@ struct APIService {
             // Handle the HTTP response
             switch httpResponse.statusCode {
             case 200...299:
-                debugPrint("Sync Successful: \(httpResponse.statusCode)")
+                debugPrint("Device Sync Successful: \(httpResponse.statusCode)")
+                // Process the data here
+                guard let data = data else {
+                    self.handleClientError(error: "Invalid Sync Response")
+                    return
+                }
+                
+            case 400...499:
+                // Handle client error
+                debugPrint("Client Error: \(httpResponse.statusCode)")
+                var errorMessage: String? = nil
+                if let data = data, let errMessage = String(data: data, encoding: .utf8) {
+                    errorMessage = errMessage
+                }
+                self.handleClientError(error: errorMessage ?? "Client Error Occured")
+                
+            case 500...599:
+                // Handle server error
+                debugPrint("Server Error: \(httpResponse.statusCode)")
+                self.handleServerError(error: error ?? "Server Error Occured")
+                
+            default:
+                // Handle other status codes
+                debugPrint("Unexpected status code: \(httpResponse.statusCode)")
+            }
+        }
+        
+        // Initiate the network request
+        task.resume()
+    }
+
+    func syncLocationData(data: LocationModel, syncItem: SyncType) {
+        // Get the request body
+        let requestBody = self.getLocationRequestBody(locationModel: data)
+        
+        guard let syncDataBody = requestBody else {
+            debugPrint("Request body is null")
+            return
+        }
+        
+        // Make the api call
+        let requestParams = NetworkUtils.postRequest(urlStr: getSyncURL(syncItem: syncItem), body: syncDataBody)
+        
+        guard let requestParams = requestParams else {
+            debugPrint("Request Params null")
+            return
+        }
+        
+        // Create a network request task
+        let task = URLSession.shared.dataTask(with: requestParams) { data, response, error in
+            if let error = error {
+                self.handleError(error: error)
+                return
+            }
+            
+            // Check if there is a response and data
+            guard let httpResponse = response as? HTTPURLResponse, let _ = data else {
+                debugPrint("Invalid response or no data")
+                return
+            }
+            
+            // Handle the HTTP response
+            switch httpResponse.statusCode {
+            case 200...299:
+                debugPrint("Location Sync Successful: \(httpResponse.statusCode)")
                 // Process the data here
                 guard let data = data else {
                     self.handleClientError(error: "Invalid Sync Response")
@@ -150,17 +214,6 @@ struct APIService {
         task.resume()
     }
     
-    /// Converts Data DIctionary to a JSON
-    func getRequestBody(syncData: [String: Any]) -> Data? {
-        // Convert the dictionary to JSON data
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: syncData, options: []) else {
-            print("Error: Cannot convert dictionary to JSON data")
-            return nil
-        }
-        
-        return jsonData
-    }
-    
     func getCreateUserRequestBody(createUserRequest: CreateUserRequest, error: @escaping (FinBoxErrorCode) -> Void) -> Data? {
         let encoder = JSONEncoder()
         
@@ -187,13 +240,74 @@ struct APIService {
             return nil
         }
         
-        return createUserRequestJson
+        return createUserEncryptRequestJson
+    }
+    
+    func getLocationRequestBody(locationModel: LocationModel) -> Data? {
+        let encoder = JSONEncoder()
+        
+        // Convert the User Model to Json Data
+        guard let locationModelRequestJson = try? encoder.encode(locationModel) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        // Create an instance of Payload Helper
+        let payloadHelper = PayloadHelper()
+        // Generate IV
+        let iv = payloadHelper.generateIv()
+        // Encrypt the Payload
+        let cipherText = payloadHelper.encrypt(cipherText: locationModelRequestJson, iv: iv)
+        
+        let locationModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        
+        // Convert the User Model to Json Data
+        guard let locationModelEncryptRequestJson = try? encoder.encode(locationModelEncryptRequest) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        return locationModelEncryptRequestJson
+    }
+    
+    func getDeviceRequestBody(deviceInfo: DeviceInfo) -> Data? {
+        let encoder = JSONEncoder()
+        
+        // Convert the User Model to Json Data
+        guard let deviceInfoRequestJson = try? encoder.encode(deviceInfo) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        debugPrint("Device Data", deviceInfoRequestJson.base64EncodedString())
+        
+        // Create an instance of Payload Helper
+        let payloadHelper = PayloadHelper()
+        // Generate IV
+        let iv = payloadHelper.generateIv()
+        // Encrypt the Payload
+        let cipherText = payloadHelper.encrypt(cipherText: deviceInfoRequestJson, iv: iv)
+        
+        let deviceInfoEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        
+        // Convert the User Model to Json Data
+        guard let deviceInfoEncryptRequestJson = try? encoder.encode(deviceInfoEncryptRequest) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        return deviceInfoEncryptRequestJson
     }
     
     /// Returns Sync URL based on Sync Item Type
     func getSyncURL(syncItem: SyncType) -> String {
-        if syncItem == SyncType.DEVICE { return DATA_SYNC_BASE_URL + DEVICE_ENDPOINT }
-        return DATA_SYNC_BASE_URL + LOCATION_ENDPOINT
+        if syncItem == SyncType.DEVICE {
+            return DATA_SYNC_BASE_URL + DEVICE_ENDPOINT
+        } else if syncItem == SyncType.LOCATION {
+            return DATA_SYNC_BASE_URL + LOCATION_ENDPOINT
+        } else {
+            return ""
+        }
     }
     
     /// Handles client errors
