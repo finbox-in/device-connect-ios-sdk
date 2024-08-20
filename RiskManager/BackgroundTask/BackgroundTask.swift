@@ -19,7 +19,6 @@ extension FinBox {
     }
     
     // MARK: Register Background Tasks
-    
     /// Internal method to register background tasks and notifications.
     internal func registerBackgroundTasks() {
         // Schedule the background refresh task
@@ -37,12 +36,13 @@ extension FinBox {
     /// Public method to schedule a background refresh task.
     public func scheduleBackgroundRefreshTask() {
         // Register the background task with a specific identifier
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: BACKGROUND_TASK_IDENTIFIER, using: nil) { task in
+        let isRegistered = BGTaskScheduler.shared.register(forTaskWithIdentifier: BACKGROUND_TASK_IDENTIFIER, using: nil) { task in
             debugPrint("App refresh task registered successfully")
             
             // Handle the app refresh task
             self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
         }
+        print("Task scheduled? : \(isRegistered)")
     }
     
     
@@ -94,7 +94,16 @@ extension FinBox {
         
         // Create a BGAppRefreshTaskRequest with a specific identifier
         let request = BGAppRefreshTaskRequest(identifier: BACKGROUND_TASK_IDENTIFIER)
-        request.earliestBeginDate = date // Set the earliest begin date for the task
+        // request.earliestBeginDate = date // Set the earliest begin date for the task
+        
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 28800)
+        
+        debugPrint("Current Date: \(startDate)")
+        debugPrint("Sync Frequency: \(self.syncFrequency) seconds")
+        debugPrint("Scheduled Date: \(date)")
+        
+        debugPrint("Earliest Begin Date: \(request.earliestBeginDate)")
+        printCurrentTime()
         
         // Submit the task request to the BGTaskScheduler
         do {
@@ -103,6 +112,15 @@ extension FinBox {
         } catch {
             debugPrint("Unable to submit task: \(error.localizedDescription)")
         }
+    }
+    
+    func printCurrentTime() {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let formattedDate = dateFormatter.string(from: currentDate)
+        print("Current Time: \(formattedDate)")
     }
     
     
@@ -127,6 +145,7 @@ extension FinBox {
     }
     
     private func startPeriodicDataSync() {
+        print("Doing bg task")
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
@@ -136,5 +155,13 @@ extension FinBox {
             let locationData = LocationData()
             locationData.syncLocationData()
         }
+        
+//        let deviceData = DeviceData().getDeviceData()
+//        print("Syncing Device Data Periodically", deviceData)
+//        
+//        // Fetch Location Data
+//        LocationData().getLocationData { location in
+//            print("Syncing Location Data Periodically: \(location)")
+//        }
     }
 }
