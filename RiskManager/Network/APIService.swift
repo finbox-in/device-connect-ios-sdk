@@ -279,8 +279,6 @@ struct APIService {
             return nil
         }
         
-        debugPrint("Device Data", deviceInfoRequestJson.base64EncodedString())
-        
         // Create an instance of Payload Helper
         let payloadHelper = PayloadHelper()
         // Generate IV

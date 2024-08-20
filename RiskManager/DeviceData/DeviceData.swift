@@ -163,7 +163,6 @@ class DeviceData {
 //            AD_ID: adID
 //        ]
 //        
-        debugPrint("Device Data", deviceInfo)
         
         // Sync Device Data
         APIService.instance.syncDeviceData(data: deviceInfo, syncItem: SyncType.DEVICE)
