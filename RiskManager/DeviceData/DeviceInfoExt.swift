@@ -1,5 +1,5 @@
 //
-//  DeviceInfo.swift
+//  DeviceInfoExt.swift
 //  RiskManager
 //
 //  Created by Ashutosh Jena on 07/06/24.
@@ -21,40 +21,33 @@ import AppTrackingTransparency
 class DeviceInfoExt {
     
     func getNetworkType() -> String {
-        guard let reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, "www.google.com") else {
-            return "NO INTERNET"
-        }
-        
-        var flags = SCNetworkReachabilityFlags()
-        guard SCNetworkReachabilityGetFlags(reachability, &flags) else {
-            return "NO INTERNET"
-        }
-        
-        let isReachable = flags.contains(.reachable)
-        let isWWAN = flags.contains(.isWWAN)
-        
-        if isReachable {
-            if isWWAN {
-                let networkInfo = CTTelephonyNetworkInfo()
-                let carrierType = networkInfo.serviceCurrentRadioAccessTechnology
-                
-                guard let carrierTypeName = carrierType?.first?.value else {
-                    return "UNKNOWN"
-                }
-                
-                switch carrierTypeName {
-                case CTRadioAccessTechnologyGPRS, CTRadioAccessTechnologyEdge, CTRadioAccessTechnologyCDMA1x:
-                    return "2G"
-                case CTRadioAccessTechnologyLTE:
-                    return "4G"
-                default:
-                    return "3G"
-                }
-            } else {
-                return "WIFI"
+        let networkInfo = CTTelephonyNetworkInfo()
+        if #available(iOS 14.1, *) {
+            if networkInfo.currentRadioAccessTechnology == CTRadioAccessTechnologyNRNSA ||
+                networkInfo.currentRadioAccessTechnology == CTRadioAccessTechnologyNR {
+                return "5g"
             }
-        } else {
-            return "NO INTERNET"
+        }
+        
+        switch networkInfo.currentRadioAccessTechnology {
+        case CTRadioAccessTechnologyGPRS,
+            CTRadioAccessTechnologyEdge,
+        CTRadioAccessTechnologyCDMA1x:
+            return "2g"
+        case CTRadioAccessTechnologyWCDMA,
+            CTRadioAccessTechnologyHSDPA,
+        CTRadioAccessTechnologyHSUPA:
+            return "3g"
+        case CTRadioAccessTechnologyCDMAEVDORev0,
+            CTRadioAccessTechnologyCDMAEVDORevA,
+        CTRadioAccessTechnologyCDMAEVDORevB:
+            return "3g"
+        case CTRadioAccessTechnologyeHRPD:
+            return "3g"
+        case CTRadioAccessTechnologyLTE:
+            return "4g"
+        default:
+            return "Not Found"
         }
     }
     
@@ -97,7 +90,7 @@ class DeviceInfoExt {
     
     // Screen wake time
     func getTimeSinceBoot() -> String {
-        var msg = "Elapsed Time: \(ProcessInfo.processInfo.systemUptime)"
+        let msg = "Elapsed Time: \(ProcessInfo.processInfo.systemUptime)"
         //        msg.append(" : \(CMLogItem().timestamp)")
         return msg
     }
@@ -148,7 +141,7 @@ class DeviceInfoExt {
                 let networkInfo = CTTelephonyNetworkInfo()
                 let carrierType = networkInfo.serviceCurrentRadioAccessTechnology
                 
-                guard let carrierTypeName = carrierType?.first?.value else {
+                if carrierType?.first?.value == nil {
                     return "UNKNOWN"
                 }
                 
@@ -210,7 +203,7 @@ class DeviceInfoExt {
     }
     
     func getCountryISOFromSIM() -> String {
-        var state = self.getNetworkStateName()
+        let state = self.getNetworkStateName()
         if (state == "Connected") {
             if let carriers = CTTelephonyNetworkInfo().serviceSubscriberCellularProviders {
                 
@@ -243,14 +236,12 @@ class DeviceInfoExt {
     
     // So, to get the width and height in pixels, you need to multiply the width and height in points by the scale factor. This ensures that you get the actual pixel dimensions on the screen. If you're working with images, UI elements, or anything else where pixel precision matters, using the scale factor is important.
     
-    func getDisplayWidthPixels() -> String {
-        let screenWidth = UIScreen.main.bounds.width * UIScreen.main.scale
-        return "Width: \(screenWidth) + [\(UIScreen.main.bounds.width)]"
+    func getDisplayWidthPixels() -> Int {
+        return Int(UIScreen.main.bounds.width * UIScreen.main.scale)
     }
     
-    func getDisplayHeightPixels() -> String {
-        let screenHeight = UIScreen.main.bounds.height * UIScreen.main.scale
-        return "Height: \(screenHeight) + [\(UIScreen.main.bounds.height)]"
+    func getDisplayHeightPixels() -> Int {
+        return Int(UIScreen.main.bounds.height * UIScreen.main.scale)
     }
     
     func enabledInputMethodSubtypes() -> String {
@@ -265,7 +256,7 @@ class DeviceInfoExt {
             return ""
         }
     }
-
+    
     func getCarrierInfo() -> String {
         let telephonyNetworkInfo = CTTelephonyNetworkInfo()
         var st = ""
@@ -273,9 +264,9 @@ class DeviceInfoExt {
         if let carrier = telephonyNetworkInfo.subscriberCellularProvider {
             print("Carrier Name: \(carrier.carrierName ?? "Unknown")")
             print("Mobile Country Code (MCC): \(carrier.mobileCountryCode ?? "Unknown")")
-            st.append("MCC: \(carrier.mobileCountryCode)")
+            st.append("MCC: \(carrier.mobileCountryCode ?? "Unknown")")
             print("Mobile Network Code (MNC): \(carrier.mobileNetworkCode ?? "Unknown")")
-            st.append("MNC: \(carrier.mobileNetworkCode)")
+            st.append("MNC: \(carrier.mobileNetworkCode ?? "Unknown")")
         } else {
             print("Unable to retrieve carrier information")
         }
@@ -283,16 +274,19 @@ class DeviceInfoExt {
         return st
     }
     
-    func getISO3LanguageCode() -> String {
-        if let iso3LanguageCode = Locale.current.language.languageCode {
-            return "\(iso3LanguageCode)"
+    func getISO3LanguageCode() -> String? {
+        if #available(iOS 16, *) {
+            if let iso3LanguageCode = Locale.current.language.languageCode {
+                return "\(iso3LanguageCode)"
+            } else {
+                return nil
+            }
         } else {
-            return "null"
+            return nil
         }
     }
     
-    func getElapsedTimeSinceBoot() -> String {
-        let elapsedTimeMilliseconds = Int(ProcessInfo.processInfo.systemUptime * 1000)
-        return "\(elapsedTimeMilliseconds)"
+    func getElapsedTimeSinceBoot() -> Int64 {
+        return Int64(ProcessInfo.processInfo.systemUptime * 1000)
     }
 }

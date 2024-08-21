@@ -7,9 +7,9 @@
 
 import Foundation
 
-// *****************
+// ****************************************************************************************************
 // Device Data Start
-// *****************
+// ****************************************************************************************************
 
 // Generic Keys
 let OS_BUILD = "osBuild"
@@ -19,23 +19,23 @@ let PERSONALIZATION = "personalization"
 let NETWORK = "network"
 let SYSTEM_INFO = "systemInfo"
 let DISPLAY = "display"
-let DEVICE_INFO = "device_info"
+let DEVICE_INFO = "deviceInfo"
 
 // Device Info keys
-let HW_TARGET = "hw_target"
-let KERN_OSTYPE = "kern_os_type"
-let KERN_HOSTNAME = "kern_hostname"
-let OS_VERSION = "os_version"
-let KERN_OSVERSION = "kern_os_version"
+let HW_TARGET = "hwTarget"
+let KERN_OSTYPE = "kernOSType"
+let KERN_HOSTNAME = "kernHostname"
+let OS_VERSION = "osVersion"
+let KERN_OSVERSION = "kernOSVersion"
 let KERN_VERSION = "kernVersion"
-let DEVICE_NAME = "device_name"
-let DEVICE_MODEL_RAW_NAME = "device_model_raw_name"
-let HW_MACHINE = "hw_machine"
-let HW_MODEL = "hw_model"
-let KERN_OSRELEASE = "kern_os_release"
-let HW_PRODUCT = "hw_product"
-let LOCALIZED_MODEL = "localized_model"
-let SYSTEM_NAME = "system_name"
+let DEVICE_NAME = "deviceName"
+let DEVICE_MODEL_RAW_NAME = "deviceModelRawName"
+let HW_MACHINE = "hwMachine"
+let HW_MODEL = "hwModel"
+let KERN_OSRELEASE = "kernOSRelease"
+let HW_PRODUCT = "hwProduct"
+let LOCALIZED_MODEL = "localizedModel"
+let SYSTEM_NAME = "systemName"
 
 // Kernel Info keys
 let SYS_KERNEL_HOSTNAME = "kern.hostname"
@@ -50,24 +50,32 @@ let SYS_AVAILABLE_PROCESSORS = "availableProcessors"
 
 // Storage keys
 let STORAGE = "storage"
-let TOTAL_SPACE = "total_space"
-let FREE_SPACE = "free_space"
+let TOTAL_SPACE = "totalSpace"
+let FREE_SPACE = "freeSpace"
 
 // System Info keys
-let SYSTEM_INFO_TOTAL_RAM = "total_ram"
+let SYSTEM_INFO_TOTAL_RAM = "totalRam"
 let SYSTEM_INFO_UPTIME = "uptime"
-let SYSTEM_INFO_IS_MULTITASKING = "is_multitasking"
-let SYSTEM_INFO_ELAPSED_TIME_IN_MILLIS = "elapsed_time_millis"
+let SYSTEM_INFO_IS_MULTITASKING = "isMultitasking"
+let SYSTEM_INFO_ELAPSED_TIME_IN_MILLIS = "elapsedTimeMillis"
 
 // Network Keys
-let NETWORK_TYPE = "network_type"
-let ACTIVE_NETWORK_TYPE_NAME = "active_network_type_name"
+let NETWORK_TYPE = "networkType"
+let ACTIVE_NETWORK_TYPE_NAME = "activeNetworkTypeName"
 
 // Misc Keys
-let BACKGROUND_REFRESH_STATUS = "background_refresh_status"
-let AD_ID = "adverisement-id"
-let DISPLAY_LANGUAGE = "display_language"
-let VENDOR_ID = "vendor_id"
+let BACKGROUND_REFRESH_STATUS = "backgroundRefreshStatus"
+let AD_ID = "adverisementId"
+let DISPLAY_LANGUAGE = "displayLanguage"
+let VENDOR_ID = "vendorId"
+let SDK_VERSION_NAME = "sdkVersionName"
+let IS_REAL_TIME = "isRealTime"
+let SYNC_MECHANISM = "syncMechanism"
+let SYNC_ID = "syncId"
+let BATCH_ID = "batchId"
+let USER_HASH = "userHash"
+let USER_NAME = "userName"
+
 
 // Display Keys
 struct Display {
@@ -108,30 +116,102 @@ struct Network {
     }
 }
 
-// ***************
+// ****************************************************************************************************
 // Device Data End
-// ***************
+// ****************************************************************************************************
 
-// *******************
+// ****************************************************************************************************
 // Location Data Start
-// *******************
+// ****************************************************************************************************
 
-let ALLOW_BACKGROUND_LOCATION_UPDATES_KEY = "allows_background_location_updates"
-let SHOWS_BACKGROUND_LOCATION_INDICATOR_KEY = "shows_background_location_indicator"
-let HEADING_ORIENTATION_KEY = "heading_orientation"
-let LONGITUDE_KEY = "longitude"
-let LATITUDE_KEY = "latitude"
-let MAGNETIC_HEADER_KEY = "magnetic_heading"
-let TRUE_HEADING_KEY = "true_heading"
+let ALLOW_BACKGROUND_LOCATION_UPDATES_KEY = "allowsBackgroundLocationUpdates"
+let SHOWS_BACKGROUND_LOCATION_INDICATOR_KEY = "showsBackgroundLocationIndicator"
+let HEADING_ORIENTATION_KEY = "headingOrientation"
+let MAGNETIC_HEADER_KEY = "magneticHeading"
+let TRUE_HEADING_KEY = "trueHeading"
 let TIMESTAMP_KEY = "timestamp"
-let HEADING_ACCURACY_KEY = "heading_accuracy"
+let HEADING_ACCURACY_KEY = "headingAccuracy"
 let ALTITUDE_KEY = "altitude"
-let ELLIPSOIDAL_ALTITUDE_KEY = "ellipsoidal_altitude"
-let IS_PRODUCED_BY_ACCESSORY_KEY = "is_produced_by_accessory"
-let IS_SIMULATED_BY_SOFTWARE_KEY = "is_simulated_by_software"
-let HORIZONTAL_ACCURACY_KEY = "horizontal_accuracy"
-let VERTICAL_ACCURACY_KEY = "vertical_accuracy"
+let ELLIPSOIDAL_ALTITUDE_KEY = "ellipsoidalAltitude"
+let IS_PRODUCED_BY_ACCESSORY_KEY = "isProducedByAccessory"
+let IS_SIMULATED_BY_SOFTWARE_KEY = "isSimulatedBySoftware"
+let HORIZONTAL_ACCURACY_KEY = "horizontalAccuracy"
+let VERTICAL_ACCURACY_KEY = "verticalAccuracy"
 let SPEED_KEY = "speed"
-let SPEED_ACCURACY_KEY = "speed_accuracy"
+let SPEED_ACCURACY_KEY = "speedAccuracy"
 let COURSE_KEY = "course"
-let COURSE_ACCURACY_KEY = "course_accuracy"
+let COURSE_ACCURACY_KEY = "courseAccuracy"
+
+// ****************************************************************************************************
+// Location Data End
+// ****************************************************************************************************
+
+// ****************************************************************************************************
+// Misc Keys Start
+// ****************************************************************************************************
+
+// BG Task Identifier - Sync
+let BACKGROUND_TASK_IDENTIFIER = "in.finbox.riskmanager.SyncTask"
+let DEFAULT_SYNC_FREQUENCY: TimeInterval = 28800                             // Default Sync Frequency - 8 hours
+
+
+// Pref Keys
+let FINBOX_DEVICE_CONNECT_API_KEY = "random_api_key"
+
+// User Default Suite Name
+public let USER_DEFAULT_SUITE_ACCOUNT_DETAILS = "user-default-suite-account-details"
+// User Defaults - API Key
+public let USER_DEFAULT_API_KEY = "user-default-api-key"
+// User Defaults - Access Token
+public let USER_DEFAULT_ACCESS_TOKEN = "user-default-access-token"
+// User Defaults - Username
+public let USER_DEFAULT_USER_NAME = "user-default-username"
+// User Defaults - User Hash
+public let USER_DEFAULT_USER_HASH = "user-default-user-hash"
+
+// User Default Suite Name
+public let USER_DEFAULT_SUITE_FLOW_DATA = "user-default-suite-flow-data"
+// User Defaults - Location
+public let USER_DEFAULT_FLOW_LOCATION = "user-default-flow-location"
+// User Defaults - Device
+public let USER_DEFAULT_FLOW_DEVICE = "user-default-flow-device"
+
+
+// User Defaults Suite name
+public let USER_DEFAULT_SUITE_SYNC_PREF = "user-default-suite-sync-pref"
+public let PREF_KEY_SYNC_FREQUENCY = "finbox_risk_manager_key_sync_frequency"
+public let PREF_KEY_SYNC_MECHANISM = "finbox_risk_manager_key_sync_mechanism"
+public let PREF_KEY_SYNC_ID = "finbox_risk_manager_key_sync_id"
+public let PREF_KEY_IS_REAL_TIME = "finbox_risk_manager_key_is_real_time"
+
+// Sync Type Keys
+enum SyncType {
+    case CREATE_USER
+    case FCM
+    case DEVICE
+    case LOCATION
+}
+
+let AUTH_BASE_URL = "https://authdev.apis.finbox.in/v6/"
+let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v6/datasource/ios/"
+let FCM_ENDPOINT = "fcmtoken"
+let CREATE_USER_ENDPOINT = "token_generator"
+let DEVICE_ENDPOINT = "device/details"
+let LOCATION_ENDPOINT = "location"
+
+// App Version number
+public let APP_VERSION_NAME = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
+// App Version code
+public let APP_VERSION_CODE = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
+
+
+// SDK Version Name
+let VERSION_NAME = "0.1.1"
+// SDK VErsion Number
+let VERSION_NUMBER = 2
+
+// Package Version number
+public let PACKAGE_VERSION_NAME = "0.1"
+// Package Version code
+public let PACKAGE_VERSION_CODE = "1"
+
