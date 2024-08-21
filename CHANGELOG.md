@@ -1,6 +1,9 @@
 #  CHANGELOG
 
 
+## 0.2.2
+Refactor
+
 ## 0.2.1
 
 Update Package.swift
