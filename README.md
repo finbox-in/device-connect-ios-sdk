@@ -1,4 +1,4 @@
-# DeviceConnect: IOS
+# DeviceConnect IOS SDK
 
 Device Connect IOS SDK is used to collect anonymised non-PII data from the devices of the users after taking explicit user consent.
 
