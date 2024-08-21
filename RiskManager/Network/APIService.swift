@@ -39,7 +39,7 @@ struct APIService {
         // Make the API call using URLSession
         let task = URLSession.shared.dataTask(with: requestParams) { (data, response, error) in
             if let apiError = error {
-                logger.error("Error during API call: \(error)")
+                logger.error("Error during API call: \(apiError)")
                 return
             }
             

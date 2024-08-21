@@ -296,7 +296,7 @@ class DeviceData {
         // Misc Data
         let deviceInfoExt = DeviceInfoExt()
         
-        var isRealTime = false
+        let isRealTime = false
         
         // Device Info
         let deviceInfo: [String: Any] = [
@@ -557,7 +557,7 @@ class DeviceData {
     private func getMiscData() -> [String: Any] {
         var miscData: [String: Any] = [:]
         
-        var isRealTime = false
+        let isRealTime = false
         
         let deviceInfo = DeviceInfoExt()
         

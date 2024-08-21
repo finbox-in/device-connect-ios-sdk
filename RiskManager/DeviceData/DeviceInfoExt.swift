@@ -90,7 +90,7 @@ class DeviceInfoExt {
     
     // Screen wake time
     func getTimeSinceBoot() -> String {
-        var msg = "Elapsed Time: \(ProcessInfo.processInfo.systemUptime)"
+        let msg = "Elapsed Time: \(ProcessInfo.processInfo.systemUptime)"
         //        msg.append(" : \(CMLogItem().timestamp)")
         return msg
     }
@@ -141,7 +141,7 @@ class DeviceInfoExt {
                 let networkInfo = CTTelephonyNetworkInfo()
                 let carrierType = networkInfo.serviceCurrentRadioAccessTechnology
                 
-                guard let carrierTypeName = carrierType?.first?.value else {
+                if carrierType?.first?.value == nil {
                     return "UNKNOWN"
                 }
                 
@@ -203,7 +203,7 @@ class DeviceInfoExt {
     }
     
     func getCountryISOFromSIM() -> String {
-        var state = self.getNetworkStateName()
+        let state = self.getNetworkStateName()
         if (state == "Connected") {
             if let carriers = CTTelephonyNetworkInfo().serviceSubscriberCellularProviders {
                 
@@ -264,9 +264,9 @@ class DeviceInfoExt {
         if let carrier = telephonyNetworkInfo.subscriberCellularProvider {
             print("Carrier Name: \(carrier.carrierName ?? "Unknown")")
             print("Mobile Country Code (MCC): \(carrier.mobileCountryCode ?? "Unknown")")
-            st.append("MCC: \(carrier.mobileCountryCode)")
+            st.append("MCC: \(carrier.mobileCountryCode ?? "Unknown")")
             print("Mobile Network Code (MNC): \(carrier.mobileNetworkCode ?? "Unknown")")
-            st.append("MNC: \(carrier.mobileNetworkCode)")
+            st.append("MNC: \(carrier.mobileNetworkCode ?? "Unknown")")
         } else {
             print("Unable to retrieve carrier information")
         }

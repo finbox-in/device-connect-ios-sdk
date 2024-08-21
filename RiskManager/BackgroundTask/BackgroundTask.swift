@@ -100,9 +100,9 @@ extension FinBox {
         
         debugPrint("Current Date: \(startDate)")
         debugPrint("Sync Frequency: \(self.syncFrequency) seconds")
-        debugPrint("Scheduled Date: \(date)")
+        debugPrint("Scheduled Date: \(String(describing: date))")
         
-        debugPrint("Earliest Begin Date: \(request.earliestBeginDate)")
+        debugPrint("Earliest Begin Date: \(String(describing: request.earliestBeginDate))")
         printCurrentTime()
         
         // Submit the task request to the BGTaskScheduler

@@ -47,8 +47,8 @@ struct NetworkUtils {
         urlRequest.httpBody = body
         
         if let accessToken = accessToken {
-            urlRequest.addValue("Bearer " + (userPref.accessToken!), forHTTPHeaderField: "Authorization")
-            let hash = CommonUtil.getHash(token: userPref.accessToken!) ?? nil
+            urlRequest.addValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
+            let hash = CommonUtil.getHash(token: accessToken) ?? nil
             if let hash = hash {
                 urlRequest.addValue(hash, forHTTPHeaderField: "hash")
             }
