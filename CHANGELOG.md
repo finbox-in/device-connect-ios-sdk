@@ -1,6 +1,10 @@
 #  CHANGELOG
 
 
+## 0.2.1
+
+Update Package.swift
+
 ## 0.2.0
 
 Add Package.swift
