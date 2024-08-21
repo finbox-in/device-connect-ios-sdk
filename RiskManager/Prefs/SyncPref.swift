@@ -5,6 +5,8 @@
 //  Created by Ashutosh Jena on 02/07/24.
 //
 
+import Foundation
+import Combine
 
 /// UserDefaults Class for storing Sync Data
 class SyncPref {
