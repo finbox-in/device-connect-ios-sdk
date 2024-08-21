@@ -61,16 +61,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            debugPrint("Access granted.")
+            debugPrint("Authorizattion: Access granted.")
             startUpdatingLocation()
         case .denied:
-            debugPrint("Location access denied by the user.")
+            debugPrint("Authorizattion: Location access denied by the user.")
         case .restricted:
-            debugPrint("Location access is restricted.")
+            debugPrint("Authorizattion: Location access is restricted.")
         case .notDetermined:
-            debugPrint("Requesting location access.")
+            debugPrint("Authorizattion: Requesting location access.")
         @unknown default:
-            fatalError("Unknown authorization status")
+            fatalError("Authorizattion: Unknown authorization status")
         }
     }
     
@@ -81,18 +81,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if let clError = error as? CLError {
             switch clError.code {
             case .locationUnknown:
-                debugPrint("Location unknown. Trying again...")
+                debugPrint("Error: Location unknown. Trying again...")
                 self.startUpdatingLocation()
             case .denied:
-                debugPrint("Access to location services denied.")
+                debugPrint("Error: Access to location services denied.")
             case .network:
-                debugPrint("Network error. Check your connection.")
+                debugPrint("Error: Network error. Check your connection.")
                 // Handle network error, suggest the user to check network connectivity
             default:
-                debugPrint("Other Core Location error: \(clError.localizedDescription)")
+                debugPrint("Error: Other Core Location error: \(clError.localizedDescription)")
             }
         } else {
-            debugPrint("Unknown error: \(error.localizedDescription)")
+            debugPrint("Error: Unknown error: \(error.localizedDescription)")
         }
     }
     
@@ -123,11 +123,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         @unknown default:
             return false
         }
-    }
-    
-    // Check if location services are enabled
-    func areLocationServicesEnabled() -> Bool {
-        return CLLocationManager.locationServicesEnabled()
     }
 }
 
