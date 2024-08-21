@@ -1,6 +1,10 @@
 #  CHANGELOG
 
 
+## 0.2.3
+Refactor
+Remove BG Tasks
+
 ## 0.2.2
 Refactor
 

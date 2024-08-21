@@ -61,16 +61,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            debugPrint("Authorizattion: Access granted.")
+            debugPrint("Authorization: Access granted.")
             startUpdatingLocation()
         case .denied:
-            debugPrint("Authorizattion: Location access denied by the user.")
+            debugPrint("Authorization: Location access denied by the user.")
         case .restricted:
-            debugPrint("Authorizattion: Location access is restricted.")
+            debugPrint("Authorization: Location access is restricted.")
         case .notDetermined:
-            debugPrint("Authorizattion: Requesting location access.")
+            debugPrint("Authorization: Requesting location access.")
         @unknown default:
-            fatalError("Authorizattion: Unknown authorization status")
+            fatalError("Authorization: Unknown authorization status")
         }
     }
     
