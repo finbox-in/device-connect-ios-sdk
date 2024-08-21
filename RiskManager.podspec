@@ -61,7 +61,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.platform     = :ios
-  spec.platform     = :ios, "13.0"
+  spec.platform     = :ios, "14.0"
   spec.swift_versions = ['4', '5']
 
   #  When using multiple platforms
@@ -87,7 +87,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "RiskManger/**/*.{swift}"
+  spec.source_files  = "RiskManager/**/*.{swift}"
   spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
