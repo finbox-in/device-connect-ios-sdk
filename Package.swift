@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "RiskManager",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v14),
     ],
     products: [
         // Products define the excecutables and libraries produced by a package, and make them visible to other packages.
