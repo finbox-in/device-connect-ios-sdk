@@ -174,7 +174,8 @@ public class FinBox {
         startLocationSync()
         
         // Create and start a Periodic Sync Task
-        startPeriodicTask()
+        // TODO: Add impl of startPeriodicTask()
+        // startPeriodicTask()
     }
     
     private func saveSyncId() {
@@ -197,9 +198,5 @@ public class FinBox {
             let locationData = LocationData()
             locationData.syncLocationData()
         }
-    }
-    
-    private func startPeriodicTask() {
-        self.scheduleSyncData()
     }
 }
