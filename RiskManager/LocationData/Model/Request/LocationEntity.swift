@@ -14,7 +14,7 @@ class LocationEntity: Codable {
     
     var accuracy: Double?
     
-    var time: Double?
+    var time: Int64?
 
     
     init() {
