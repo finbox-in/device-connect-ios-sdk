@@ -206,9 +206,9 @@ public let APP_VERSION_CODE = Bundle.main.infoDictionary?["CFBundleVersion"] as?
 
 
 // SDK Version Name
-let VERSION_NAME = "0.1.1"
+let VERSION_NAME = "0.2.4"
 // SDK VErsion Number
-let VERSION_NUMBER = 2
+let VERSION_NUMBER = 5
 
 // Package Version number
 public let PACKAGE_VERSION_NAME = "0.1"
