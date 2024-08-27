@@ -28,6 +28,7 @@ class DeviceInfo: CommonRequest {
     var widthPixels: Int?
     var heightPixels: Int?
     var advertisingId: String?
+    var rootFlag: Bool?
     
     // Custom Initializer
     override init() {
@@ -55,6 +56,7 @@ class DeviceInfo: CommonRequest {
         self.widthPixels = nil
         self.heightPixels = nil
         self.advertisingId = nil
+        self.rootFlag = nil
         super.init()
     }
     
@@ -85,6 +87,7 @@ class DeviceInfo: CommonRequest {
         widthPixels = try container.decodeIfPresent(Int.self, forKey: .widthPixels)
         heightPixels = try container.decodeIfPresent(Int.self, forKey: .heightPixels)
         advertisingId = try container.decodeIfPresent(String.self, forKey: .advertisingId)
+        rootFlag = try container.decodeIfPresent(Bool.self, forKey: .rootFlag)
         try super.init(from: decoder)
     }
     
@@ -115,6 +118,7 @@ class DeviceInfo: CommonRequest {
         try container.encodeIfPresent(widthPixels, forKey: .widthPixels)
         try container.encodeIfPresent(heightPixels, forKey: .heightPixels)
         try container.encodeIfPresent(advertisingId, forKey: .advertisingId)
+        try container.encodeIfPresent(rootFlag, forKey: .rootFlag)
         try super.encode(to: encoder)
     }
     
@@ -143,6 +147,7 @@ class DeviceInfo: CommonRequest {
         case sCarrierName = "sim_carrier_name_1"
         case sCountryIso = "sim_country_iso_1"
         case advertisingId = "advertising_id"
+        case rootFlag = "root_flag"
     }
     
 }
