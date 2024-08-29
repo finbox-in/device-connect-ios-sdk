@@ -170,6 +170,7 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
+        startPermissionsSync()
         startDeviceDataSync()
         startLocationSync()
         
@@ -198,5 +199,9 @@ public class FinBox {
             let locationData = LocationData()
             locationData.syncLocationData()
         }
+    }
+    
+    private func startPermissionsSync() {
+        PermissionsData().syncPermissionsData()
     }
 }
