@@ -132,7 +132,7 @@ class DeviceData {
         
         // Get WIFI SSID
         getWifiSSID { (wifiInfo) in
-            debugPrint(wifiInfo)
+            debugPrint("Wifi Info Technique 1", wifiInfo)
         }
         
         getWifiSSID2()
@@ -708,6 +708,7 @@ class DeviceData {
         let bssid = netInfo?.bssid
         let interface = netInfo?.interface
         
+        debugPrint("Wifi Info Technique 2")
         debugPrint("SSID: ", ssid)
         debugPrint("BSSID: ", bssid)
         debugPrint("Interface: ", interface)
