@@ -127,9 +127,7 @@ class DeviceData {
         // Screen width heirgh and pixels
         deviceInfo.widthPixels = deviceInfoExt.getDisplayWidthPixels()
         deviceInfo.heightPixels = deviceInfoExt.getDisplayHeightPixels()
-        
-        // Root Flag
-        deviceInfo.rootFlag = isJailbroken()
+
         
 //        // Sound
 //        let soundData = getSoundData()
@@ -556,105 +554,6 @@ class DeviceData {
         }
         
         return addresses
-    }
-    
-    private func getMiscData() -> [String: Any] {
-        var miscData: [String: Any] = [:]
-        
-        let isRealTime = false
-        
-        let deviceInfo = DeviceInfoExt()
-        
-        miscData[SDK_VERSION_NAME] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-        miscData[IS_REAL_TIME] = isRealTime
-        miscData[DISPLAY_LANGUAGE] = deviceInfo.getISO3LanguageCode()
-        miscData[NETWORK_TYPE] = deviceInfo.getNetworkType()
-        miscData[ACTIVE_NETWORK_TYPE_NAME] = deviceInfo.getActiveNetworkTypeName()
-        miscData[SYNC_MECHANISM] = 1
-        miscData[SYNC_ID] = UUID().uuidString
-        miscData[BATCH_ID] = UUID().uuidString
-        // TODO: Update this once user is created and hash is recevied.
-        miscData[USER_HASH] = UUID().uuidString
-        miscData[USER_NAME] = UserDefaults.standard.string(forKey: "DC_CUSTOMER_ID") ?? ""
-        
-        return miscData
-    }
-    
-    /**
-     Checks if the device is jailbroken by performing various checks.
-     - Returns `true` if the device is jailbroken, otherwise `false`.
-     */
-    private func isJailbroken() -> Bool {
-#if arch(i386) || arch(x86_64)
-        // Return false for simulators (which use i386 or x86_64 architecture)
-        return false
-#else
-        // Check if the device has access to system files and if it can write to a system directory
-        let hasSysFilesAccess = hasSystemFilesAccess()
-        let canWriteToSysDir = writeToSystemDirectory()
-        let canAccessCydia = canAccessCydia()
-        
-        // Return true if checks pass, indicating the device is likely jailbroken
-        return hasSysFilesAccess && canWriteToSysDir && canAccessCydia
-#endif
-    }
-    
-    /**
-     Checks if the device has access to known system files typically altered on jailbroken devices.
-     - Returns `true` if any of the system files exist, otherwise `false`.
-     */
-    private func hasSystemFilesAccess() -> Bool {
-        let fileManager = FileManager.default
-        
-        // Common paths that exist on jailbroken devices
-        let jailBreakPaths = [
-            "/bin/bash",
-            "/usr/sbin/sshd",
-            "/etc/apt",
-            "/private/var/lib/apt/",
-            "/Applications/Cydia.app",
-            "/Library/MobileSubstrate/MobileSubstrate.dylib"
-        ]
-        
-        // Check if any of these paths exist
-        for path in jailBreakPaths {
-            if (fileManager.fileExists(atPath: path)) {
-                return true
-            }
-        }
-        
-        // Return false if none of the paths exist
-        return false
-    }
-    
-    /**
-     This function attempts to write to a system directory, which should not be possible on non-jailbroken devices.
-     - Returns `true` if writing is successful, indicating a jailbroken device, otherwise `false`.
-     */
-    private func writeToSystemDirectory() -> Bool {
-        let testString = "Jailbreak Test"
-        do {
-            // Attempt to write a file to a system directory
-            try testString.write(toFile: "/private/jailbreak.txt", atomically: true, encoding: .utf8)
-            return true
-        } catch {
-            // Writing failed, return false
-            return false
-        }
-    }
-    
-    /**
-     Checks if the Cydia app, a common jailbreak app, can be opened.
-     - Returns `true` if Cydia can be accessed, otherwise `false`.
-     */
-    private func canAccessCydia() -> Bool {
-        // Check if the Cydia app URL scheme can be opened
-        if let cydiaURL = URL(string: "cydia://") {
-            if UIApplication.shared.canOpenURL(cydiaURL) {
-                return true
-            }
-        }
-        return false
     }
 
     private func getWifiSSID() -> String? {
