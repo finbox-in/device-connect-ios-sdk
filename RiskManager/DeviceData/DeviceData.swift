@@ -69,7 +69,7 @@ class DeviceData {
         deviceInfo.syncId = syncSuite.syncId
         deviceInfo.syncMechanism = syncSuite.syncMechanism
         deviceInfo.isRealTime = syncSuite.isRealTime
-        deviceInfo.sdkVersionName = VERSION_NAME
+        deviceInfo.sdkVersionName = CommonUtil.getVersionName()
         
         // Get the current time in millis
         let currentTimeMillis = Int64(Date().timeIntervalSince1970 * 1000)
@@ -104,8 +104,9 @@ class DeviceData {
         deviceInfo.iosId = FinBox.getUniqueId()
         deviceInfo.fingerprint = fingerprint
         deviceInfo.device = getDeviceIdentifier()
-        // TODO: Read WIFI information after enabling the capabilities
-//        deviceInfo.ssid = getSsid()
+
+        // WIFI Ssid
+        deviceInfo.ssid = getWifiSSID()
         
         // Time since last time system was rebooted
         deviceInfo.elapsedTimeMillis = deviceInfoExt.getElapsedTimeSinceBoot()
@@ -126,6 +127,7 @@ class DeviceData {
         // Screen width heirgh and pixels
         deviceInfo.widthPixels = deviceInfoExt.getDisplayWidthPixels()
         deviceInfo.heightPixels = deviceInfoExt.getDisplayHeightPixels()
+
         
 //        // Sound
 //        let soundData = getSoundData()
@@ -553,27 +555,18 @@ class DeviceData {
         
         return addresses
     }
-    
-    private func getMiscData() -> [String: Any] {
-        var miscData: [String: Any] = [:]
-        
-        let isRealTime = false
-        
-        let deviceInfo = DeviceInfoExt()
-        
-        miscData[SDK_VERSION_NAME] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-        miscData[IS_REAL_TIME] = isRealTime
-        miscData[DISPLAY_LANGUAGE] = deviceInfo.getISO3LanguageCode()
-        miscData[NETWORK_TYPE] = deviceInfo.getNetworkType()
-        miscData[ACTIVE_NETWORK_TYPE_NAME] = deviceInfo.getActiveNetworkTypeName()
-        miscData[SYNC_MECHANISM] = 1
-        miscData[SYNC_ID] = UUID().uuidString
-        miscData[BATCH_ID] = UUID().uuidString
-        // TODO: Update this once user is created and hash is recevied.
-        miscData[USER_HASH] = UUID().uuidString
-        miscData[USER_NAME] = UserDefaults.standard.string(forKey: "DC_CUSTOMER_ID") ?? ""
-        
-        return miscData
+
+    private func getWifiSSID() -> String? {
+        if let interfaces: NSArray = CNCopySupportedInterfaces() {
+            for interface in interfaces {
+                let interfaceName = interface as! String
+                if let dict = CNCopyCurrentNetworkInfo(interfaceName as CFString) as NSDictionary? {
+                    return dict[kCNNetworkInfoKeySSID as String] as? String
+                }
+            }
+        }
+        return nil
     }
+
 }
-// Line 193
+

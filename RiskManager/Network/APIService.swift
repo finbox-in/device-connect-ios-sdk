@@ -243,6 +243,96 @@ struct APIService {
         return createUserEncryptRequestJson
     }
     
+    func syncPermissions(data: PermissionModel, syncType: SyncType) {
+        let requestBody = self.getPermissionsRequestBody(permissionModel: data)
+        
+        guard let syncDataBody = requestBody else {
+            debugPrint("Request body is null")
+            return
+        }
+        
+        // Make the api call
+        let requestParams = NetworkUtils.postRequest(urlStr: getSyncURL(syncItem: syncType), body: syncDataBody)
+        
+        guard let requestParams = requestParams else {
+            debugPrint("Request Params null")
+            return
+        }
+        
+        // Create a network request task
+        let task = URLSession.shared.dataTask(with: requestParams) { data, response, error in
+            if let error = error {
+                self.handleError(error: error)
+                return
+            }
+            
+            // Check if there is a response and data
+            guard let httpResponse = response as? HTTPURLResponse, let _ = data else {
+                debugPrint("Invalid response or no data")
+                return
+            }
+            
+            // Handle the HTTP response
+            switch httpResponse.statusCode {
+            case 200...299:
+                debugPrint("Permissions Sync Successful: \(httpResponse.statusCode)")
+                // Process the data here
+                guard let data = data else {
+                    self.handleClientError(error: "Invalid Sync Response")
+                    return
+                }
+                
+            case 400...499:
+                // Handle client error
+                debugPrint("Client Error: \(httpResponse.statusCode)")
+                var errorMessage: String? = nil
+                if let data = data, let errMessage = String(data: data, encoding: .utf8) {
+                    errorMessage = errMessage
+                }
+                self.handleClientError(error: errorMessage ?? "Client Error Occured")
+                
+            case 500...599:
+                // Handle server error
+                debugPrint("Server Error: \(httpResponse.statusCode)")
+                self.handleServerError(error: error ?? "Server Error Occured")
+                
+            default:
+                // Handle other status codes
+                debugPrint("Unexpected status code: \(httpResponse.statusCode)")
+            }
+        }
+        
+        // Initiate the network request
+        task.resume()
+    }
+    
+    func getPermissionsRequestBody(permissionModel: PermissionModel) -> Data? {
+        let encoder = JSONEncoder()
+        
+        // Convert the Permission Model to Json Data
+        guard let permissionModelRequestJson = try? encoder.encode(permissionModel) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        // Create an instance of Payload Helper
+        let payloadHelper = PayloadHelper()
+        // Generate IV
+        let iv = payloadHelper.generateIv()
+        // Encrypt the Payload
+        let cipherText = payloadHelper.encrypt(cipherText: permissionModelRequestJson, iv: iv)
+        
+        let permissionModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        
+        // Convert the User Model to Json Data
+        guard let permissionModelEncryptRequestJson = try? encoder.encode(permissionModelEncryptRequest) else {
+            // Handle encoding errors
+            return nil
+        }
+        
+        return permissionModelEncryptRequestJson
+    }
+    
     func getLocationRequestBody(locationModel: LocationModel) -> Data? {
         let encoder = JSONEncoder()
         
@@ -303,6 +393,8 @@ struct APIService {
             return DATA_SYNC_BASE_URL + DEVICE_ENDPOINT
         } else if syncItem == SyncType.LOCATION {
             return DATA_SYNC_BASE_URL + LOCATION_ENDPOINT
+        } else if syncItem == SyncType.PERMISSIONS {
+            return DATA_SYNC_BASE_URL + PERMISSIONS_ENDPOINT
         } else {
             return ""
         }

@@ -74,7 +74,7 @@ public class FinBox {
             let contactPermissionGranted = contactPermissionStatus == .authorized
             
             // Create a User Model
-            return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: PACKAGE_VERSION_NAME)
+        return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
     
     public static func getUniqueId() -> String {
@@ -106,7 +106,8 @@ public class FinBox {
         }
         
         // Generate a fresh unique id
-        let uniqueId = UUID().uuidString
+        let uuidStr = UUID().uuidString
+        let uniqueId = CommonUtil.getMd5Hash(uuidStr) ?? uuidStr
         
         // Write the data to the
         writeUniqueId(uniqueId: uniqueId, account: server)
@@ -170,7 +171,8 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
-        startInstantSync()
+        startPermissionsSync()
+        startDeviceDataSync()
         startLocationSync()
         
         // Create and start a Periodic Sync Task
@@ -186,7 +188,7 @@ public class FinBox {
         syncSuite.syncMechanism = 8
     }
     
-    private func startInstantSync() {
+    private func startDeviceDataSync() {
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
@@ -198,5 +200,9 @@ public class FinBox {
             let locationData = LocationData()
             locationData.syncLocationData()
         }
+    }
+    
+    private func startPermissionsSync() {
+        PermissionsData().syncPermissionsData()
     }
 }

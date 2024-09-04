@@ -16,9 +16,9 @@ struct CreateUserRequest: Codable {
     let contactsPermission: Bool
     let locationPermission: Bool
     let salt: String
-    let sdkVersionName: String
+    let sdkVersionName: String?
     
-    init(key: String, customerId: String, userHash: String, mobileModel: String, brand: String, contactsPermission: Bool, locationPermission: Bool, salt: String, sdkVersionName: String) {
+    init(key: String, customerId: String, userHash: String, mobileModel: String, brand: String, contactsPermission: Bool, locationPermission: Bool, salt: String, sdkVersionName: String?) {
         self.key = key
         self.customerId = customerId
         self.userHash = userHash
