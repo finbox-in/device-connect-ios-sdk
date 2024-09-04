@@ -74,7 +74,7 @@ public class FinBox {
             let contactPermissionGranted = contactPermissionStatus == .authorized
             
             // Create a User Model
-            return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: PACKAGE_VERSION_NAME)
+        return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
     
     public static func getUniqueId() -> String {

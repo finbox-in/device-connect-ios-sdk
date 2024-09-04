@@ -1,13 +1,19 @@
 #  CHANGELOG
 
+## 0.2.5
+
+Read Wifi SSID 
+
 ## 0.2.4
-Fix Location Time Type
+
 
 ## 0.2.3
+
 Refactor
-Remove BG Tasks
+
 
 ## 0.2.2
+
 Refactor
 
 ## 0.2.1

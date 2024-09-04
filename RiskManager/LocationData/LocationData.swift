@@ -69,7 +69,7 @@ class LocationData {
         locationModel.batchId = UUID().uuidString
         locationModel.username = accountSuite.userName
         locationModel.userHash = accountSuite.userHash
-        locationModel.sdkVersionName = VERSION_NAME
+        locationModel.sdkVersionName = CommonUtil.getVersionName()
         locationModel.syncId = syncSuite.syncId
         locationModel.syncMechanism = syncSuite.syncMechanism
         locationModel.isRealTime = syncSuite.isRealTime
