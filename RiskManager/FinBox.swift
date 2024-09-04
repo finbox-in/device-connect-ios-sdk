@@ -170,7 +170,8 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
-        startInstantSync()
+        startPermissionsSync()
+        startDeviceDataSync()
         startLocationSync()
         
         // Create and start a Periodic Sync Task
@@ -186,7 +187,7 @@ public class FinBox {
         syncSuite.syncMechanism = 8
     }
     
-    private func startInstantSync() {
+    private func startDeviceDataSync() {
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
@@ -198,5 +199,9 @@ public class FinBox {
             let locationData = LocationData()
             locationData.syncLocationData()
         }
+    }
+    
+    private func startPermissionsSync() {
+        PermissionsData().syncPermissionsData()
     }
 }
