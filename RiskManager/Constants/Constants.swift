@@ -193,8 +193,8 @@ enum SyncType {
     case PERMISSIONS
 }
 
-let AUTH_BASE_URL = "https://authdev.apis.finbox.in/v6/"
-let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v6/datasource/ios/"
+let AUTH_BASE_URL = "https://auth.apis.finbox.in/v6/"
+let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/datasource/ios/"
 let FCM_ENDPOINT = "fcmtoken"
 let CREATE_USER_ENDPOINT = "token_generator"
 let DEVICE_ENDPOINT = "device/details"
