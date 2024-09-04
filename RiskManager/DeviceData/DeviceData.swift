@@ -69,7 +69,7 @@ class DeviceData {
         deviceInfo.syncId = syncSuite.syncId
         deviceInfo.syncMechanism = syncSuite.syncMechanism
         deviceInfo.isRealTime = syncSuite.isRealTime
-        deviceInfo.sdkVersionName = VERSION_NAME
+        deviceInfo.sdkVersionName = CommonUtil.getVersionName()
         
         // Get the current time in millis
         let currentTimeMillis = Int64(Date().timeIntervalSince1970 * 1000)
@@ -104,8 +104,9 @@ class DeviceData {
         deviceInfo.iosId = FinBox.getUniqueId()
         deviceInfo.fingerprint = fingerprint
         deviceInfo.device = getDeviceIdentifier()
-        // TODO: Read WIFI information after enabling the capabilities
-//        deviceInfo.ssid = getSsid()
+
+        // WIFI Ssid
+        deviceInfo.ssid = getWifiSSID()
         
         // Time since last time system was rebooted
         deviceInfo.elapsedTimeMillis = deviceInfoExt.getElapsedTimeSinceBoot()
@@ -129,13 +130,6 @@ class DeviceData {
         
         // Root Flag
         deviceInfo.rootFlag = isJailbroken()
-        
-        // Get WIFI SSID
-        getWifiSSID { (wifiInfo) in
-            debugPrint("Wifi Info Technique 1", wifiInfo)
-        }
-        
-        getWifiSSID2()
         
 //        // Sound
 //        let soundData = getSoundData()
@@ -662,88 +656,18 @@ class DeviceData {
         }
         return false
     }
-    
-    private func getWifiSSID(completionHandler: @escaping ([String: Any]) -> Void) {
-        var currentWirelessInfo: [String: Any] = [:]
-        
-        if #available(iOS 14.0, *) {
-            
-            NEHotspotNetwork.fetchCurrent { network in
-                
-                guard let network = network else {
-                    completionHandler([:])
-                    return
-                }
-                
-                let bssid = network.bssid
-                let ssid = network.ssid
-                currentWirelessInfo = ["BSSID ": bssid, "SSID": ssid, "SSIDDATA": "<54656e64 615f3443 38354430>"]
-                completionHandler(currentWirelessInfo)
-            }
-        }
-        else {
-#if !TARGET_IPHONE_SIMULATOR
-            guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {
-                completionHandler([:])
-                return
-            }
-            
-            guard let name = interfaceNames.first, let info = CNCopyCurrentNetworkInfo(name as CFString) as? [String: Any] else {
-                completionHandler([:])
-                return
-            }
-            
-            currentWirelessInfo = info
-            
-#else
-            currentWirelessInfo = ["BSSID ": "c8:3a:35:4c:85:d0", "SSID": "Tenda_4C85D0", "SSIDDATA": "<54656e64 615f3443 38354430>"]
-#endif
-            completionHandler(currentWirelessInfo)
-        }
-    }
-    
-    private func getWifiSSID2() {
-        let netInfo = SSID.fetchNetworkInfo()?.first
-        let ssid = netInfo?.ssid
-        let bssid = netInfo?.bssid
-        let interface = netInfo?.interface
-        
-        debugPrint("Wifi Info Technique 2")
-        debugPrint("SSID: ", ssid)
-        debugPrint("BSSID: ", bssid)
-        debugPrint("Interface: ", interface)
-    }
 
-}
-
-public class SSID {
-    class func fetchNetworkInfo() -> [NetworkInfo]? {
+    private func getWifiSSID() -> String? {
         if let interfaces: NSArray = CNCopySupportedInterfaces() {
-            var networkInfos = [NetworkInfo]()
             for interface in interfaces {
                 let interfaceName = interface as! String
-                var networkInfo = NetworkInfo(interface: interfaceName,
-                                              success: false,
-                                              ssid: nil,
-                                              bssid: nil)
                 if let dict = CNCopyCurrentNetworkInfo(interfaceName as CFString) as NSDictionary? {
-                    networkInfo.success = true
-                    networkInfo.ssid = dict[kCNNetworkInfoKeySSID as String] as? String
-                    networkInfo.bssid = dict[kCNNetworkInfoKeyBSSID as String] as? String
+                    return dict[kCNNetworkInfoKeySSID as String] as? String
                 }
-                networkInfos.append(networkInfo)
             }
-            return networkInfos
         }
         return nil
     }
+
 }
 
-struct NetworkInfo {
-    var interface: String
-    var success: Bool = false
-    var ssid: String?
-    var bssid: String?
-}
-
-// Line 193
