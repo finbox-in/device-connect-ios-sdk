@@ -203,3 +203,15 @@ let LOCATION_ENDPOINT = "location"
 public let APP_VERSION_NAME = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
 // App Version code
 public let APP_VERSION_CODE = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
+
+
+// SDK Version Name
+let VERSION_NAME = "0.2.4"
+// SDK VErsion Number
+let VERSION_NUMBER = 5
+
+// Package Version number
+public let PACKAGE_VERSION_NAME = "0.1"
+// Package Version code
+public let PACKAGE_VERSION_CODE = "1"
+

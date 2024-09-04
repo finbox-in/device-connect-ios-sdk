@@ -47,7 +47,7 @@ class LocationData {
         }
         
         if location.timestamp.timeIntervalSince1970.isFinite {
-            locationEntity.time = location.timestamp.timeIntervalSince1970
+            locationEntity.time = Int64(location.timestamp.timeIntervalSince1970 * 1000)
         } else {
             
         }
