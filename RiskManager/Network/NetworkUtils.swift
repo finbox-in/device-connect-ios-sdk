@@ -42,7 +42,7 @@ struct NetworkUtils {
         }
         
         urlRequest.addValue(apiKey, forHTTPHeaderField: "x-api-key")
-        urlRequest.setValue(PACKAGE_VERSION_NAME, forHTTPHeaderField: "sdkVersionName")
+        urlRequest.setValue(CommonUtil.getVersionName(), forHTTPHeaderField: "sdkVersionName")
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = body
         
