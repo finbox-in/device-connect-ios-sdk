@@ -49,7 +49,7 @@ class AuthClient {
     }
     
     func getClientSalt() -> String {
-        return "amhmODd0OX11aDMmMzI0c2VkY3J2dHl2cjYlJF51a0ssS0tKSGI1ZXRyeXRjdmJ5cmR0ZylhZQ=="
+        return "SDNiJTR0cnVyXjJ2ZCZyN0t5dGVqdmZnaCR5YjlhKThkSmt2cnk1S3UzZTZjdEtjdGV9aHQscw=="
     }
     
     

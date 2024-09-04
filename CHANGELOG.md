@@ -1,5 +1,9 @@
 #  CHANGELOG
 
+## 0.2.7
+
+Version for Herofincorp
+
 ## 0.2.6
 
 Read Wifi SSID
