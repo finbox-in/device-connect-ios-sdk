@@ -6,6 +6,8 @@ Read Wifi SSID
 
 ## 0.2.4
 
+Fix Location Time Type
+
 
 ## 0.2.3
 
