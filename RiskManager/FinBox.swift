@@ -106,7 +106,8 @@ public class FinBox {
         }
         
         // Generate a fresh unique id
-        let uniqueId = UUID().uuidString
+        let uuidStr = UUID().uuidString
+        let uniqueId = CommonUtil.getMd5Hash(uuidStr) ?? uuidStr
         
         // Write the data to the
         writeUniqueId(uniqueId: uniqueId, account: server)

@@ -1,8 +1,8 @@
 #  CHANGELOG
 
-## 0.2.5
+## 0.2.6
 
-Read Wifi SSID 
+Read Wifi SSID
 
 ## 0.2.4
 

@@ -66,7 +66,7 @@ class LocationData {
     
     private func getLocationModel(locationEntity: LocationEntity) -> LocationModel {
         let locationModel = LocationModel()
-        locationModel.batchId = UUID().uuidString
+        locationModel.batchId = CommonUtil.getMd5Hash(UUID().uuidString)
         locationModel.username = accountSuite.userName
         locationModel.userHash = accountSuite.userHash
         locationModel.sdkVersionName = CommonUtil.getVersionName()

@@ -41,10 +41,10 @@ class PermissionsData {
         let accountSuite = UserPreference()
         let syncSuite = SyncPref()
         
-        permissionModel.batchId = UUID().uuidString
+        permissionModel.batchId = CommonUtil.getMd5Hash(UUID().uuidString)
         permissionModel.username = accountSuite.userName
         permissionModel.userHash = accountSuite.userHash
-        permissionModel.sdkVersionName = VERSION_NAME
+        permissionModel.sdkVersionName = CommonUtil.getVersionName()
         permissionModel.syncId = syncSuite.syncId
         permissionModel.syncMechanism = syncSuite.syncMechanism
         permissionModel.isRealTime = syncSuite.isRealTime

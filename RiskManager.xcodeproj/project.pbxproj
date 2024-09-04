@@ -321,7 +321,6 @@
 		6D980F472C11912F007525CD = {
 			isa = PBXGroup;
 			children = (
-				375477F72C789637006B0619 /* Package.swift */,
 				370571752C744B6500934A54 /* CHANGELOG.md */,
 				370571762C744B6500934A54 /* LICENSE */,
 				370571742C744B6500934A54 /* README.md */,
@@ -820,7 +819,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.4;
+				MARKETING_VERSION = 0.2.6;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = in.finbox.RiskManager;
@@ -852,7 +851,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.4;
+				MARKETING_VERSION = 0.2.6;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = in.finbox.RiskManager;

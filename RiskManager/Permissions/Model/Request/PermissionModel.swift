@@ -30,6 +30,6 @@ final class PermissionModel: CommonRequest {
     }
     
     enum CodingKeys: String, CodingKey {
-        case permissionEntityList = "permission"
+        case permissionEntityList = "data"
     }
 }
