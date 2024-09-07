@@ -171,9 +171,13 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
-        startPermissionsSync()
-        startDeviceDataSync()
-        startLocationSync()
+        
+        self.startDeviceDataSync()
+        
+        DispatchQueue.main.async {
+            self.startPermissionsSync()
+            self.startLocationSync()
+        }
         
         // Create and start a Periodic Sync Task
         // TODO: Add impl of startPeriodicTask()
@@ -196,10 +200,8 @@ public class FinBox {
     
     private func startLocationSync() {
         // Fetch Location Data
-        DispatchQueue.main.async {
-            let locationData = LocationData()
-            locationData.syncLocationData()
-        }
+        let locationData = LocationData()
+        locationData.syncLocationData()
     }
     
     private func startPermissionsSync() {
