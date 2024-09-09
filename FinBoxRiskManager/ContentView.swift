@@ -14,6 +14,13 @@ struct ContentView: View {
     
     @StateObject private var locationManager = LocationManager()
     
+    // Customer Id Text Component
+    @State
+    private var customerId = ""
+    
+    // Error Text Component
+    @State
+    private var errorText = ""
     
     // Flag to track access grant status
     // Used to control visibility of alert
@@ -25,16 +32,31 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            // Customer Details Text
+            Text(customerId)
+                .padding(8)
+                .fixedSize(horizontal: false, vertical: true) // Prevent resizing
+            
+            // Start Sync
             Button(action: {
-                startDC()
+                statSync()
             }) {
-                Text("Start DC")
-                    .padding(8)
-                    .frame(width: 100)
+                Text("Start Sync")
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .cornerRadius(4)
+                    .shadow(radius: 5)
             }
+            
+            // Error Text
+            Text(errorText)
+                .padding(8)
+                .foregroundColor(.red)
+                .fixedSize(horizontal: false, vertical: true) // Prevent resizing
         }.onAppear {
             locationManager.checkLocationPermission()
         }.alert(isPresented: $alertPresented) {
@@ -48,35 +70,50 @@ struct ContentView: View {
             }
         }
     }
-}
-
-func startDC() {
-    let customerId = getUsername()
-    debugPrint("Customer Id: \(customerId)")
-    FinBox.createUser(
-        apiKey: "YOUR_API_KEY",
-        customerId: customerId,
-        success: { success in
-            debugPrint("Success: \(success)")
-            let finBox = FinBox()
-            finBox.setSyncFrequency(value: 10, unit: Calendar.Component.second)
-            finBox.startPeriodicSync()
-        },
-        error: { error in
-            debugPrint("Error in createUser: \(error)")
-        }
-    )
     
-    // Call printT after a delay of 15 seconds
-    DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
-        printTasks()
+    private func statSync() {
+        withAnimation {
+            self.customerId = getUsername()
+        }
+        debugPrint("Customer Id: \(customerId)")
+        FinBox.createUser(
+            apiKey: "YOUR_API_KEY",
+            customerId: customerId,
+            success: { success in
+                debugPrint("Success: \(success)")
+                
+                // Sync the data
+                let finBox = FinBox()
+                finBox.setSyncFrequency(value: 10, unit: Calendar.Component.second)
+                finBox.startPeriodicSync()
+                
+                // Reset the error text
+                if errorText != "" {
+                    withAnimation {
+                        errorText = ""
+                    }
+                }
+            },
+            error: { error in
+                withAnimation {
+                    // Show the error
+                    errorText = String(error.rawValue)
+                }
+                debugPrint("Error in createUser: \(error)")
+            }
+        )
+        
+        // Call printT after a delay of 15 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
+            printTasks()
+        }
     }
     
-    func getUsername() -> String {
+    private func getUsername() -> String {
         return "demo_lender_" + getDateTime()
     }
 
-    func getDateTime() -> String {
+    private func getDateTime() -> String {
         let now = Date()
         let calendar = Calendar.current
         
