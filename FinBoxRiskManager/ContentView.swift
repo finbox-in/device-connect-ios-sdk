@@ -10,15 +10,6 @@ import RiskManager
 import BackgroundTasks
 import CoreLocation
 
-private var INSTANCE: FinBox? = nil
-
-func getFinBoxInstance() -> FinBox {
-    if (INSTANCE == nil) {
-        INSTANCE = FinBox()
-    }
-    return INSTANCE!
-}
-
 struct ContentView: View {
     
     @StateObject private var locationManager = LocationManager()
