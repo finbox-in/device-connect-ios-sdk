@@ -8,21 +8,13 @@ Device Connect IOS SDK works on IOS 14.0 and Xcode 14.1.
 
 ## Adding Dependency
 
-Add the SDK to the application using Cocopods. Edit the `pod` file and add `pod 'RiskManager'`
+Add the SDK to the application using Cocopods.
 
-::: warning NOTE
-Following will be shared by FinBox team at the time of integration:
-
-- `CLIENT_API_KEY`
-:::
+1. Edit the `pod` file and add `pod 'RiskManager'`
 
 ## Create User
 
 Call `createUser` method to create the user. It takes Client Api Key and Customer Id as the arguments.
-
-::: danger IMPORTANT
-Please make sure `CUSTOMER_ID` is **not more than 64** characters and is **alphanumeric** (with no special characters). Also it should never be `null` or a blank string `""`.
-:::
 
 The response to this method (success or failure) can be captured using the callback.
 
@@ -34,8 +26,6 @@ Finbox.createUser(apiKey: "API_KEY", customerId: "CUSTOMER_ID") { token in
     // Authentication failed
 }
 ```
-
-You can read about the errors in the [Error Codes](/device-connect/error-codes.html) section.
 
 ## Start Periodic Sync
 
