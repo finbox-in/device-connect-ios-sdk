@@ -41,7 +41,7 @@ public class FinBox {
             
             APIService.instance.createUser(
                 createUserRequest: createUserRequest,
-                error: error, accountSuite: accountSuite,
+                createError: error, accountSuite: accountSuite,
                 success: { accessToken, createUserResponse in
                     // Save Account Details
                     saveAccountUserDefaults(username: createUserResponse.username, userHash: createUserResponse.userHash, accessToken: accessToken)

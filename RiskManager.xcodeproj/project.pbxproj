@@ -219,13 +219,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		6D064F672C5BB39000ED466C /* SyncPipeline */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SyncPipeline;
-			sourceTree = "<group>";
-		};
 		6D77F5BE2C34371E009539F6 /* BackgroundTask */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,7 +345,6 @@
 				6D970E392C6B8CAF0021A35E /* Utils */,
 				6D970E362C6B8C5A0021A35E /* Auth */,
 				6D970E332C6A015F0021A35E /* Enums */,
-				6D064F672C5BB39000ED466C /* SyncPipeline */,
 				6D064F4B2C59F0C200ED466C /* Network */,
 				6D77F5BF2C345BFA009539F6 /* Prefs */,
 				6D77F5BE2C34371E009539F6 /* BackgroundTask */,
