@@ -1,5 +1,6 @@
 #  CHANGELOG
 
+
 ## 0.2.8
 
 Fix Location Sync issue
