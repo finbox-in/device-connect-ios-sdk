@@ -4,8 +4,8 @@ Device Connect IOS SDK is used to collect anonymised non-PII data from the devic
 
 ## Requirements
 
-Device Connect IOS SDK works on IOS 14.0 and Xcode 14.1.
-
+Device Connect IOS SDK works on IOS 14.0 and Xcode 14.1.
+
 ## Adding Dependency
 
 Add the SDK to the application using Cocopods. Edit the `pod` file and add `pod 'RiskManager'`
