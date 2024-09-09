@@ -17,9 +17,9 @@ struct APIService {
     // Logger instance
     private let logger = Logger()
 
-    func createUser(createUserRequest: CreateUserRequest, error: @escaping (FinBoxErrorCode) -> Void, accountSuite: UserPreference, success: @escaping (String, CreateUserResponse) -> Void) {
+    func createUser(createUserRequest: CreateUserRequest, createError: @escaping (FinBoxErrorCode) -> Void, accountSuite: UserPreference, success: @escaping (String, CreateUserResponse) -> Void) {
         
-        let requestBody = self.getCreateUserRequestBody(createUserRequest: createUserRequest, error: error)
+        let requestBody = self.getCreateUserRequestBody(createUserRequest: createUserRequest, error: createError)
         
         guard let requestBody = requestBody else {
             debugPrint("Request Body is null")
@@ -50,17 +50,18 @@ struct APIService {
             
             logger.info("API response status code: \(httpResponse.statusCode)")
             
-            parseResponse(response: data, success: success)
+            parseResponse(response: data, error: createError, success: success)
         }
         
         task.resume()
     }
     
-    private func parseResponse(response: Data, success: @escaping (String, CreateUserResponse) -> Void) {
+    private func parseResponse(response: Data, error: @escaping (FinBoxErrorCode) -> Void, success: @escaping (String, CreateUserResponse) -> Void) {
         let decoder = JSONDecoder()
         guard let createUserEncryptResponse = try? decoder.decode(EncryptPayload.self, from: response) else {
             // Handle encoding errors
             logger.error("Failed to parse Encrypt Response JSON")
+            error(FinBoxErrorCode.ENCODE_FORMAT_ERROR)
             return
         }
         
@@ -68,17 +69,20 @@ struct APIService {
         // You can decode the response data into a specific model or process it as needed
         guard let createUserResponseJson = payloadHelper.decrypt(cipherTagText: createUserEncryptResponse.cipherText, iv: createUserEncryptResponse.iv) else {
             logger.error("Failed to decrypt the Create User API")
+            error(FinBoxErrorCode.ENCODE_FORMAT_ERROR)
             return
         }
         
         guard let createUserResponse = try? decoder.decode(CreateUserResponse.self, from: createUserResponseJson) else {
             // Handle encoding errors
             logger.error("Failed to parse Create User JSON")
+            error(FinBoxErrorCode.ENCODE_FORMAT_ERROR)
             return
         }
         
         guard let accessToken = createUserResponse.accessToken else {
             logger.info("Access Token is null")
+            error(FinBoxErrorCode.ACCESS_TOKEN_NULL)
             return
         }
         

@@ -8,10 +8,11 @@
 import Foundation
 import SwiftUI
 import CoreData
+import RiskManager
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        getFinBoxInstance().scheduleBackgroundRefreshTask()
+        FinBox().scheduleBackgroundRefreshTask()
         return true
     }
     
