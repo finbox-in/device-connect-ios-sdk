@@ -16,9 +16,11 @@ We value your contributions to the IOS project! This guide will help ensure that
 ## Getting Started
 
 Before contributing, make sure you have the latest version of the repository. The project uses standard tools such as:
-**Xcode**: Use the latest stable version.
-**CocoaPods**: Download the latest stable version.
-**Swift Package Manager**: Download the latest Swift version which comes with Swift Package Manager.
+- **Xcode**: Use the latest stable version.
+- **CocoaPods**: Download the latest stable version.
+- **Swift Package Manager**: Download the latest Swift version which comes with Swift Package Manager.
+
+To get the repository up and running:
 
 1. Clone the repository:
    ```bash
@@ -30,7 +32,7 @@ Before contributing, make sure you have the latest version of the repository. Th
    or
    ```bash
    swift package resolve
-3. Open the project in XCode and ensure all dependencies are correctly configured..
+3. Open the project in XCode and ensure all dependencies are correctly configured.
 
 
 ## Code of Conduct
@@ -65,13 +67,16 @@ To contribute new features, improvements, or bug fixes, follow these steps:
    ```bash
    git checkout -b SDK-XXX-your-feature-name
 3. Make your changes while adhering to our [coding guidelines](#coding-guidelines).
-4. Submit the pull request:
-   - Clearly describe the changes you made and reference any related issues (e.g., Fixes #123).
-   - Include screenshots or screen recordings for UI-related changes.
-   - Make sure your pull request passes all required checks (e.g., tests, linters).
+4. Submit the pull request (PR) with the following:
+   - A clear title and description of the changes.
+   - Add all the related JIRA ticket numbers.
+   - Link any related issues.
+   - Fill all the details in the PR template.
+   - Mention details about all the devices tested.
+   - Ensure your code passes all tests.
 5. PR Review Process:
    - PRs will undergo a review process by the maintainers. Be open to feedback and make adjustments as needed.
-   - Keep your branch up to date with main before final approval.
+   - Keep your branch up to date with `main` before final approval.
 6. Merging:
    - Only maintainers can merge PRs after ensuring code quality and testing have been completed.
 
@@ -89,9 +94,9 @@ To ensure the quality and consistency of the codebase, follow these guidelines:
   - Comment your code where necessary to explain complex logic or important decisions.
 - Commit Messages:
   - Use meaningful commit messages that explain why a change was made, not just what was changed.
-  - Example format: SDK-XXX Fix user login crash on iOS 14.
+  - Example format: `SDK-XXX Fix user login crash on iOS 14`.
 - Branch Naming:
-  - Use descriptive branch names like SDK-XXX-your-feature-name or SDK-XXX-issue-123.
+  - Use descriptive branch names like `SDK-XXX-your-feature-name` or `SDK-XXX-issue-123`.
 
 
 ## Testing
