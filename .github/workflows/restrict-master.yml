@@ -1,0 +1,16 @@
+name: "Enforce Release or Hotfix Branch Merge"
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is from the release or hotfix branch
+        if: github.head_ref != 'release' && github.head_ref != 'hotfix'
+        run: |
+          echo "Only the release or hotfix branch can be merged into master."
+          exit 1
