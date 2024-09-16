@@ -54,9 +54,9 @@ _Please include relevant log messages and stack traces, especially any errors or
 Please help us understand the details about the device where the issue is happening.
 -->
 
-- Brand: [e.g. Vivo]
-- Model: [e.g. 1212]
-- OS: [e.g. 14, 11, 12]
+- Brand: [e.g. Apple]
+- Model: [e.g. iPhone Pro 16, iPhone Mini 12]
+- OS: [e.g. 15.8.3, 16.1, 17]
 
 
 ### Environment
