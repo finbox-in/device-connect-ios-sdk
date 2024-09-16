@@ -3,7 +3,7 @@ name: "Enforce Release or Hotfix Branch Merge"
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   check-branch:
@@ -12,5 +12,5 @@ jobs:
       - name: Check if PR is from the release or hotfix branch
         if: github.head_ref != 'release' && github.head_ref != 'hotfix'
         run: |
-          echo "Only the release or hotfix branch can be merged into master."
+          echo "Only the release or hotfix branch can be merged into main."
           exit 1
