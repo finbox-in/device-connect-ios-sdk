@@ -1,0 +1,16 @@
+name: "Enforce Release Branch Merge"
+
+on:
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is from the develop branch
+        if: github.head_ref != 'develop'
+        run: |
+          echo "Only the develop branch can be merged into release."
+          exit 1
