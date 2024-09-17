@@ -1,0 +1,7 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/*', '**/*.md']
+
+enhancement:
+  - changed-files:
+      - any-glob-to-any-file: ['FinBoxRiskManager/*', 'RiskManager/*', 'RiskManagerTests/*']

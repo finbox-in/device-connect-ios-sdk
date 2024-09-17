@@ -41,7 +41,6 @@ Share the testing strategy used to ensure the changes work as expected.
 - [ ] Tests for the changes have been added
 - [ ] CHANGELOG Updated
 - [ ] Version number updated
-- [ ] Added PR Labels
 - [ ] Build is successful
 - [ ] Changes do not negatively impact performance
 - [ ] New code follows Google Java/Kotlin Style guidelines
