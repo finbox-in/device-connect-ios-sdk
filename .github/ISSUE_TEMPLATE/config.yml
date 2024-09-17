@@ -1,6 +1,1 @@
 blank_issues_enabled: false
-
-contact_links:
-  - name: Report Security Vulnerability
-    url: mailto:srikar@finbox.in
-    about: Please report security vulnerabilities here.
