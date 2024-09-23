@@ -1,0 +1,24 @@
+name: "Enforce Branch Merge Rules"
+
+on:
+  pull_request:
+    branches:
+      - master
+      - release
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Enforce develop -> release
+        if: github.ref == 'refs/heads/release' && github.head_ref != 'develop'
+        run: |
+          echo "Only the develop branch can be merged into the release branch."
+          exit 1
+
+      - name: Enforce release/hotfix -> master
+        if: github.ref == 'refs/heads/master' && github.head_ref != 'release' && github.head_ref != 'hotfix'
+        run: |
+          echo "Only the release or hotfix branch can be merged into the master branch."
+          exit 1
