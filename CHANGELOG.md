@@ -1,6 +1,11 @@
 #  CHANGELOG
 
 
+## 0.2.9
+
+Release a version with Xcode 16
+
+
 ## 0.2.8
 
 Fix Location Sync issue
