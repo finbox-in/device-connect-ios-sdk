@@ -3,7 +3,7 @@ name: "Enforce Branch Merge Rules"
 on:
   pull_request:
     branches:
-      - master
+      - main
       - release
 
 jobs:
@@ -17,8 +17,8 @@ jobs:
           echo "Only the develop branch can be merged into the release branch."
           exit 1
 
-      - name: Enforce release/hotfix -> master
-        if: github.ref == 'refs/heads/master' && github.head_ref != 'release' && github.head_ref != 'hotfix'
+      - name: Enforce release/hotfix -> main
+        if: github.ref == 'refs/heads/main' && github.head_ref != 'release' && github.head_ref != 'hotfix'
         run: |
-          echo "Only the release or hotfix branch can be merged into the master branch."
+          echo "Only the release or hotfix branch can be merged into the main branch."
           exit 1
