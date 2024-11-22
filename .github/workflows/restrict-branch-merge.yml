@@ -12,13 +12,13 @@ jobs:
 
     steps:
       - name: Enforce develop -> release
-        if: github.ref == 'refs/heads/release' && github.head_ref != 'develop'
+        if: github.event.pull_request.base.ref == 'release' && github.event.pull_request.head.ref != 'develop'
         run: |
           echo "Only the develop branch can be merged into the release branch."
           exit 1
 
       - name: Enforce release/hotfix -> main
-        if: github.ref == 'refs/heads/main' && github.head_ref != 'release' && github.head_ref != 'hotfix'
+        if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref != 'release' && github.event.pull_request.head.ref != 'hotfix'
         run: |
           echo "Only the release or hotfix branch can be merged into the main branch."
           exit 1

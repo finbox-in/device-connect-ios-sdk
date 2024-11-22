@@ -1,3 +1,5 @@
+# Automatically label new pull requests based on the paths of files being changed or the branch name.
+
 name: "Pull Request Labeler"
 on:
   pull_request_target:
