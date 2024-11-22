@@ -164,6 +164,8 @@ public let USER_DEFAULT_SUITE_ACCOUNT_DETAILS = "user-default-suite-account-deta
 public let USER_DEFAULT_API_KEY = "user-default-api-key"
 // User Defaults - Access Token
 public let USER_DEFAULT_ACCESS_TOKEN = "user-default-access-token"
+// User Defaults - IOS Id
+public let USER_DEFAULT_IOS_ID = "user-default-ios-id"
 // User Defaults - Username
 public let USER_DEFAULT_USER_NAME = "user-default-username"
 // User Defaults - User Hash
