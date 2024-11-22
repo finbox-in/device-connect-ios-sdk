@@ -18,7 +18,7 @@ jobs:
           exit 1
 
       - name: Enforce release/hotfix -> main
-        if: github.event.pull_request.base.ref == 'master' && github.event.pull_request.head.ref != 'release' && github.event.pull_request.head.ref != 'hotfix'
+        if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref != 'release' && github.event.pull_request.head.ref != 'hotfix'
         run: |
           echo "Only the release or hotfix branch can be merged into the main branch."
           exit 1
