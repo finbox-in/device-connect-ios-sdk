@@ -1,0 +1,16 @@
+# In most cases, the pull request author should be assigned as an assignee of the pull request.
+# This action automatically assigns the pull request author as an assignee.
+name: "Auto Author Assign"
+on:
+  pull_request_target:
+    types:
+      - opened # Assign author when PR is created
+      - reopened # Assign author when PR is opened from closed state
+
+jobs:
+  assign-author:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: toshimaru/auto-author-assign@v2.1.1
