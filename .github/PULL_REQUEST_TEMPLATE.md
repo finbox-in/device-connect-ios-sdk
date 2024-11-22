@@ -43,7 +43,7 @@ Share the testing strategy used to ensure the changes work as expected.
 - [ ] Version number updated
 - [ ] Build is successful
 - [ ] Changes do not negatively impact performance
-- [ ] New code follows Google Java/Kotlin Style guidelines
+- [ ] New code follows Google Swift Style guidelines
 - [ ] Performed a self-review of my code
 - [ ] Removed any logs added in debug mode
 - [ ] Commented my code, particularly in hard-to-understand areas
