@@ -51,4 +51,13 @@ class UserPreference {
             userDefaults?.set(newValue, forKey: USER_DEFAULT_ACCESS_TOKEN)
         }
     }
+    
+    var iosId: String? {
+        get {
+            return userDefaults?.object(forKey: USER_DEFAULT_IOS_ID) as? String ?? nil
+        }
+        set {
+            userDefaults?.set(newValue, forKey: USER_DEFAULT_IOS_ID)
+        }
+    }
 }

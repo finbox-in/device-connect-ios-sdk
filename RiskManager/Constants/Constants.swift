@@ -164,6 +164,8 @@ public let USER_DEFAULT_SUITE_ACCOUNT_DETAILS = "user-default-suite-account-deta
 public let USER_DEFAULT_API_KEY = "user-default-api-key"
 // User Defaults - Access Token
 public let USER_DEFAULT_ACCESS_TOKEN = "user-default-access-token"
+// User Defaults - IOS Id
+public let USER_DEFAULT_IOS_ID = "user-default-ios-id"
 // User Defaults - Username
 public let USER_DEFAULT_USER_NAME = "user-default-username"
 // User Defaults - User Hash
@@ -194,7 +196,8 @@ enum SyncType {
 }
 
 let AUTH_BASE_URL = "https://auth.apis.finbox.in/v6/"
-let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/datasource/ios/"
+let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/"
+let DATA_SYNC_URL = DATA_SYNC_BASE_URL + "datasource/ios/"
 let FCM_ENDPOINT = "fcmtoken"
 let CREATE_USER_ENDPOINT = "token_generator"
 let DEVICE_ENDPOINT = "device/details"
