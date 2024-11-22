@@ -196,7 +196,8 @@ enum SyncType {
 }
 
 let AUTH_BASE_URL = "https://auth.apis.finbox.in/v6/"
-let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/datasource/ios/"
+let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/"
+let DATA_SYNC_URL = DATA_SYNC_BASE_URL + "datasource/ios/"
 let FCM_ENDPOINT = "fcmtoken"
 let CREATE_USER_ENDPOINT = "token_generator"
 let DEVICE_ENDPOINT = "device/details"
