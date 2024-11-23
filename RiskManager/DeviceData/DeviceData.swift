@@ -14,6 +14,8 @@ import CoreTelephony
 import CryptoKit
 import NetworkExtension
 import Network
+import AdSupport
+import AppTrackingTransparency
 
 
 /// Helper class to sync Device information
@@ -154,8 +156,7 @@ class DeviceData {
         }
         
         // AD ID
-        let adID = device.identifierForVendor?.uuidString
-        deviceInfo.advertisingId = adID
+        deviceInfo.advertisingId = getAdvertisingId()
         
         // Bundle Device Data
 //        let deviceData: [String: Any]
@@ -173,6 +174,19 @@ class DeviceData {
         
         // Sync Device Data
         APIService.instance.syncDeviceData(data: deviceInfo, syncItem: SyncType.DEVICE)
+    }
+    
+    private func getAdvertisingId() -> String? {
+        if (isAdvertisingIdPermissionGranted()) {
+            return ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        } else {
+            return nil
+        }
+    }
+    
+    private func isAdvertisingIdPermissionGranted() -> Bool {
+        let status = ATTrackingManager.trackingAuthorizationStatus
+        return status == .authorized
     }
     
     private func getFingerprint(device: UIDevice, systemVersion: String) -> String {
