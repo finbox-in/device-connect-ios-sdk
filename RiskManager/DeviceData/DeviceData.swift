@@ -101,7 +101,7 @@ class DeviceData {
         
         // System OS Version
         deviceInfo.osVersion = version
-        deviceInfo.iosId = FinBox.getUniqueId()
+        deviceInfo.iosId = userSuite.iosId
         deviceInfo.fingerprint = fingerprint
         deviceInfo.device = getDeviceIdentifier()
 
