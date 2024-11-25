@@ -78,7 +78,6 @@ struct ContentView: View {
     }
     
     private func requestAdvertisingPermission() {
-        debugPrint("Request Advertising Permission")
         ATTrackingManager.requestTrackingAuthorization { status in
             switch status {
             case .authorized:

@@ -334,7 +334,6 @@ class DeviceData {
             VENDOR_ID: deviceInfoExt.getVendorIdentifier(),
             SDK_VERSION_NAME: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             IS_REAL_TIME: isRealTime,
-            NETWORK_TYPE: deviceInfoExt.getNetworkType(),
             ACTIVE_NETWORK_TYPE_NAME: deviceInfoExt.getActiveNetworkTypeName(),
             SYNC_MECHANISM: 1,
             SYNC_ID: UUID().uuidString,
@@ -433,24 +432,7 @@ class DeviceData {
             Display.SCREEN_HEIGHT_KEY: heightPixels
         ]
     }
-    
-    /**
-     Collects network information.
-     
-     - Returns: A dictionary containing network-related information.
-     */
-    private func getNetworkInfo() -> [String: Any] {
-        let addresses = getWiFiAddresses()
-        
-        return [
-            Network.ADDRESSES: addresses.map { [
-                Network.Address.IFA_NAME: $0.ifaName,
-                Network.Address.IP: $0.ip
-            ]},
-            NETWORK_TYPE: DeviceInfoExt().getNetworkType(),
-            ACTIVE_NETWORK_TYPE_NAME: DeviceInfoExt().getActiveNetworkTypeName(),
-        ]
-    }
+
     
     /**
      Retrieves the raw model name of the device.
