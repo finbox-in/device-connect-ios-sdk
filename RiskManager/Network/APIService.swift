@@ -394,11 +394,11 @@ struct APIService {
     /// Returns Sync URL based on Sync Item Type
     func getSyncURL(syncItem: SyncType) -> String {
         if syncItem == SyncType.DEVICE {
-            return DATA_SYNC_BASE_URL + DEVICE_ENDPOINT
+            return DATA_SYNC_URL + DEVICE_ENDPOINT
         } else if syncItem == SyncType.LOCATION {
-            return DATA_SYNC_BASE_URL + LOCATION_ENDPOINT
+            return DATA_SYNC_URL + LOCATION_ENDPOINT
         } else if syncItem == SyncType.PERMISSIONS {
-            return DATA_SYNC_BASE_URL + PERMISSIONS_ENDPOINT
+            return DATA_SYNC_URL + PERMISSIONS_ENDPOINT
         } else {
             return ""
         }

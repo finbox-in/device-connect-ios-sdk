@@ -1,6 +1,12 @@
 #  CHANGELOG
 
 
+## 0.3.0
+
+Fix Advertising Id issue
+Use Vendor Id as IOS Id
+
+
 ## 0.2.9
 
 Release a version with Xcode 16
