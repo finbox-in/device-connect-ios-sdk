@@ -206,28 +206,6 @@ class DeviceInfoExt {
         return "Carrier Name: \(carrierNames)"
     }
     
-    func getCountryISOFromSIM() -> String {
-        let state = self.getNetworkStateName()
-        if (state == "Connected") {
-            if let carriers = CTTelephonyNetworkInfo().serviceSubscriberCellularProviders {
-                
-                var countryCodes: [String] = []
-                
-                for (_, carrier) in carriers {
-                    if let countryCode = carrier.isoCountryCode {
-                        countryCodes.append(countryCode)
-                    }
-                }
-                return "countryCodes: \(countryCodes)"
-            } else {
-                print("Unable to retrieve cellular provider information.")
-            }
-        }
-        
-        // Else
-        return getISO3CountryCode()
-    }
-    
     func getISO3CountryCode() -> String {
         if let iso3CountryCode = Locale.current.regionCode {
             return "ISO 3166-1 alpha-3 three-letter country code: \(iso3CountryCode)"
@@ -259,23 +237,6 @@ class DeviceInfoExt {
             print("Unable to retrieve vendor identifier")
             return ""
         }
-    }
-    
-    func getCarrierInfo() -> String {
-        let telephonyNetworkInfo = CTTelephonyNetworkInfo()
-        var st = ""
-        
-        if let carrier = telephonyNetworkInfo.subscriberCellularProvider {
-            print("Carrier Name: \(carrier.carrierName ?? "Unknown")")
-            print("Mobile Country Code (MCC): \(carrier.mobileCountryCode ?? "Unknown")")
-            st.append("MCC: \(carrier.mobileCountryCode ?? "Unknown")")
-            print("Mobile Network Code (MNC): \(carrier.mobileNetworkCode ?? "Unknown")")
-            st.append("MNC: \(carrier.mobileNetworkCode ?? "Unknown")")
-        } else {
-            print("Unable to retrieve carrier information")
-        }
-        
-        return st
     }
     
     func getISO3LanguageCode() -> String? {
