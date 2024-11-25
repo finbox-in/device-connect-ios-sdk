@@ -22,33 +22,37 @@ class DeviceInfoExt {
     
     func getNetworkType() -> String {
         let networkInfo = CTTelephonyNetworkInfo()
-        if #available(iOS 14.1, *) {
-            if networkInfo.currentRadioAccessTechnology == CTRadioAccessTechnologyNRNSA ||
-                networkInfo.currentRadioAccessTechnology == CTRadioAccessTechnologyNR {
-                return "5g"
-            }
-        }
-        
-        switch networkInfo.currentRadioAccessTechnology {
-        case CTRadioAccessTechnologyGPRS,
-            CTRadioAccessTechnologyEdge,
-        CTRadioAccessTechnologyCDMA1x:
-            return "2g"
-        case CTRadioAccessTechnologyWCDMA,
-            CTRadioAccessTechnologyHSDPA,
-        CTRadioAccessTechnologyHSUPA:
-            return "3g"
-        case CTRadioAccessTechnologyCDMAEVDORev0,
-            CTRadioAccessTechnologyCDMAEVDORevA,
-        CTRadioAccessTechnologyCDMAEVDORevB:
-            return "3g"
-        case CTRadioAccessTechnologyeHRPD:
-            return "3g"
-        case CTRadioAccessTechnologyLTE:
-            return "4g"
-        default:
+        guard let radioAccessTechnologies = networkInfo.serviceCurrentRadioAccessTechnology else {
             return "Not Found"
         }
+        
+        for (_, technology) in radioAccessTechnologies {
+            if #available(iOS 14.1, *),
+               (technology == CTRadioAccessTechnologyNRNSA || technology == CTRadioAccessTechnologyNR) {
+                return "5g"
+            }
+            switch technology {
+            case CTRadioAccessTechnologyGPRS,
+                CTRadioAccessTechnologyEdge,
+            CTRadioAccessTechnologyCDMA1x:
+                return "2g"
+            case CTRadioAccessTechnologyWCDMA,
+                CTRadioAccessTechnologyHSDPA,
+            CTRadioAccessTechnologyHSUPA:
+                return "3g"
+            case CTRadioAccessTechnologyCDMAEVDORev0,
+                CTRadioAccessTechnologyCDMAEVDORevA,
+            CTRadioAccessTechnologyCDMAEVDORevB:
+                return "3g"
+            case CTRadioAccessTechnologyeHRPD:
+                return "3g"
+            case CTRadioAccessTechnologyLTE:
+                return "4g"
+            default:
+                return "Not Found"
+            }
+        }
+        return "Not Found"
     }
     
     func getOSInfo(version: Int)->String {
