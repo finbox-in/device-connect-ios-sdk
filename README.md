@@ -1,4 +1,4 @@
-# DeviceConnect IOS SDK
+# Device Connect: IOS
 
 ## Getting started
 
