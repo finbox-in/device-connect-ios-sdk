@@ -52,6 +52,20 @@ struct ContentView: View {
                     .shadow(radius: 5)
             }
             
+            Button(action: {
+                forgetUser()
+            }) {
+                Text("Forget User")
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(4)
+                    .shadow(radius: 5)
+            }
+            
             // Error Text
             Text(errorText)
                 .padding(8)
@@ -77,7 +91,7 @@ struct ContentView: View {
         }
         debugPrint("Customer Id: \(customerId)")
         FinBox.createUser(
-            apiKey: "YOUR_API_KEY",
+            apiKey: "tz74FazkUO7wxumdjOQG38nVk3ojAJhn1KzGz3zC",
             customerId: customerId,
             success: { success in
                 debugPrint("Success: \(success)")
@@ -123,6 +137,10 @@ struct ContentView: View {
         let hour = calendar.component(.hour, from: now)
         let minute = calendar.component(.minute, from: now)
         return String(day) + String(month) + String(hour) + String(minute)
+    }
+    
+    private func forgetUser() {
+        FinBox.forgetUser()
     }
 }
 
