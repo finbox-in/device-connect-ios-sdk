@@ -207,4 +207,15 @@ public class FinBox {
     private func startPermissionsSync() {
         PermissionsData().syncPermissionsData()
     }
+
+    /// Forgets/Deletes the user data
+    public static func forgetUser() {
+        let userPref = UserPreference()
+        let username = userPref.userName
+        let userHash = userPref.userHash
+        
+        let forgetUserRequest = ForgetUserRequest(username: username!, userHash: userHash!, sdkVersionName: "0.3.0")
+        
+        APIService.instance.deleteData(forgetUserRequest: forgetUserRequest)
+    }
 }
