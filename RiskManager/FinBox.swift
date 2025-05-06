@@ -218,4 +218,9 @@ public class FinBox {
         
         APIService.instance.deleteData(forgetUserRequest: forgetUserRequest)
     }
+    
+    /// Stop Periodic Sync
+    public static func stopPeriodicSync() {
+        // Function not implemented yet
+    }
 }
