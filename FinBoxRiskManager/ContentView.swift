@@ -80,6 +80,20 @@ struct ContentView: View {
                     .shadow(radius: 5)
             }
             
+            Button(action: {
+                stopPeriodicSync()
+            }) {
+                Text("Stop Periodic Sync")
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(4)
+                    .shadow(radius: 5)
+            }
+            
             // Error Text
             Text(errorText)
                 .padding(8)
@@ -160,6 +174,11 @@ struct ContentView: View {
     private func syncOnce() {
         let finBox = FinBox()
         finBox.syncOnce()
+    }
+    
+    private func stopPeriodicSync() {
+        let finBox = FinBox()
+        finBox.stopPeriodicSync()
     }
 }
 
