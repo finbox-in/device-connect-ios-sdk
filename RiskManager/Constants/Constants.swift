@@ -193,13 +193,16 @@ enum SyncType {
     case PERMISSIONS
 }
 
-let AUTH_BASE_URL = "https://auth.apis.finbox.in/v6/"
-let DATA_SYNC_BASE_URL = "https://riskmanager.apis.finbox.in/v6/datasource/ios/"
+//let DATA_SYNC_BASE_URL = "https://riskmanagerdev.apis.finbox.in/v6/datasource/ios/"
+//let AUTH_BASE_URL = "https://authdev.apis.finbox.in/v6/"
+let AUTH_BASE_URL = "https://auth.apis-phl.finbox.in/v6/"
+let DATA_SYNC_BASE_URL = "https://riskmanager.apis-phl.finbox.in/v6/datasource/ios/"
 let FCM_ENDPOINT = "fcmtoken"
 let CREATE_USER_ENDPOINT = "token_generator"
 let DEVICE_ENDPOINT = "device/details"
 let LOCATION_ENDPOINT = "location"
 let PERMISSIONS_ENDPOINT = "permissions"
+let DELETE_USER_ENDPOINT = "deleteuser"
 
 // App Version number
 public let APP_VERSION_NAME = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0"
