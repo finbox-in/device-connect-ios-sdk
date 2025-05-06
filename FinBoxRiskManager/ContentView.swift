@@ -38,61 +38,17 @@ struct ContentView: View {
                 .fixedSize(horizontal: false, vertical: true) // Prevent resizing
             
             // Start Sync
-            Button(action: {
-                statSync()
-            }) {
-                Text("Start Sync")
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
-                    .shadow(radius: 5)
-            }
+            Button("Start Sync", action: statSync)
+                .primaryButtonStyle()
             
-            Button(action: {
-                forgetUser()
-            }) {
-                Text("Forget User")
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
-                    .shadow(radius: 5)
-            }
+            Button("Forget User", action: forgetUser)
+                .primaryButtonStyle()
             
-            Button(action: {
-                syncOnce()
-            }) {
-                Text("Sync Once")
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
-                    .shadow(radius: 5)
-            }
+            Button("Sync Once", action: syncOnce)
+                .primaryButtonStyle()
             
-            Button(action: {
-                stopPeriodicSync()
-            }) {
-                Text("Stop Periodic Sync")
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
-                    .padding(.top, 8)
-                    .padding(.bottom, 8)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
-                    .shadow(radius: 5)
-            }
+            Button("Stop Periodic Sync", action: stopPeriodicSync)
+                .primaryButtonStyle()
             
             // Error Text
             Text(errorText)
