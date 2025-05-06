@@ -223,4 +223,18 @@ public class FinBox {
     public static func stopPeriodicSync() {
         // Function not implemented yet
     }
+    
+    // Sync Once
+    public func syncOnce() {
+        saveSyncId()
+        
+        // Start Instant Sync
+        
+        self.startDeviceDataSync()
+        
+        DispatchQueue.main.async {
+            self.startPermissionsSync()
+            self.startLocationSync()
+        }
+    }
 }
