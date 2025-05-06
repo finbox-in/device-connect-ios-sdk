@@ -220,7 +220,7 @@ public class FinBox {
     }
     
     /// Stop Periodic Sync
-    public static func stopPeriodicSync() {
+    public func stopPeriodicSync() {
         // Function not implemented yet
     }
     
