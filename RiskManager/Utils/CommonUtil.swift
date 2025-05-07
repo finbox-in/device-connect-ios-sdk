@@ -63,8 +63,8 @@ struct CommonUtil {
         }
     }
     
-    static func getVersionName() -> String? {
-        return Bundle(identifier: "in.finbox.RiskManager")?.infoDictionary?["CFBundleShortVersionString"] as? String
+    static func getVersionName() -> String {
+        return Bundle(identifier: "in.finbox.RiskManager")?.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.3.0"
     }
     
     

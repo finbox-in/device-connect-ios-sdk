@@ -418,4 +418,108 @@ struct APIService {
     func handleError(error: Any) {
         debugPrint("Response Error Generic: \(String(describing: error))")
     }
+
+    /// Deletes DC User
+    func deleteData(forgetUserRequest: ForgetUserRequest) {
+        let requestBody = self.getForgetUserRequestBody(forgetUserRequest: forgetUserRequest)
+
+        guard let forgetUserRequestBody = requestBody else {
+            debugPrint("Request body is null")
+            return
+        }
+
+        // Make the api call
+        let requestParams = NetworkUtils.postRequest(urlStr: getDeleteUserURL(), body: forgetUserRequestBody)
+
+        guard let requestParams = requestParams else {
+            debugPrint("Request Params null")
+            return
+        }
+
+        // Create a network request task
+        let task = URLSession.shared.dataTask(with: requestParams) { data, response, error in
+            if let error = error {
+                self.handleError(error: error)
+                return
+            }
+
+            // Check if there is a response and data
+            guard let httpResponse = response as? HTTPURLResponse, let _ = data else {
+                debugPrint("Invalid response or no data")
+                return
+            }
+
+            // Handle the HTTP response
+            switch httpResponse.statusCode {
+            case 200...299:
+                debugPrint("User Deletion Successful: \(httpResponse.statusCode)")
+                // Process the data here
+                guard let data = data else {
+                    self.handleClientError(error: "Invalid Response")
+                    return
+                }
+
+            case 400...499:
+                // Handle client error
+                debugPrint("Client Error: \(httpResponse.statusCode)")
+                var errorMessage: String? = nil
+                if let data = data, let errMessage = String(data: data, encoding: .utf8) {
+                    errorMessage = errMessage
+                }
+                self.handleClientError(error: errorMessage ?? "Client Error Occured")
+
+            case 500...599:
+                // Handle server error
+                debugPrint("Server Error: \(httpResponse.statusCode)")
+                self.handleServerError(error: error ?? "Server Error Occured")
+
+            default:
+                // Handle other status codes
+                debugPrint("Unexpected status code: \(httpResponse.statusCode)")
+            }
+        }
+
+        // Initiate the network request
+        task.resume()
+    }
+
+    /// Prepares the encrypted request body for the forget user API.
+    ///
+    /// This function takes a `ForgetUserRequest` model, serializes it to JSON,
+    /// encrypts the payload using a generated IV, wraps the result in an
+    /// `EncryptPayload` model, and returns the final JSON data to be sent in
+    /// the network request.
+    ///
+    /// - Parameter forgetUserRequest: The forget user request model containing user-related info.
+    /// - Returns: Encrypted JSON data (`Data?`) ready for transmission, or `nil` if encoding fails.
+    func getForgetUserRequestBody(forgetUserRequest: ForgetUserRequest) -> Data? {
+        let encoder = JSONEncoder()
+
+        // Convert the ForgetUserRequest model to JSON data
+        guard let forgetUserRequestJson = try? encoder.encode(forgetUserRequest) else {
+            // Handle encoding errors
+            return nil
+        }
+
+        // Create an instance of PayloadHelper
+        let payloadHelper = PayloadHelper()
+        // Generate IV
+        let iv = payloadHelper.generateIv()
+        // Encrypt the payload
+        let cipherText = payloadHelper.encrypt(cipherText: forgetUserRequestJson, iv: iv)
+
+        let forgetUserEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+
+        // Convert the encrypted payload to JSON data
+        guard let forgetUserEncryptRequestJson = try? encoder.encode(forgetUserEncryptRequest) else {
+            // Handle encoding errors
+            return nil
+        }
+
+        return forgetUserEncryptRequestJson
+    }
+
+    private func getDeleteUserURL() -> String {
+        return AUTH_BASE_URL + DELETE_USER_ENDPOINT
+    }
 }
