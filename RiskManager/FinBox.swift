@@ -11,6 +11,7 @@ import UIKit
 import Contacts
 import CoreLocation
 
+/// Only entry point to the Library
 public class FinBox {
 
     public init() {}
@@ -18,6 +19,13 @@ public class FinBox {
     // Logger instance
     private static let logger = Logger()
     
+    /// Makes a request to an endpoint to check if the user exists; if not, creates the user.
+    ///
+    /// - Parameters:
+    ///   - apiKey: API Key.
+    ///   - customerId: Unique ID given to the borrower.
+    ///   - success: Callback interface that notifies about the success creating or fetching the user..
+    ///   - error:  Callback interface that notifies about the failure of creating or fetching the user.
     public static func createUser(apiKey: String, customerId: String, success: @escaping (String) -> Void,
                            error: @escaping (FinBoxErrorCode) -> Void) {
         
@@ -79,7 +87,7 @@ public class FinBox {
         return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
     
-    public static func getUniqueId() -> String {
+    private static func getUniqueId() -> String {
         // Create a secret account details
         let server = "in.finbox.mobileriskmanager" + "_" + ""
         
@@ -175,11 +183,11 @@ public class FinBox {
         
         // Start Instant Sync
         
-        self.startDeviceDataSync()
+        FinBox.syncDeviceData()
         
         DispatchQueue.main.async {
             self.startPermissionsSync()
-            self.startLocationSync()
+            FinBox.syncLocationData()
         }
         
         // Create and start a Periodic Sync Task
@@ -195,19 +203,59 @@ public class FinBox {
         syncSuite.syncMechanism = 8
     }
     
-    private func startDeviceDataSync() {
+    /// Sync Device Details
+    public static func syncDeviceData() {
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
     }
     
-    private func startLocationSync() {
-        // Fetch Location Data
+    /// Sync Location Data
+    public static func syncLocationData() {
         let locationData = LocationData()
         locationData.syncLocationData()
     }
     
     private func startPermissionsSync() {
         PermissionsData().syncPermissionsData()
+    }
+
+    /// Forgets/Deletes the user data
+    public static func forgetUser() {
+        let userPref = UserPreference()
+        let username = userPref.userName
+        let userHash = userPref.userHash
+        
+        let forgetUserRequest = ForgetUserRequest(username: userHash!, userHash: username!, sdkVersionName: CommonUtil.getVersionName())
+        
+        APIService.instance.deleteData(forgetUserRequest: forgetUserRequest)
+    }
+    
+    /// Stop Periodic Sync
+    public func stopPeriodicSync() {
+        // Function not implemented yet
+    }
+    
+    // Sync Once
+    public func syncOnce() {
+        saveSyncId()
+        
+        // Start Instant Sync
+        
+        FinBox.syncDeviceData()
+        
+        DispatchQueue.main.async {
+            self.startPermissionsSync()
+            FinBox.syncLocationData()
+        }
+    }
+    
+    /// Resets all saved data
+    public static func resetData() {
+        clearPrefs()
+    }
+    
+    private static func clearPrefs() {
+        PrefUtils().clearAllPrefs()
     }
 }
