@@ -423,8 +423,6 @@ struct APIService {
     func deleteData(forgetUserRequest: ForgetUserRequest) {
         let requestBody = self.getForgetUserRequestBody(forgetUserRequest: forgetUserRequest)
 
-        print("forgetUserRequest: \(String(describing: forgetUserRequest))")
-
         guard let forgetUserRequestBody = requestBody else {
             debugPrint("Request body is null")
             return
