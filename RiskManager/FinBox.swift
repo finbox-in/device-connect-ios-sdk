@@ -258,4 +258,12 @@ public class FinBox {
             self.startLocationSync()
         }
     }
+    
+    public static func resetData() {
+        clearPrefs()
+    }
+    
+    private static func clearPrefs() {
+        PrefUtils().clearAllPrefs()
+    }
 }
