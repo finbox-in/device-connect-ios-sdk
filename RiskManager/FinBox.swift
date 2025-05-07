@@ -87,7 +87,7 @@ public class FinBox {
         return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
     
-    public static func getUniqueId() -> String {
+    private static func getUniqueId() -> String {
         // Create a secret account details
         let server = "in.finbox.mobileriskmanager" + "_" + ""
         
@@ -262,6 +262,7 @@ public class FinBox {
         }
     }
     
+    /// Resets all saved data
     public static func resetData() {
         clearPrefs()
     }
