@@ -98,7 +98,7 @@ struct ContentView: View {
         }
         debugPrint("Customer Id: \(customerId)")
         FinBox.createUser(
-            apiKey: "tz74FazkUO7wxumdjOQG38nVk3ojAJhn1KzGz3zC",
+            apiKey: "YOUR_API_KEY",
             customerId: customerId,
             success: { success in
                 debugPrint("Success: \(success)")
