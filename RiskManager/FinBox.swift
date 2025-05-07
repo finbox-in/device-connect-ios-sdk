@@ -183,11 +183,11 @@ public class FinBox {
         
         // Start Instant Sync
         
-        self.startDeviceDataSync()
+        FinBox.syncDeviceData()
         
         DispatchQueue.main.async {
             self.startPermissionsSync()
-            self.startLocationSync()
+            FinBox.syncLocationData()
         }
         
         // Create and start a Periodic Sync Task
@@ -210,20 +210,8 @@ public class FinBox {
         deviceData.syncDeviceData()
     }
     
-    private func startDeviceDataSync() {
-        // Fetch Device Data
-        let deviceData = DeviceData()
-        deviceData.syncDeviceData()
-    }
-    
     /// Sync Location Data
     public static func syncLocationData() {
-        let locationData = LocationData()
-        locationData.syncLocationData()
-    }
-    
-    private func startLocationSync() {
-        // Fetch Location Data
         let locationData = LocationData()
         locationData.syncLocationData()
     }
@@ -254,11 +242,11 @@ public class FinBox {
         
         // Start Instant Sync
         
-        self.startDeviceDataSync()
+        FinBox.syncDeviceData()
         
         DispatchQueue.main.async {
             self.startPermissionsSync()
-            self.startLocationSync()
+            FinBox.syncLocationData()
         }
     }
     
