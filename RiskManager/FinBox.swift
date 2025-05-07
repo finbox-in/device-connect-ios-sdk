@@ -238,7 +238,7 @@ public class FinBox {
         let username = userPref.userName
         let userHash = userPref.userHash
         
-        let forgetUserRequest = ForgetUserRequest(username: username!, userHash: userHash!, sdkVersionName: "0.3.0")
+        let forgetUserRequest = ForgetUserRequest(username: username!, userHash: userHash!, sdkVersionName: CommonUtil.getVersionName())
         
         APIService.instance.deleteData(forgetUserRequest: forgetUserRequest)
     }
