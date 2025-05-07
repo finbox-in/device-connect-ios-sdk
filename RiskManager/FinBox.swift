@@ -192,10 +192,23 @@ public class FinBox {
         syncSuite.syncMechanism = 8
     }
     
+    /// Sync Device Details
+    public static func syncDeviceData() {
+        // Fetch Device Data
+        let deviceData = DeviceData()
+        deviceData.syncDeviceData()
+    }
+    
     private func startDeviceDataSync() {
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
+    }
+    
+    /// Sync Location Data
+    public static func syncLocationData() {
+        let locationData = LocationData()
+        locationData.syncLocationData()
     }
     
     private func startLocationSync() {
