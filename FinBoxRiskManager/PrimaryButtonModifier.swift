@@ -8,7 +8,9 @@
 import SwiftUICore
 
 
+// A custom ViewModifier to apply a consistent primary button style across the app
 struct PrimaryButtonModifier: ViewModifier {
+    // Defines how the content will be modified when this modifier is applied
     func body(content: Content) -> some View {
         content
             .padding(.horizontal, 16)
@@ -20,7 +22,14 @@ struct PrimaryButtonModifier: ViewModifier {
     }
 }
 
+// An extension on View to make applying the PrimaryButtonModifier easy and reusable
 extension View {
+    /// Applies the primary button style defined in PrimaryButtonModifier
+    /// Example usage:
+    /// ```
+    /// Button("Click Me", action: Your action here)
+    ///     .primaryButtonStyle()
+    /// ```
     func primaryButtonStyle() -> some View {
         self.modifier(PrimaryButtonModifier())
     }
