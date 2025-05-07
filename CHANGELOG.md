@@ -1,13 +1,5 @@
 #  CHANGELOG
 
-## 0.3.2
-
-DC Control Functions
-
-## 0.3.1
-
-Version for Union Digital
-
 
 ## 0.3.0
 

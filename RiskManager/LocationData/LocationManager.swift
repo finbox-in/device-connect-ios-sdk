@@ -53,7 +53,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             currentLocation = location              // Update current location
             locationCompletionHandler?(location)    // Push data to callback
             locationCompletionHandler = nil         // Clear the handler after it's called
-            stopUpdatingLocation()
         }
     }
     
