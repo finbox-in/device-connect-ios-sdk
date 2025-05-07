@@ -1,5 +1,15 @@
 #  CHANGELOG
 
+## 0.3.1
+
+Version for Union Digital
+
+
+## 0.3.0
+
+Fix Advertising Id issue
+Use Vendor Id as IOS Id
+
 
 ## 0.2.9
 

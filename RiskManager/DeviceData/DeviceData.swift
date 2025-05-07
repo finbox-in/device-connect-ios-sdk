@@ -14,6 +14,8 @@ import CoreTelephony
 import CryptoKit
 import NetworkExtension
 import Network
+import AdSupport
+import AppTrackingTransparency
 
 
 /// Helper class to sync Device information
@@ -101,7 +103,7 @@ class DeviceData {
         
         // System OS Version
         deviceInfo.osVersion = version
-        deviceInfo.iosId = FinBox.getUniqueId()
+        deviceInfo.iosId = userSuite.iosId
         deviceInfo.fingerprint = fingerprint
         deviceInfo.device = getDeviceIdentifier()
 
@@ -154,8 +156,7 @@ class DeviceData {
         }
         
         // AD ID
-        let adID = device.identifierForVendor?.uuidString
-        deviceInfo.advertisingId = adID
+        deviceInfo.advertisingId = getAdvertisingId()
         
         // Bundle Device Data
 //        let deviceData: [String: Any]
@@ -173,6 +174,19 @@ class DeviceData {
         
         // Sync Device Data
         APIService.instance.syncDeviceData(data: deviceInfo, syncItem: SyncType.DEVICE)
+    }
+    
+    private func getAdvertisingId() -> String? {
+        if (isAdvertisingIdPermissionGranted()) {
+            return ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        } else {
+            return nil
+        }
+    }
+    
+    private func isAdvertisingIdPermissionGranted() -> Bool {
+        let status = ATTrackingManager.trackingAuthorizationStatus
+        return status == .authorized
     }
     
     private func getFingerprint(device: UIDevice, systemVersion: String) -> String {
@@ -320,7 +334,6 @@ class DeviceData {
             VENDOR_ID: deviceInfoExt.getVendorIdentifier(),
             SDK_VERSION_NAME: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0",
             IS_REAL_TIME: isRealTime,
-            NETWORK_TYPE: deviceInfoExt.getNetworkType(),
             ACTIVE_NETWORK_TYPE_NAME: deviceInfoExt.getActiveNetworkTypeName(),
             SYNC_MECHANISM: 1,
             SYNC_ID: UUID().uuidString,
@@ -419,24 +432,7 @@ class DeviceData {
             Display.SCREEN_HEIGHT_KEY: heightPixels
         ]
     }
-    
-    /**
-     Collects network information.
-     
-     - Returns: A dictionary containing network-related information.
-     */
-    private func getNetworkInfo() -> [String: Any] {
-        let addresses = getWiFiAddresses()
-        
-        return [
-            Network.ADDRESSES: addresses.map { [
-                Network.Address.IFA_NAME: $0.ifaName,
-                Network.Address.IP: $0.ip
-            ]},
-            NETWORK_TYPE: DeviceInfoExt().getNetworkType(),
-            ACTIVE_NETWORK_TYPE_NAME: DeviceInfoExt().getActiveNetworkTypeName(),
-        ]
-    }
+
     
     /**
      Retrieves the raw model name of the device.

@@ -9,6 +9,7 @@ import SwiftUI
 import RiskManager
 import BackgroundTasks
 import CoreLocation
+import AppTrackingTransparency
 
 struct ContentView: View {
     
@@ -65,6 +66,28 @@ struct ContentView: View {
         .onChange(of: locationManager.authorizationStatus) { status in
             if status == .denied || status == .restricted {
                 alertPresented = true
+            }
+            else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    requestAdvertisingPermission()
+                }
+            }
+        }
+    }
+    
+    private func requestAdvertisingPermission() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+            switch status {
+            case .authorized:
+                print("Tracking permission granted")
+                // Access the IDFA and proceed with targeted advertising
+            case .denied, .restricted:
+                print("Tracking permission denied or restricted")
+                // Handle the case where permission is denied or restricted
+            case .notDetermined:
+                print("Tracking permission not determined yet")
+            @unknown default:
+                break
             }
         }
     }

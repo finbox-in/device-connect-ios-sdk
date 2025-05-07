@@ -39,9 +39,11 @@ public class FinBox {
             let accountSuite = UserPreference()
             accountSuite.apiKey = apiKey
             
-            // Create a unique id and save it to keychain
-            // Get the unique id from key chain, if already created
-            let iosId = getUniqueId()
+            // Create a unique id and save it to user defaults
+            let uuidStr = UUID().uuidString
+            let vendorId = UIDevice.current.identifierForVendor?.uuidString ?? uuidStr
+            
+            let iosId = CommonUtil.getMd5Hash(vendorId) ?? uuidStr
             logger.debug("Generated Unique identifier \(iosId)")
             
             // Create the create user payload
@@ -52,7 +54,7 @@ public class FinBox {
                 createError: error, accountSuite: accountSuite,
                 success: { accessToken, createUserResponse in
                     // Save Account Details
-                    saveAccountUserDefaults(username: createUserResponse.username, userHash: createUserResponse.userHash, accessToken: accessToken)
+                    saveAccountUserDefaults(username: createUserResponse.username, userHash: createUserResponse.userHash, accessToken: accessToken, iosId: createUserRequest.userHash)
                     saveFlowDataDefaults(flowData: createUserResponse.flowData)
                     success(accessToken)
                 }
@@ -158,11 +160,12 @@ public class FinBox {
         return true
     }
     
-    private static func saveAccountUserDefaults(username: String, userHash: String, accessToken: String) {
+    private static func saveAccountUserDefaults(username: String, userHash: String, accessToken: String, iosId: String) {
         let userPref = UserPreference()
         userPref.userName = username
         userPref.userHash = userHash
         userPref.accessToken = accessToken
+        userPref.iosId = iosId
     }
     
     private static func saveFlowDataDefaults(flowData: FlowData?) {
