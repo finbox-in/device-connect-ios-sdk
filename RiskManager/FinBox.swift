@@ -11,6 +11,7 @@ import UIKit
 import Contacts
 import CoreLocation
 
+/// Only entry point to the Library
 public class FinBox {
 
     public init() {}
@@ -18,6 +19,13 @@ public class FinBox {
     // Logger instance
     private static let logger = Logger()
     
+    /// Makes a request to an endpoint to check if the user exists; if not, creates the user.
+    ///
+    /// - Parameters:
+    ///   - apiKey: API Key.
+    ///   - customerId: Unique ID given to the borrower.
+    ///   - success: Callback interface that notifies about the success creating or fetching the user..
+    ///   - error:  Callback interface that notifies about the failure of creating or fetching the user.
     public static func createUser(apiKey: String, customerId: String, success: @escaping (String) -> Void,
                            error: @escaping (FinBoxErrorCode) -> Void) {
         
