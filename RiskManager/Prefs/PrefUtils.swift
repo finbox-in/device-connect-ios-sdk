@@ -5,6 +5,8 @@
 //  Created by Ashutosh Jena on 07/05/25.
 //
 
+import Foundation
+
 /// A utility class for managing and clearing app-related `UserDefaults` preferences.
 class PrefUtils {
     

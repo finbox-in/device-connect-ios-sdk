@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "RiskManager"
-  spec.version      = "0.3.4"
+  spec.version      = "0.3.5"
   spec.summary      = "DeviceConnect IOS SDK to enable data collection from IOS devices"
 
   # This description is used to generate tags and improve search results.
