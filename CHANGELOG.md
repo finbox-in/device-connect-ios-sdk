@@ -1,8 +1,19 @@
 #  CHANGELOG
 
+## 0.3.5
+
+Version for Internal
+
+
+## 0.3.3
+
+Version for Buddy Loan
+
+
 ## 0.3.2
 
 DC Control Functions
+
 
 ## 0.3.1
 
