@@ -107,6 +107,13 @@ struct APIService {
             return
         }
         
+        if let body = requestParams.httpBody,
+           let bodyString = String(data: body, encoding: .utf8) {
+//            debugPrint("HTTP Request Body Device: \(bodyString)")
+        } else {
+//            debugPrint("No HTTP body or unable to decode")
+        }
+        
         // Create a network request task
         let task = URLSession.shared.dataTask(with: requestParams) { data, response, error in
             if let error = error {
@@ -169,6 +176,13 @@ struct APIService {
         guard let requestParams = requestParams else {
             debugPrint("Request Params null")
             return
+        }
+        
+        if let body = requestParams.httpBody,
+           let bodyString = String(data: body, encoding: .utf8) {
+//            debugPrint("HTTP Request Body Location: \(bodyString)")
+        } else {
+//            debugPrint("No HTTP body or unable to decode")
         }
         
         // Create a network request task
@@ -263,6 +277,13 @@ struct APIService {
             return
         }
         
+        if let body = requestParams.httpBody,
+           let bodyString = String(data: body, encoding: .utf8) {
+//            debugPrint("HTTP Request Body Permissions: \(bodyString)")
+        } else {
+//            debugPrint("No HTTP body or unable to decode")
+        }
+        
         // Create a network request task
         let task = URLSession.shared.dataTask(with: requestParams) { data, response, error in
             if let error = error {
@@ -324,9 +345,12 @@ struct APIService {
         // Generate IV
         let iv = payloadHelper.generateIv()
         // Encrypt the Payload
-        let cipherText = payloadHelper.encrypt(cipherText: permissionModelRequestJson, iv: iv)
+//        let cipherText = payloadHelper.encrypt(cipherText: permissionModelRequestJson, iv: iv)
         
-        let permissionModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        // Plain String of permissionModelRequestJson for MITM
+        let cipherText = String(data: permissionModelRequestJson, encoding: .utf8)
+        
+        let permissionModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText ?? "")
         
         // Convert the User Model to Json Data
         guard let permissionModelEncryptRequestJson = try? encoder.encode(permissionModelEncryptRequest) else {
@@ -350,10 +374,14 @@ struct APIService {
         let payloadHelper = PayloadHelper()
         // Generate IV
         let iv = payloadHelper.generateIv()
-        // Encrypt the Payload
-        let cipherText = payloadHelper.encrypt(cipherText: locationModelRequestJson, iv: iv)
         
-        let locationModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        // Encrypt the Payload
+//        let cipherText = payloadHelper.encrypt(cipherText: locationModelRequestJson, iv: iv)
+        
+        // Plain String of locationModelRequestJson for MITM
+        let cipherText = String(data: locationModelRequestJson, encoding: .utf8)
+        
+        let locationModelEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText ?? "")
         
         // Convert the User Model to Json Data
         guard let locationModelEncryptRequestJson = try? encoder.encode(locationModelEncryptRequest) else {
@@ -378,9 +406,12 @@ struct APIService {
         // Generate IV
         let iv = payloadHelper.generateIv()
         // Encrypt the Payload
-        let cipherText = payloadHelper.encrypt(cipherText: deviceInfoRequestJson, iv: iv)
+//        let cipherText = payloadHelper.encrypt(cipherText: deviceInfoRequestJson, iv: iv)
         
-        let deviceInfoEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText)
+        // Plain String of deviceInfoRequestJson for MITM
+        let cipherText = String(data: deviceInfoRequestJson, encoding: .utf8)
+        
+        let deviceInfoEncryptRequest = EncryptPayload(iv: iv, cipherText: cipherText ?? "")
         
         // Convert the User Model to Json Data
         guard let deviceInfoEncryptRequestJson = try? encoder.encode(deviceInfoEncryptRequest) else {
