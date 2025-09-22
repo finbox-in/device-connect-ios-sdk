@@ -1,5 +1,10 @@
 #  CHANGELOG
 
+## 0.3.6
+
+Version for DFI Finance
+
+
 ## 0.3.5
 
 Version for Internal
