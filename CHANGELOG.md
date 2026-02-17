@@ -1,5 +1,9 @@
 #  CHANGELOG
 
+## 0.3.8
+
+Version Upgrade
+
 ## 0.3.7
 
 Version for Tata Digital
