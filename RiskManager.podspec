@@ -52,7 +52,8 @@ Pod::Spec.new do |spec|
   #
 
   spec.authors             = { "Srikar Reddy" => "srikar@finbox.in",
-                                "Ashutosh Jena" => "ashutosh.jena@finbox.in" }
+                                "Ashutosh Jena" => "ashutosh.jena@finbox.in"
+                                "Shashank Tiwari" => "shashank.tiwari@finbox.in"}
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
