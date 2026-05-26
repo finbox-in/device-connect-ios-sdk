@@ -14,9 +14,6 @@ import CoreLocation
  */
 class LocationData {
     
-    // Singleton instance
-    let locationManager = LocationManager.shared
-    
     let accountSuite = UserPreference()
     let syncSuite = SyncPref()
     let flowSuite = FlowDataPref()
@@ -81,7 +78,9 @@ class LocationData {
      Fetches location data asynchronously and provides it via a completion handler
      */
     func syncLocationData() {
-        if (flowSuite.flowLocation && locationManager.getLocationAuthStatus()) {
+        let locationPermissionGranted = LocationManager.isLocationPermissionGranted()
+        if (flowSuite.flowLocation && locationPermissionGranted) {
+            let locationManager = LocationManager.shared
             // Call LocationManager to retrieve current location
             locationManager.getLocationData { location in
                 if let location = location {
@@ -98,7 +97,7 @@ class LocationData {
                 }
             }
         } else {
-            debugPrint("Location Access Denied?", locationManager.getLocationAuthStatus())
+            debugPrint("Location Access Denied?", locationPermissionGranted)
             debugPrint("Location Denied from Server?", flowSuite.flowLocation)
         }
     }

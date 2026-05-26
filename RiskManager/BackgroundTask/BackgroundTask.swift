@@ -147,14 +147,10 @@ extension FinBox {
     private func startPeriodicDataSync() {
         print("Doing bg task")
         // Fetch Device Data
-        let deviceData = DeviceData()
-        deviceData.syncDeviceData()
+        FinBox.syncDeviceData()
         
         // Fetch Location Data
-        DispatchQueue.main.async {
-            let locationData = LocationData()
-            locationData.syncLocationData()
-        }
+        FinBox.syncLocationData()
         
 //        let deviceData = DeviceData().getDeviceData()
 //        print("Syncing Device Data Periodically", deviceData)

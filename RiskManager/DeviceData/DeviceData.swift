@@ -254,16 +254,13 @@ class DeviceData {
                 reason = "Require connection"
             }
             
-            // Stop monitoring after getting the information
-            monitor.cancel()
-            
             semaphore.signal()
         }
         
-        _ = semaphore.wait(timeout: .distantFuture)
-        
         let queue = DispatchQueue(label: "NetworkMonitor")
         monitor.start(queue: queue)
+        _ = semaphore.wait(timeout: .now() + 1)
+        monitor.cancel()
         
         return (typeName, reason)
     }
@@ -369,7 +366,7 @@ class DeviceData {
             currentSSID = network?.ssid
             semaphore.signal()
         }
-        _ = semaphore.wait(timeout: .distantFuture)
+        _ = semaphore.wait(timeout: .now() + 1)
         return currentSSID
     }
     
@@ -565,4 +562,3 @@ class DeviceData {
     }
 
 }
-

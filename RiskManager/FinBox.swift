@@ -18,6 +18,7 @@ public class FinBox {
     
     // Logger instance
     private static let logger = Logger()
+    private static let syncQueue = DispatchQueue(label: "in.finbox.riskmanager.sync", qos: .utility)
     
     /// Makes a request to an endpoint to check if the user exists; if not, creates the user.
     ///
@@ -75,9 +76,9 @@ public class FinBox {
             // Compute Salt
             let salt = AuthClient().getSalt(customerId: customerId)
             
-            // Get the location permission granted status
-            let locationStatus = CLLocationManager().authorizationStatus
-            let locationPermissionGranted = locationStatus == .authorizedAlways || locationStatus == .authorizedWhenInUse
+            // Get the location permission granted status without instantiating
+            // CLLocationManager on a background lifecycle path.
+            let locationPermissionGranted = isLocationPermissionGranted()
             
             // Get the contacts permission granted status
             let contactPermissionStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -86,6 +87,11 @@ public class FinBox {
             // Create a User Model
         return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
+
+    private static func isLocationPermissionGranted() -> Bool {
+        let locationStatus = CLLocationManager.authorizationStatus()
+        return locationStatus == .authorizedAlways || locationStatus == .authorizedWhenInUse
+    }
     
     private static func getUniqueId() -> String {
         // Create a secret account details
@@ -182,13 +188,9 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
-        
         FinBox.syncDeviceData()
-        
-        DispatchQueue.main.async {
-            self.startPermissionsSync()
-            FinBox.syncLocationData()
-        }
+        startPermissionsSync()
+        FinBox.syncLocationData()
         
         // Create and start a Periodic Sync Task
         // TODO: Add impl of startPeriodicTask()
@@ -205,19 +207,25 @@ public class FinBox {
     
     /// Sync Device Details
     public static func syncDeviceData() {
-        // Fetch Device Data
-        let deviceData = DeviceData()
-        deviceData.syncDeviceData()
+        syncQueue.async {
+            // Fetch Device Data
+            let deviceData = DeviceData()
+            deviceData.syncDeviceData()
+        }
     }
     
     /// Sync Location Data
     public static func syncLocationData() {
-        let locationData = LocationData()
-        locationData.syncLocationData()
+        DispatchQueue.main.async {
+            let locationData = LocationData()
+            locationData.syncLocationData()
+        }
     }
     
     private func startPermissionsSync() {
-        PermissionsData().syncPermissionsData()
+        FinBox.syncQueue.async {
+            PermissionsData().syncPermissionsData()
+        }
     }
 
     /// Forgets/Deletes the user data
@@ -241,13 +249,9 @@ public class FinBox {
         saveSyncId()
         
         // Start Instant Sync
-        
         FinBox.syncDeviceData()
-        
-        DispatchQueue.main.async {
-            self.startPermissionsSync()
-            FinBox.syncLocationData()
-        }
+        startPermissionsSync()
+        FinBox.syncLocationData()
     }
     
     /// Resets all saved data
