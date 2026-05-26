@@ -1,5 +1,9 @@
 #  CHANGELOG
 
+## 0.3.9
+
+Stall fixes due to SDK
+
 ## 0.3.8
 
 Version Upgrade
