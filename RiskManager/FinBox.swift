@@ -19,6 +19,19 @@ public class FinBox {
     // Logger instance
     private static let logger = Logger()
     private static let syncQueue = DispatchQueue(label: "in.finbox.riskmanager.sync", qos: .utility)
+#if DEBUG
+    static var syncQueueOverride: (((@escaping () -> Void) -> Void))?
+#endif
+
+    static func performOnSyncQueue(_ work: @escaping () -> Void) {
+#if DEBUG
+        if let syncQueueOverride = syncQueueOverride {
+            syncQueueOverride(work)
+            return
+        }
+#endif
+        syncQueue.async(execute: work)
+    }
     
     /// Makes a request to an endpoint to check if the user exists; if not, creates the user.
     ///
@@ -27,9 +40,16 @@ public class FinBox {
     ///   - customerId: Unique ID given to the borrower.
     ///   - success: Callback interface that notifies about the success creating or fetching the user..
     ///   - error:  Callback interface that notifies about the failure of creating or fetching the user.
+    /// - Note: The SDK does not dispatch callbacks to the main queue. Callbacks are invoked on the URLSession completion queue.
     public static func createUser(apiKey: String, customerId: String, success: @escaping (String) -> Void,
                            error: @escaping (FinBoxErrorCode) -> Void) {
-        
+        performOnSyncQueue {
+            createUserInternal(apiKey: apiKey, customerId: customerId, success: success, error: error)
+        }
+    }
+
+    private static func createUserInternal(apiKey: String, customerId: String, success: @escaping (String) -> Void,
+                           error: @escaping (FinBoxErrorCode) -> Void) {
         // Validate the data
         // Crash the application if the values are empty
         let valid = try! isDataValid(apiKey: apiKey, customerId: customerId)
@@ -185,12 +205,18 @@ public class FinBox {
     }
     
     public func startPeriodicSync() {
+        FinBox.performOnSyncQueue { [self] in
+            startPeriodicSyncInternal()
+        }
+    }
+
+    private func startPeriodicSyncInternal() {
         saveSyncId()
         
         // Start Instant Sync
-        FinBox.syncDeviceData()
-        startPermissionsSync()
-        FinBox.syncLocationData()
+        FinBox.syncDeviceDataInternal()
+        startPermissionsSyncInternal()
+        FinBox.syncLocationDataInternal()
         
         // Create and start a Periodic Sync Task
         // TODO: Add impl of startPeriodicTask()
@@ -207,25 +233,37 @@ public class FinBox {
     
     /// Sync Device Details
     public static func syncDeviceData() {
-        syncQueue.async {
-            // Fetch Device Data
-            let deviceData = DeviceData()
-            deviceData.syncDeviceData()
+        performOnSyncQueue {
+            syncDeviceDataInternal()
         }
+    }
+
+    private static func syncDeviceDataInternal() {
+        // Fetch Device Data
+        let deviceData = DeviceData()
+        deviceData.syncDeviceData()
     }
     
     /// Sync Location Data
     public static func syncLocationData() {
-        DispatchQueue.main.async {
-            let locationData = LocationData()
-            locationData.syncLocationData()
+        performOnSyncQueue {
+            syncLocationDataInternal()
         }
+    }
+
+    private static func syncLocationDataInternal() {
+        let locationData = LocationData()
+        locationData.syncLocationData()
     }
     
     private func startPermissionsSync() {
-        FinBox.syncQueue.async {
-            PermissionsData().syncPermissionsData()
+        FinBox.performOnSyncQueue {
+            self.startPermissionsSyncInternal()
         }
+    }
+
+    private func startPermissionsSyncInternal() {
+        PermissionsData().syncPermissionsData()
     }
 
     /// Forgets/Deletes the user data
@@ -246,12 +284,18 @@ public class FinBox {
     
     // Sync Once
     public func syncOnce() {
+        FinBox.performOnSyncQueue { [self] in
+            syncOnceInternal()
+        }
+    }
+
+    private func syncOnceInternal() {
         saveSyncId()
         
         // Start Instant Sync
-        FinBox.syncDeviceData()
-        startPermissionsSync()
-        FinBox.syncLocationData()
+        FinBox.syncDeviceDataInternal()
+        startPermissionsSyncInternal()
+        FinBox.syncLocationDataInternal()
     }
     
     /// Resets all saved data

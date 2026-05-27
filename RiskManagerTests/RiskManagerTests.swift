@@ -15,22 +15,63 @@ final class RiskManagerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        FinBox.syncQueueOverride = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testCreateUserReturnsQuicklyFromMainThread() {
+        var enqueuedWorkCount = 0
+        FinBox.syncQueueOverride = { _ in
+            enqueuedWorkCount += 1
         }
+
+        assertReturnsQuicklyFromMainThread {
+            FinBox.createUser(apiKey: "api-key", customerId: "customer-id", success: { _ in }, error: { _ in })
+        }
+
+        XCTAssertEqual(enqueuedWorkCount, 1)
+    }
+
+    func testStartPeriodicSyncReturnsQuicklyFromMainThread() {
+        var enqueuedWorkCount = 0
+        FinBox.syncQueueOverride = { _ in
+            enqueuedWorkCount += 1
+        }
+
+        assertReturnsQuicklyFromMainThread {
+            FinBox().startPeriodicSync()
+        }
+
+        XCTAssertEqual(enqueuedWorkCount, 1)
+    }
+
+    func testSyncOnceReturnsQuicklyFromMainThread() {
+        var enqueuedWorkCount = 0
+        FinBox.syncQueueOverride = { _ in
+            enqueuedWorkCount += 1
+        }
+
+        assertReturnsQuicklyFromMainThread {
+            FinBox().syncOnce()
+        }
+
+        XCTAssertEqual(enqueuedWorkCount, 1)
+    }
+
+    private func assertReturnsQuicklyFromMainThread(_ operation: @escaping () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let expectation = expectation(description: "operation returned from main thread")
+
+        DispatchQueue.main.async {
+            XCTAssertTrue(Thread.isMainThread, file: file, line: line)
+            let start = DispatchTime.now()
+            operation()
+            let end = DispatchTime.now()
+            let elapsed = Double(end.uptimeNanoseconds - start.uptimeNanoseconds) / 1_000_000_000
+
+            XCTAssertLessThan(elapsed, 0.05, file: file, line: line)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1)
     }
 
 }

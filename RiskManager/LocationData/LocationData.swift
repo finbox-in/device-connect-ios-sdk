@@ -80,20 +80,24 @@ class LocationData {
     func syncLocationData() {
         let locationPermissionGranted = LocationManager.isLocationPermissionGranted()
         if (flowSuite.flowLocation && locationPermissionGranted) {
-            let locationManager = LocationManager.shared
-            // Call LocationManager to retrieve current location
-            locationManager.getLocationData { location in
-                if let location = location {
-                    
-                    // Create the location variable
-                    let locationEntity = self.getLocationEntity(location: location)
-                    
-                    let locationModel = self.getLocationModel(locationEntity: locationEntity)
-                    
-                    // Send the data to the server
-                    APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
-                } else {
-                    debugPrint("No location data")
+            DispatchQueue.main.async {
+                let locationManager = LocationManager.shared
+                // Call LocationManager to retrieve current location
+                locationManager.getLocationData { location in
+                    FinBox.performOnSyncQueue {
+                        if let location = location {
+                            
+                            // Create the location variable
+                            let locationEntity = self.getLocationEntity(location: location)
+                            
+                            let locationModel = self.getLocationModel(locationEntity: locationEntity)
+                            
+                            // Send the data to the server
+                            APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
+                        } else {
+                            debugPrint("No location data")
+                        }
+                    }
                 }
             }
         } else {
