@@ -18,6 +18,20 @@ public class FinBox {
     
     // Logger instance
     private static let logger = Logger()
+    private static let syncQueue = DispatchQueue(label: "in.finbox.riskmanager.sync", qos: .utility)
+#if DEBUG
+    static var syncQueueOverride: (((@escaping () -> Void) -> Void))?
+#endif
+
+    static func performOnSyncQueue(_ work: @escaping () -> Void) {
+#if DEBUG
+        if let syncQueueOverride = syncQueueOverride {
+            syncQueueOverride(work)
+            return
+        }
+#endif
+        syncQueue.async(execute: work)
+    }
     
     /// Makes a request to an endpoint to check if the user exists; if not, creates the user.
     ///
@@ -26,9 +40,16 @@ public class FinBox {
     ///   - customerId: Unique ID given to the borrower.
     ///   - success: Callback interface that notifies about the success creating or fetching the user..
     ///   - error:  Callback interface that notifies about the failure of creating or fetching the user.
+    /// - Note: The SDK does not dispatch callbacks to the main queue. Callbacks are invoked on the URLSession completion queue.
     public static func createUser(apiKey: String, customerId: String, success: @escaping (String) -> Void,
                            error: @escaping (FinBoxErrorCode) -> Void) {
-        
+        performOnSyncQueue {
+            createUserInternal(apiKey: apiKey, customerId: customerId, success: success, error: error)
+        }
+    }
+
+    private static func createUserInternal(apiKey: String, customerId: String, success: @escaping (String) -> Void,
+                           error: @escaping (FinBoxErrorCode) -> Void) {
         // Validate the data
         // Crash the application if the values are empty
         let valid = try! isDataValid(apiKey: apiKey, customerId: customerId)
@@ -75,9 +96,9 @@ public class FinBox {
             // Compute Salt
             let salt = AuthClient().getSalt(customerId: customerId)
             
-            // Get the location permission granted status
-            let locationStatus = CLLocationManager().authorizationStatus
-            let locationPermissionGranted = locationStatus == .authorizedAlways || locationStatus == .authorizedWhenInUse
+            // Get the location permission granted status without instantiating
+            // CLLocationManager on a background lifecycle path.
+            let locationPermissionGranted = isLocationPermissionGranted()
             
             // Get the contacts permission granted status
             let contactPermissionStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -86,6 +107,11 @@ public class FinBox {
             // Create a User Model
         return CreateUserRequest(key: apiKey, customerId: customerId, userHash: iosId, mobileModel: mobileModel, brand: brand, contactsPermission: contactPermissionGranted, locationPermission: locationPermissionGranted, salt: salt, sdkVersionName: CommonUtil.getVersionName())
         }
+
+    private static func isLocationPermissionGranted() -> Bool {
+        let locationStatus = CLLocationManager.authorizationStatus()
+        return locationStatus == .authorizedAlways || locationStatus == .authorizedWhenInUse
+    }
     
     private static func getUniqueId() -> String {
         // Create a secret account details
@@ -179,16 +205,18 @@ public class FinBox {
     }
     
     public func startPeriodicSync() {
+        FinBox.performOnSyncQueue { [self] in
+            startPeriodicSyncInternal()
+        }
+    }
+
+    private func startPeriodicSyncInternal() {
         saveSyncId()
         
         // Start Instant Sync
-        
-        FinBox.syncDeviceData()
-        
-        DispatchQueue.main.async {
-            self.startPermissionsSync()
-            FinBox.syncLocationData()
-        }
+        FinBox.syncDeviceDataInternal()
+        startPermissionsSyncInternal()
+        FinBox.syncLocationDataInternal()
         
         // Create and start a Periodic Sync Task
         // TODO: Add impl of startPeriodicTask()
@@ -205,6 +233,12 @@ public class FinBox {
     
     /// Sync Device Details
     public static func syncDeviceData() {
+        performOnSyncQueue {
+            syncDeviceDataInternal()
+        }
+    }
+
+    private static func syncDeviceDataInternal() {
         // Fetch Device Data
         let deviceData = DeviceData()
         deviceData.syncDeviceData()
@@ -212,11 +246,23 @@ public class FinBox {
     
     /// Sync Location Data
     public static func syncLocationData() {
+        performOnSyncQueue {
+            syncLocationDataInternal()
+        }
+    }
+
+    private static func syncLocationDataInternal() {
         let locationData = LocationData()
         locationData.syncLocationData()
     }
     
     private func startPermissionsSync() {
+        FinBox.performOnSyncQueue {
+            self.startPermissionsSyncInternal()
+        }
+    }
+
+    private func startPermissionsSyncInternal() {
         PermissionsData().syncPermissionsData()
     }
 
@@ -238,16 +284,18 @@ public class FinBox {
     
     // Sync Once
     public func syncOnce() {
+        FinBox.performOnSyncQueue { [self] in
+            syncOnceInternal()
+        }
+    }
+
+    private func syncOnceInternal() {
         saveSyncId()
         
         // Start Instant Sync
-        
-        FinBox.syncDeviceData()
-        
-        DispatchQueue.main.async {
-            self.startPermissionsSync()
-            FinBox.syncLocationData()
-        }
+        FinBox.syncDeviceDataInternal()
+        startPermissionsSyncInternal()
+        FinBox.syncLocationDataInternal()
     }
     
     /// Resets all saved data

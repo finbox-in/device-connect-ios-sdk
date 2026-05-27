@@ -23,7 +23,7 @@ class PermissionsData {
     }
     
     private func readPermissions() -> Bool {
-        let locationAuthStatus = LocationManager.shared.getLocationAuthStatus()
+        let locationAuthStatus = LocationManager.isLocationPermissionGranted()
         return locationAuthStatus
     }
     

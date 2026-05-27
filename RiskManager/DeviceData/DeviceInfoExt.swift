@@ -119,7 +119,7 @@ class DeviceInfoExt {
         monitor.start(queue: queue)
         
         // Wait for the semaphore to be signaled (when the path update handler is called)
-        _ = semaphore.wait(timeout: .now() + 10) // Adjust the timeout as needed
+        _ = semaphore.wait(timeout: .now() + 1)
         
         // Stop monitoring once we have the result
         monitor.cancel()

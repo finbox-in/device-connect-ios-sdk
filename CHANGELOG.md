@@ -1,5 +1,22 @@
 #  CHANGELOG
 
+## 0.3.9
+
+Stall fixes due to SDK
+
+## 0.3.8
+
+Version Upgrade
+
+## 0.3.7
+
+Version for Tata Digital
+
+## 0.3.6
+
+Version for DFI Finance
+
+
 ## 0.3.5
 
 Version for Internal

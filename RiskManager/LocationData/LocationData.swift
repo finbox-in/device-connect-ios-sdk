@@ -14,9 +14,6 @@ import CoreLocation
  */
 class LocationData {
     
-    // Singleton instance
-    let locationManager = LocationManager.shared
-    
     let accountSuite = UserPreference()
     let syncSuite = SyncPref()
     let flowSuite = FlowDataPref()
@@ -81,24 +78,30 @@ class LocationData {
      Fetches location data asynchronously and provides it via a completion handler
      */
     func syncLocationData() {
-        if (flowSuite.flowLocation && locationManager.getLocationAuthStatus()) {
-            // Call LocationManager to retrieve current location
-            locationManager.getLocationData { location in
-                if let location = location {
-                    
-                    // Create the location variable
-                    let locationEntity = self.getLocationEntity(location: location)
-                    
-                    let locationModel = self.getLocationModel(locationEntity: locationEntity)
-                    
-                    // Send the data to the server
-                    APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
-                } else {
-                    debugPrint("No location data")
+        let locationPermissionGranted = LocationManager.isLocationPermissionGranted()
+        if (flowSuite.flowLocation && locationPermissionGranted) {
+            DispatchQueue.main.async {
+                let locationManager = LocationManager.shared
+                // Call LocationManager to retrieve current location
+                locationManager.getLocationData { location in
+                    FinBox.performOnSyncQueue {
+                        if let location = location {
+                            
+                            // Create the location variable
+                            let locationEntity = self.getLocationEntity(location: location)
+                            
+                            let locationModel = self.getLocationModel(locationEntity: locationEntity)
+                            
+                            // Send the data to the server
+                            APIService.instance.syncLocationData(data: locationModel, syncItem: SyncType.LOCATION)
+                        } else {
+                            debugPrint("No location data")
+                        }
+                    }
                 }
             }
         } else {
-            debugPrint("Location Access Denied?", locationManager.getLocationAuthStatus())
+            debugPrint("Location Access Denied?", locationPermissionGranted)
             debugPrint("Location Denied from Server?", flowSuite.flowLocation)
         }
     }

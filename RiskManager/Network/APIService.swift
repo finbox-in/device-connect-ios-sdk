@@ -124,11 +124,6 @@ struct APIService {
             switch httpResponse.statusCode {
             case 200...299:
                 debugPrint("Device Sync Successful: \(httpResponse.statusCode)")
-                // Process the data here
-                guard let data = data else {
-                    self.handleClientError(error: "Invalid Sync Response")
-                    return
-                }
                 
             case 400...499:
                 // Handle client error
@@ -188,11 +183,6 @@ struct APIService {
             switch httpResponse.statusCode {
             case 200...299:
                 debugPrint("Location Sync Successful: \(httpResponse.statusCode)")
-                // Process the data here
-                guard let data = data else {
-                    self.handleClientError(error: "Invalid Sync Response")
-                    return
-                }
                 
             case 400...499:
                 // Handle client error
@@ -280,11 +270,6 @@ struct APIService {
             switch httpResponse.statusCode {
             case 200...299:
                 debugPrint("Permissions Sync Successful: \(httpResponse.statusCode)")
-                // Process the data here
-                guard let data = data else {
-                    self.handleClientError(error: "Invalid Sync Response")
-                    return
-                }
                 
             case 400...499:
                 // Handle client error
@@ -453,11 +438,6 @@ struct APIService {
             switch httpResponse.statusCode {
             case 200...299:
                 debugPrint("User Deletion Successful: \(httpResponse.statusCode)")
-                // Process the data here
-                guard let data = data else {
-                    self.handleClientError(error: "Invalid Response")
-                    return
-                }
 
             case 400...499:
                 // Handle client error

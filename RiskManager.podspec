@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "RiskManager"
-  spec.version      = "0.3.5"
+  spec.version      = "0.3.9"
   spec.summary      = "DeviceConnect IOS SDK to enable data collection from IOS devices"
 
   # This description is used to generate tags and improve search results.
@@ -52,7 +52,8 @@ Pod::Spec.new do |spec|
   #
 
   spec.authors             = { "Srikar Reddy" => "srikar@finbox.in",
-                                "Ashutosh Jena" => "ashutosh.jena@finbox.in" }
+                                "Ashutosh Jena" => "ashutosh.jena@finbox.in",
+                                "Shashank Tiwari" => "shashank.tiwari@finbox.in"}
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

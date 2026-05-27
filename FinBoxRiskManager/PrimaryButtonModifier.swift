@@ -5,7 +5,7 @@
 //  Created by Ashutosh Jena on 06/05/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 
 // A custom ViewModifier to apply a consistent primary button style across the app

@@ -114,8 +114,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // Get Location Authorization Status
     // Returns true if granted, false otherwise
-    func getLocationAuthStatus() -> Bool {
-        let status = locationManager.authorizationStatus
+    static func isLocationPermissionGranted() -> Bool {
+        let status = CLLocationManager.authorizationStatus()
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             return true
@@ -125,5 +125,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return false
         }
     }
-}
 
+    func getLocationAuthStatus() -> Bool {
+        return Self.isLocationPermissionGranted()
+    }
+}
