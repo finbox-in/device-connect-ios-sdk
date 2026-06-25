@@ -400,7 +400,7 @@ class DeviceData {
         let keyboards = UITextInputMode.activeInputModes.compactMap { $0.primaryLanguage }
         let timezone = TimeZone.current.identifier
         let language = Locale.current.identifier
-        let calendar = Calendar.current.identifier.debugDescription
+        let calendar = getCalendarIdentifier()
         if #available(iOS 16, *) {
             currency = Locale.current.currency?.identifier ?? "Unknown"
         }
@@ -413,6 +413,67 @@ class DeviceData {
             Personalization.KEYBOARDS: keyboards,
             Personalization.LANGUAGE: language
         ]
+    }
+
+    private func getCalendarIdentifier() -> String {
+        switch Calendar.current.identifier {
+        case .bangla:
+            return "bangla"
+        case .buddhist:
+            return "buddhist"
+        case .chinese:
+            return "chinese"
+        case .coptic:
+            return "coptic"
+        case .dangi:
+            return "dangi"
+        case .ethiopicAmeteAlem:
+            return "ethiopicAmeteAlem"
+        case .ethiopicAmeteMihret:
+            return "ethiopicAmeteMihret"
+        case .gregorian:
+            return "gregorian"
+        case .gujarati:
+            return "gujarati"
+        case .hebrew:
+            return "hebrew"
+        case .indian:
+            return "indian"
+        case .islamic:
+            return "islamic"
+        case .islamicCivil:
+            return "islamicCivil"
+        case .islamicTabular:
+            return "islamicTabular"
+        case .islamicUmmAlQura:
+            return "islamicUmmAlQura"
+        case .iso8601:
+            return "iso8601"
+        case .japanese:
+            return "japanese"
+        case .kannada:
+            return "kannada"
+        case .malayalam:
+            return "malayalam"
+        case .marathi:
+            return "marathi"
+        case .odia:
+            return "odia"
+        case .persian:
+            return "persian"
+        case .republicOfChina:
+            return "republicOfChina"
+        case .tamil:
+            return "tamil"
+        case .telugu:
+            return "telugu"
+        case .vietnamese:
+            return "vietnamese"
+        case .vikram:
+            return "vikram"
+        @unknown default:
+            return "unknown"
+        }
     }
     
     /**

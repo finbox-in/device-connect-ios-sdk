@@ -1,5 +1,9 @@
 #  CHANGELOG
 
+## 0.3.10
+
+Fix calendar identifier crash on iPhone 8 running iOS 16.
+
 ## 0.3.9
 
 Stall fixes due to SDK
