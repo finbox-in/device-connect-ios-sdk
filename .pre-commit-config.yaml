@@ -1,0 +1,11 @@
+default_install_hook_types: [pre-commit, commit-msg, prepare-commit-msg]
+fail_fast: true
+
+repos:
+  - repo: https://github.com/infinitelambda/pre-commit-jira-helper
+    rev: v1.1.0
+    hooks:
+      - id: prepend-jira-issue
+        stages: [commit-msg]
+        args:
+          - "--prefixes=SDK"
