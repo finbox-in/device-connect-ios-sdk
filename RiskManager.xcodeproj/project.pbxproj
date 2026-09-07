@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -142,6 +142,11 @@
 		6DFB892B2DC8D5660096BA73 /* ForgetUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetUserRequest.swift; sourceTree = "<group>"; };
 		6DFB892D2DCA1C4D0096BA73 /* PrimaryButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButtonModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2801F4E730494728008A500E /* ContactsData */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ContactsData; sourceTree = "<group>"; };
+		2801F4EB304E7EDB008A500E /* PhotoLibraryData */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PhotoLibraryData; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6D980F4E2C11912F007525CD /* Frameworks */ = {
@@ -346,6 +351,8 @@
 		6D980F532C11912F007525CD /* RiskManager */ = {
 			isa = PBXGroup;
 			children = (
+				2801F4EB304E7EDB008A500E /* PhotoLibraryData */,
+				2801F4E730494728008A500E /* ContactsData */,
 				6DFB892A2DC8D5600096BA73 /* Delete */,
 				6DDD12A72C80846600E5CF2D /* Permissions */,
 				6D970E442C6B8DCE0021A35E /* Create */,
@@ -493,6 +500,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2801F4E730494728008A500E /* ContactsData */,
+				2801F4EB304E7EDB008A500E /* PhotoLibraryData */,
 			);
 			name = RiskManager;
 			productName = RiskManager;
