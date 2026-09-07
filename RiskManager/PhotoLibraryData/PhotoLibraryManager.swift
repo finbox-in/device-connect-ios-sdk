@@ -15,6 +15,11 @@ class PhotoLibraryManager {
         return result.count
     }
     
+    func getVideosCount() -> Int? {
+        let result = PHAsset.fetchAssets(with: .video, options: nil)
+        return result.count
+    }
+    
     func getPhotosAuthStatus() -> Bool {
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         
