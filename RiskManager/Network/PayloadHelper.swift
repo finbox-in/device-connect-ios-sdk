@@ -11,8 +11,8 @@ import Foundation
 
 class PayloadHelper {
     
-    internal let encryptKey = SymmetricKey(data: "Zrq9i1grEOJwwgqtjGI7euMKOnhlDhac".data(using: .utf8)!)
-    internal let decryptKey = SymmetricKey(data: "2Jd0QSJ3RZLEgo8nlyWqQMPQ58mIKwu0".data(using: .utf8)!)
+    internal let encryptKey = SymmetricKey(data: CommonUtil.getBase64Decode(text: "WnJxOWkxZ3JFT0p3d2dxdGpHSTdldU1LT25obERoYWM=").data(using: .utf8)!)
+    internal let decryptKey = SymmetricKey(data: CommonUtil.getBase64Decode(text: "MkpkMFFTSjNSWkxFZ284bmx5V3FRTVBRNThtSUt3dTA=").data(using: .utf8)!)
     internal let TAG_LENGTH = 16
     
     func encrypt(cipherText: Data, iv: String) -> String {
