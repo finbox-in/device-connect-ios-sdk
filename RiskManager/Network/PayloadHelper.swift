@@ -11,15 +11,15 @@ import Foundation
 
 class PayloadHelper {
     
-    internal let encrypKey = SymmetricKey(data: "0LwwvsiCKGlNiBsE5Tw3Ylomj4AqnXsc".data(using: .utf8)!)
-    internal let decryptKey = SymmetricKey(data: "KE54iwmjCiBssLnN0XlloGwAYcws3qvT".data(using: .utf8)!)
+    internal let encryptKey = SymmetricKey(data: CommonUtil.getBase64Decode(text: "WnJxOWkxZ3JFT0p3d2dxdGpHSTdldU1LT25obERoYWM=").data(using: .utf8)!)
+    internal let decryptKey = SymmetricKey(data: CommonUtil.getBase64Decode(text: "MkpkMFFTSjNSWkxFZ284bmx5V3FRTVBRNThtSUt3dTA=").data(using: .utf8)!)
     internal let TAG_LENGTH = 16
     
     func encrypt(cipherText: Data, iv: String) -> String {
         // Compute Nonce/Iv
         let nonce = try! AES.GCM.Nonce(data: Data(base64Encoded: iv)!)
         // Encrypt
-        let sealedBox = try! AES.GCM.seal(cipherText, using: encrypKey, nonce: nonce)
+        let sealedBox = try! AES.GCM.seal(cipherText, using: encryptKey, nonce: nonce)
         // Return the cipher text
         return (sealedBox.ciphertext + sealedBox.tag).base64EncodedString()
     }

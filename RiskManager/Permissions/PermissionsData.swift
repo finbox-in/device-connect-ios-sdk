@@ -15,28 +15,29 @@ class PermissionsData {
     }
     
     func syncPermissionsData() {
-        let permissions = readPermissions()
-        let permissionEntity = self.getPermissionsEntity(permissionGranted: permissions)
-        let permissionsModel = self.getPermissionsModel(permissionEntity: permissionEntity)
+        let permissionEntityList = getPermissionsEntityList()
+        let permissionsModel = self.getPermissionsModel(permissionEntityList: permissionEntityList)
         
         APIService.instance.syncPermissions(data: permissionsModel, syncType: SyncType.PERMISSIONS)
     }
     
-    private func readPermissions() -> Bool {
-        let locationAuthStatus = LocationManager.shared.getLocationAuthStatus()
-        return locationAuthStatus
+    private func getPermissionsEntityList() -> [PermissionEntity] {
+        let locationEntity = PermissionEntity()
+        locationEntity.permissionName = "location"
+        locationEntity.granted = LocationManager.shared.getLocationAuthStatus()
+        
+        let contactsEntity = PermissionEntity()
+        contactsEntity.permissionName = "contacts"
+        contactsEntity.granted = ContactsManager.shared.getContactsAuthStatus()
+        
+        let photosEntity = PermissionEntity()
+        photosEntity.permissionName = "photos"
+        photosEntity.granted = PhotoLibraryManager.shared.getPhotosAuthStatus()
+        
+        return [locationEntity, contactsEntity, photosEntity]
     }
     
-    private func getPermissionsEntity(permissionGranted: Bool) -> PermissionEntity {
-        let permissionEntity = PermissionEntity()
-        
-        permissionEntity.permissionName = "location"
-        permissionEntity.granted = permissionGranted
-        
-        return permissionEntity
-    }
-    
-    private func getPermissionsModel(permissionEntity: PermissionEntity) -> PermissionModel {
+    private func getPermissionsModel(permissionEntityList: [PermissionEntity]) -> PermissionModel {
         let permissionModel = PermissionModel()
         let accountSuite = UserPreference()
         let syncSuite = SyncPref()
@@ -48,7 +49,7 @@ class PermissionsData {
         permissionModel.syncId = syncSuite.syncId
         permissionModel.syncMechanism = syncSuite.syncMechanism
         permissionModel.isRealTime = syncSuite.isRealTime
-        permissionModel.permissionEntityList = [permissionEntity]
+        permissionModel.permissionEntityList = permissionEntityList
         
         return permissionModel
     }

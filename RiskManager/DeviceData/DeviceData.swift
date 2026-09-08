@@ -148,7 +148,12 @@ class DeviceData {
 //        
 //        // System Info
 //        let systemInfo = getSystemInfo()
-//        
+        
+        deviceInfo.contactsCount = ContactsManager.shared.getContactsCount()
+        deviceInfo.imagesCount = PhotoLibraryManager.shared.getPhotosCount()
+        deviceInfo.videosCount = PhotoLibraryManager.shared.getVideosCount()
+        
+        
         DispatchQueue.main.async {
             // Background Refresh Status
             let backgroundRefreshStatus = UIApplication.shared.backgroundRefreshStatus.rawValue

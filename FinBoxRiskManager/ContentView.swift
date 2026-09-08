@@ -14,6 +14,8 @@ import AppTrackingTransparency
 struct ContentView: View {
     
     @StateObject private var locationManager = LocationManager()
+    @StateObject private var contactsManager = ContactsManager()
+    @StateObject private var photoLibraryManager = PhotoLibraryManager()
     
     // Customer Id Text Component
     @State
@@ -39,7 +41,7 @@ struct ContentView: View {
                 .fixedSize(horizontal: false, vertical: true) // Prevent resizing
             
             // Start Sync
-            Button("Start Sync", action: statSync)
+            Button("Start Sync", action: startSync)
                 .primaryButtonStyle()
             
             Button("Forget User", action: forgetUser)
@@ -58,6 +60,8 @@ struct ContentView: View {
                 .fixedSize(horizontal: false, vertical: true) // Prevent resizing
         }.onAppear {
             locationManager.checkLocationPermission()
+            contactsManager.checkContactsPermission()
+            photoLibraryManager.checkPhotosPermission()
         }.alert(isPresented: $alertPresented) {
             Alert(title: Text("Location Permission Denied"),
                   message: Text("Please enable location permissions in settings to use this feature."),
@@ -92,7 +96,7 @@ struct ContentView: View {
         }
     }
     
-    private func statSync() {
+    private func startSync() {
         withAnimation {
             self.customerId = getUsername()
         }
