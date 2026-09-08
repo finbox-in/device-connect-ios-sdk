@@ -24,7 +24,7 @@ class ContactsManager {
                 count += 1
             }
         } catch {
-            print(error)
+            debugPrint(error)
             return nil
         }
         return count
