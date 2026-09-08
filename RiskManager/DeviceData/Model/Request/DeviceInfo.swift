@@ -29,6 +29,9 @@ class DeviceInfo: CommonRequest {
     var heightPixels: Int?
     var advertisingId: String?
     var rootFlag: Bool?
+    var contactsCount: Int?
+    var imagesCount: Int?
+    var videosCount: Int?
     
     // Custom Initializer
     override init() {
@@ -57,6 +60,9 @@ class DeviceInfo: CommonRequest {
         self.heightPixels = nil
         self.advertisingId = nil
         self.rootFlag = nil
+        self.contactsCount = nil
+        self.imagesCount = nil
+        self.videosCount = nil
         super.init()
     }
     
@@ -88,6 +94,9 @@ class DeviceInfo: CommonRequest {
         heightPixels = try container.decodeIfPresent(Int.self, forKey: .heightPixels)
         advertisingId = try container.decodeIfPresent(String.self, forKey: .advertisingId)
         rootFlag = try container.decodeIfPresent(Bool.self, forKey: .rootFlag)
+        contactsCount = try container.decodeIfPresent(Int.self, forKey: .contactsCount)
+        imagesCount = try container.decodeIfPresent(Int.self, forKey: .imagesCount)
+        videosCount = try container.decodeIfPresent(Int.self, forKey: .videosCount)
         try super.init(from: decoder)
     }
     
@@ -119,6 +128,9 @@ class DeviceInfo: CommonRequest {
         try container.encodeIfPresent(heightPixels, forKey: .heightPixels)
         try container.encodeIfPresent(advertisingId, forKey: .advertisingId)
         try container.encodeIfPresent(rootFlag, forKey: .rootFlag)
+        try container.encodeIfPresent(contactsCount, forKey: .contactsCount)
+        try container.encodeIfPresent(imagesCount, forKey: .imagesCount)
+        try container.encodeIfPresent(videosCount, forKey: .videosCount)
         try super.encode(to: encoder)
     }
     
@@ -148,6 +160,9 @@ class DeviceInfo: CommonRequest {
         case sCountryIso = "sim_country_iso_1"
         case advertisingId = "advertising_id"
         case rootFlag = "root_flag"
+        case contactsCount = "count_contacts"
+        case imagesCount = "count_images"
+        case videosCount = "count_videos"
     }
     
 }

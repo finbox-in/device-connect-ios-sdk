@@ -11,7 +11,7 @@ import Foundation
 
 class PayloadHelper {
     
-    internal let encrypKey = SymmetricKey(data: "0LwwvsiCKGlNiBsE5Tw3Ylomj4AqnXsc".data(using: .utf8)!)
+    internal let encryptKey = SymmetricKey(data: "0LwwvsiCKGlNiBsE5Tw3Ylomj4AqnXsc".data(using: .utf8)!)
     internal let decryptKey = SymmetricKey(data: "KE54iwmjCiBssLnN0XlloGwAYcws3qvT".data(using: .utf8)!)
     internal let TAG_LENGTH = 16
     
@@ -19,7 +19,7 @@ class PayloadHelper {
         // Compute Nonce/Iv
         let nonce = try! AES.GCM.Nonce(data: Data(base64Encoded: iv)!)
         // Encrypt
-        let sealedBox = try! AES.GCM.seal(cipherText, using: encrypKey, nonce: nonce)
+        let sealedBox = try! AES.GCM.seal(cipherText, using: encryptKey, nonce: nonce)
         // Return the cipher text
         return (sealedBox.ciphertext + sealedBox.tag).base64EncodedString()
     }
